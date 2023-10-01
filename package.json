@@ -9,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "swiper": "^10.3.1"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
+    "@iconify/react": "^4.1.1",
     "@types/node": "latest",
-    "@types/react-dom": "latest"
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "typescript": "latest"
   }
 }
