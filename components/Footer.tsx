@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <footer>
+    <footer className="pt-20">
       <div className="max-w-7xl mx-auto pb-10">
         <Link href="/">
           <h1 className=" flex items-center text-2xl font-extrabold gap-2 select-none">
@@ -62,7 +62,7 @@ export const Footer = () => {
       </div>
       <div className="bg-black pt-6 pb-8">
         <p className="max-w-7xl mx-auto text-sm font-medium">
-          Copyright © 2023. All Rights Reserved By{' '}
+          Copyright © {new Date().getFullYear()}. All Rights Reserved By{' '}
           <span className="text-primary">ThunMov</span>
         </p>
       </div>

@@ -30,3 +30,8 @@ export type Category = {
   name: string;
   slug: string;
 };
+
+export type ContextAction = {
+  type: string;
+  payload: any;
+};

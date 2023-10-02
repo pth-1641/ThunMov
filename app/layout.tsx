@@ -4,6 +4,7 @@ import { Nunito } from 'next/font/google';
 import 'swiper/swiper-bundle.css';
 import '@/styles/globals.css';
 import { Footer } from '@/components/Footer';
+import { CategoryContextProvider } from '@/context/category.context';
 
 const inter = Nunito({ subsets: ['latin'] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-black/95 ${inter.className}`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <CategoryContextProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </CategoryContextProvider>
       </body>
     </html>
   );
