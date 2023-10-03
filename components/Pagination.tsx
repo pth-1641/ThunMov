@@ -17,7 +17,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
           href={`/${currentRoute}?page=${currentPage - 1}`}
           className="px-4 py-1.5 border border-collapse duration-300 border-r-0 hover:bg-primary hover:text-black hover:border-primary"
         >
-          Previous
+          Trước
         </Link>
       )}
       {new Array(5).fill('').map((_, idx) => {
@@ -44,7 +44,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
           href={`/${currentRoute}?page=${currentPage + 1}`}
           className="px-4 py-1.5 border border-collapse duration-300 hover:bg-primary hover:text-black hover:border-primary"
         >
-          Next
+          Sau
         </Link>
       )}
     </ul>

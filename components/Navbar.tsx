@@ -1,6 +1,7 @@
 'use client';
 import { movieTypes } from '@/constants';
 import { CategoryContext } from '@/context/category.context';
+import { ModalContext } from '@/context/modal.context';
 import { useFetch } from '@/hooks';
 import { Category } from '@/types';
 import { Icon } from '@iconify/react';
@@ -10,6 +11,7 @@ import { useEffect, useState, useContext } from 'react';
 export const Navbar = () => {
   const [displayBgColor, setDisplayBgColor] = useState<boolean>(false);
   const { state, dispatch } = useContext(CategoryContext);
+  const modalCtx = useContext(ModalContext);
 
   useEffect(() => {
     (async () => {
@@ -17,7 +19,7 @@ export const Navbar = () => {
         useFetch('/genres'),
         useFetch('/countries'),
       ]);
-      dispatch({ type: 'GENRES', payload: res[0].data.items.slice(0, -1) });
+      dispatch({ type: 'GENRES', payload: res[0].data.items });
       dispatch({ type: 'COUNTRIES', payload: res[1].data.items });
     })();
   }, []);
@@ -27,6 +29,7 @@ export const Navbar = () => {
       if (window.scrollY == 0) setDisplayBgColor(false);
       else setDisplayBgColor(true);
     }
+    checkPositionHandler();
     window.addEventListener('scroll', checkPositionHandler);
     return () => window.removeEventListener('scroll', checkPositionHandler);
   }, []);
@@ -35,7 +38,7 @@ export const Navbar = () => {
     <header
       className={`${
         displayBgColor ? 'bg-black' : 'bg-transparent'
-      }  py-3 fixed top-0 inset-x-0 z-50 duration-300`}
+      }  py-3 fixed top-0 inset-x-0 z-40 duration-300`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/">
@@ -98,10 +101,19 @@ export const Navbar = () => {
             Sắp chiếu
           </Link>
         </div>
-        <div className="flex items-center text-primary gap-5">
-          <Icon icon="iconamoon:search-bold" height={24} />
-          <Icon icon="ic:sharp-language" height={24} />
-        </div>
+        <Icon
+          icon="iconamoon:search-bold"
+          className="text-primary cursor-pointer"
+          height={24}
+          onClick={() =>
+            modalCtx.dispatch({
+              type: 'SEARCH',
+              payload: {
+                type: 'search',
+              },
+            })
+          }
+        />
       </nav>
     </header>
   );

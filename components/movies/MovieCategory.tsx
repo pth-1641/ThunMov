@@ -22,16 +22,16 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-6 mt-12">
         <h3 className="text-3xl font-extrabold">{title}</h3>
-        <div className="flex items-center rounded-full py-2 border-2 border-white/10 text-white">
+        <div className="flex items-center rounded-full border-2 border-white/10 text-white">
           <button
-            className="px-3"
+            className="px-3 py-1.5"
             onClick={() => swiperRef.current?.slidePrev()}
           >
             <Icon icon="icon-park-outline:left" height={24} />
           </button>
           <span className="w-0.5 h-6 rounded bg-white/10" />
           <button
-            className="px-3"
+            className="px-3 py-1.5"
             onClick={() => swiperRef.current?.slideNext()}
           >
             <Icon icon="icon-park-outline:right" height={24} />

@@ -1,5 +1,4 @@
 import { apiUrl } from '@/constants';
-import { useEffect, useState } from 'react';
 
 export default async function useFetch(path: string) {
   try {

@@ -15,7 +15,7 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
     searchParams: { page },
   } = context;
 
-  const { data } = await useFetch(`/countries/${type}?page=${page || 1}`);
+  const { data } = await useFetch(`/countries/${type}?page=${page || ''}`);
   if (!data) return 'hehe';
 
   return (

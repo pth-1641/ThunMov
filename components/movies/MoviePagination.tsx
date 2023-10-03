@@ -24,7 +24,7 @@ export const MoviePagination: FC<MoviePaginationProps> = (props) => {
       const country = state.countries.find((c) => c.slug === type);
       setTitle(country?.name);
     }
-  }, []);
+  }, [state]);
 
   return (
     <>

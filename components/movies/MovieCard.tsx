@@ -1,6 +1,7 @@
 'use client';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -12,14 +13,16 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
   return (
     <div className="select-none group">
       <div className="relative rounded-lg overflow-hidden">
-        <img
+        <Image
           src={item.thumb_url}
           alt={item.origin_name}
-          className="object-cover w-full h-full aspect-[2/3] bg-stone-900"
+          className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
+          width={300}
+          height={450}
         />
         <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center">
           <button className="rounded-full bg-primary text-black w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300">
-            Trailer
+            Yêu Thích
           </button>
           <Link
             href={`/movies/${item.slug}`}

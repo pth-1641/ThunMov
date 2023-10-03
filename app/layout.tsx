@@ -5,6 +5,7 @@ import 'swiper/swiper-bundle.css';
 import '@/styles/globals.css';
 import { Footer } from '@/components/Footer';
 import { CategoryContextProvider } from '@/context/category.context';
+import { ModalContextProvider } from '@/context/modal.context';
 
 const inter = Nunito({ subsets: ['latin'] });
 
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-black/95 ${inter.className}`}>
-        <CategoryContextProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </CategoryContextProvider>
+        <ModalContextProvider>
+          <CategoryContextProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </CategoryContextProvider>
+        </ModalContextProvider>
       </body>
     </html>
   );
