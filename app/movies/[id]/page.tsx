@@ -1,27 +1,51 @@
 'use client';
+import { AppContext } from '@/context/app.context';
 import { ModalContext } from '@/context/modal.context';
 import { useFetch } from '@/hooks';
-import { MovieDetail } from '@/types';
+import { Episode, MovieDetail } from '@/types';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
+import { notFound, useParams } from 'next/navigation';
+import Script from 'next/script';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
-type MovieDetailContext = {
-  params: { id: string };
-};
+export default function MovieDetails() {
+  const [movie, setMovie] = useState<MovieDetail>();
+  const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
+  const [serverType, setServerType] = useState<'hls' | 'embed'>('embed');
+  const { dispatch, state } = useContext(ModalContext);
+  const appContext = useContext(AppContext);
+  const isFavourite = appContext.state.favMovies.some(
+    (m) => m.slug === movie?.slug
+  );
+  const { id } = useParams();
 
-export default async function MovieDetail(context: MovieDetailContext) {
-  const {
-    params: { id },
-  } = context;
+  useEffect(() => {
+    (async () => {
+      const { data } = await useFetch(`/movies/${id}`);
+      if (!data) return notFound();
 
-  const { dispatch } = useContext(ModalContext);
+      setMovie(data);
+    })();
+  }, []);
 
-  const { data } = await useFetch(`/movies/${id}`);
-  if (!data) return 'hehe';
+  useEffect(() => {
+    if (!movie) return;
+    if (!state.hasShown && movie.category.some((c) => c.slug === 'phim-18')) {
+      dispatch({
+        type: 'WARNING',
+        payload: {
+          modalType: 'warning',
+        },
+      });
+    }
+    if (movie.episode_current !== 'Trailer') {
+      setSelectedEpisode(movie.episodes[0].server_data[0]);
+    }
+  }, [movie]);
 
-  const movie: MovieDetail = data;
+  if (!movie) return <Skeleton />;
 
   return (
     <>
@@ -36,7 +60,8 @@ export default async function MovieDetail(context: MovieDetailContext) {
               alt={movie.name}
               height={450}
               width={300}
-              className="object-cover bg-stone-900 aspect-[2/3] rounded"
+              className="object-cover w-[300px] h-[450px] bg-stone-900 aspect-[2/3] rounded"
+              draggable={false}
             />
             <div>
               <h2 className="text-5xl font-extrabold">{movie.name}</h2>
@@ -91,24 +116,31 @@ export default async function MovieDetail(context: MovieDetailContext) {
                   {movie.lang}
                 </span>
               </div>
-              <div className="flex items-center gap-2 my-2">
-                <Icon
-                  icon="grommet-icons:language"
-                  className="text-primary"
-                  height={16}
-                />
-                <ul className="flex items-center gap-2">
-                  {movie.country.map((c, idx) => (
-                    <Link
-                      href={`/genres/${c.slug}`}
-                      key={c.id}
-                      className="hover:text-primary"
-                    >
-                      {c.name}
-                      {idx + 1 !== movie.country.length ? ',' : ''}
-                    </Link>
-                  ))}
-                </ul>
+              <div className="flex items-center gap-5">
+                <span className="flex items-center gap-2">
+                  <Icon icon="jam:movie" className="text-primary" height={16} />
+                  {movie.episode_current} /{' '}
+                  {movie.episode_total === '1' ? 'Full' : movie.episode_total}
+                </span>
+                <div className="flex items-center gap-2 my-2">
+                  <Icon
+                    icon="grommet-icons:language"
+                    className="text-primary"
+                    height={16}
+                  />
+                  <ul className="flex items-center gap-2">
+                    {movie.country.map((c, idx) => (
+                      <Link
+                        href={`/genres/${c.slug}`}
+                        key={c.id}
+                        className="hover:text-primary"
+                      >
+                        {c.name}
+                        {idx + 1 !== movie.country.length ? ',' : ''}
+                      </Link>
+                    ))}
+                  </ul>
+                </div>
               </div>
               <div
                 dangerouslySetInnerHTML={{ __html: movie.content }}
@@ -122,31 +154,149 @@ export default async function MovieDetail(context: MovieDetailContext) {
                 <span className="block h-12 w-0.5 bg-white/10" />
                 <div className="flex items-center gap-3 text-sm font-bold">
                   <button
-                    className="rounded-full bg-primary text-black px-8 py-3 disabled:bg-gray-500 disabled:hover:bg-gray-500"
-                    disabled={!!movie.trailer_url}
+                    className="rounded-full bg-primary text-black px-8 py-3 disabled:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:text-white"
+                    disabled={!movie.trailer_url}
                     onClick={() => {
                       dispatch({
                         type: 'TRAILER',
-                        payload: { trailerUrl: movie.trailer_url },
+                        payload: {
+                          videoTrailerId: movie.trailer_url.split('v=')[1],
+                          modalType: 'trailer',
+                        },
                       });
                     }}
                   >
                     Trailer
                   </button>
-                  <button className="rounded-full border-2 border-primary px-8 py-2.5 bg-black/70 duration-300 hover:bg-primary hover:text-black">
-                    Xem Phim
+                  <button
+                    className={`${
+                      isFavourite
+                        ? 'bg-[#f00] border-[#f00]'
+                        : 'bg-black/70 border-primary hover:bg-primary hover:text-black'
+                    } flex items-center gap-2 rounded-full border-2 px-5 py-2.5 duration-300`}
+                    onClick={() => {
+                      appContext.dispatch({
+                        type: isFavourite ? 'REMOVE' : 'ADD',
+                        payload: {
+                          slug: movie.slug,
+                          thumb_url: movie.thumb_url,
+                        },
+                      });
+                    }}
+                  >
+                    <Icon
+                      icon={
+                        isFavourite
+                          ? 'ph:heart-break-fill'
+                          : 'solar:heart-linear'
+                      }
+                      height={20}
+                    />
+                    {isFavourite ? 'Bỏ yêu thích' : 'Yêu thích'}
                   </button>
-                  <Icon
-                    icon="solar:heart-linear"
-                    height={28}
-                    className="ml-4"
-                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {selectedEpisode && (
+        <div className="mx-auto max-w-7xl">
+          <div className="text-sm">
+            {movie.episodes.map((server) => (
+              <ul key={server.server_name}>
+                <p className="text-base font-bold mb-4 mt-8">
+                  {server.server_name}
+                </p>
+                <li
+                  className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-12 text-center gap-2"
+                  key={server.server_name}
+                >
+                  {server.server_data.map((ep) => (
+                    <button
+                      onClick={() => setSelectedEpisode(ep)}
+                      key={ep.slug}
+                      className={`
+                    ${
+                      selectedEpisode?.link_embed === ep.link_embed
+                        ? 'bg-primary text-black'
+                        : 'bg-white/5'
+                    }
+                     rounded hover:bg-primary duration-200 py-1 hover:text-black`}
+                    >
+                      {ep.name}
+                    </button>
+                  ))}
+                </li>
+              </ul>
+            ))}
+          </div>
+          {selectedEpisode && (
+            <div className="max-w-5xl mx-auto my-16">
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <button
+                  className={`rounded px-4 py-0.5 ${
+                    serverType === 'embed' ? 'bg-blue-500' : 'bg-white/5'
+                  }`}
+                  onClick={() => setServerType('embed')}
+                >
+                  Server 1
+                </button>
+                <button
+                  className={`rounded px-4 py-0.5 ${
+                    serverType === 'hls' ? 'bg-blue-500' : 'bg-white/5'
+                  }`}
+                  onClick={() => setServerType('hls')}
+                >
+                  Server 2
+                </button>
+              </div>
+              <iframe
+                src={
+                  serverType === 'hls'
+                    ? `https://www.hlsplayer.org/play?url=${selectedEpisode.link_m3u8}`
+                    : selectedEpisode.link_embed
+                }
+                className="w-full aspect-video"
+                allowFullScreen
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          )}
+        </div>
+      )}
+      <div id="disqus_thread" className="max-w-5xl mx-auto"></div>
+      <Script>
+        {`(function() {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://thunmov-vercel-app.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();`}
+      </Script>
     </>
   );
 }
+
+const Skeleton = () => {
+  return (
+    <div className="max-w-7xl mx-auto flex items-center gap-8 mt-28 animate-pulse">
+      <div className="h-[450px] w-full max-w-[300px] bg-white/5 rounded" />
+      <div className="w-full">
+        <p className="max-w-3xl h-12 bg-white/5 rounded" />
+        <ul className="flex items-center gap-2 my-5">
+          <li className="h-5 w-20 bg-white/5 rounded"></li>
+          <li className="h-5 w-20 bg-white/5 rounded"></li>
+          <li className="h-5 w-20 bg-white/5 rounded"></li>
+          <li className="h-5 w-20 bg-white/5 rounded"></li>
+          <li className="h-5 w-20 bg-white/5 rounded"></li>
+        </ul>
+        <p className="h-5 bg-white/5 rounded"></p>
+        <p className="h-5 bg-white/5 rounded my-2"></p>
+        <p className="h-5 bg-white/5 rounded my-2"></p>
+        <p className="h-5 w-96 bg-white/5 rounded"></p>
+        <p className="h-20 max-w-sm bg-white/5 rounded-lg mt-8" />
+      </div>
+    </div>
+  );
+};

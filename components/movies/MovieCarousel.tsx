@@ -1,4 +1,5 @@
 'use client';
+import { imageCdnUrl } from '@/constants';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Image from 'next/image';
@@ -27,7 +28,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
         <SwiperSlide key={item._id}>
           <div
             className="bg-cover w-full aspect-video max-h-[800px] relative bg-center"
-            style={{ backgroundImage: `url(${item.poster_url})` }}
+            style={{ backgroundImage: `url(${imageCdnUrl + item.poster_url})` }}
           >
             <div className="absolute inset-0 bg-black/90 flex items-center">
               <div className="w-full max-w-7xl mx-auto flex items-center justify-between gap-8">
@@ -93,9 +94,9 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                   </Link>
                 </div>
                 <Image
-                  src={item.thumb_url}
+                  src={imageCdnUrl + item.thumb_url}
                   alt={item.origin_name}
-                  className="aspect-[2/3] bg-object-cover rounded-lg border-[14px] border-primary"
+                  className="aspect-[2/3] object-cover rounded-lg border-[14px] border-primary"
                   width={320}
                   height={480}
                 />

@@ -31,9 +31,22 @@ export type Category = {
   slug: string;
 };
 
+export type MovieType = {
+  title: string;
+  path: string;
+};
+
 export type ContextAction = {
   type: string;
   payload?: any;
+};
+
+export type Episode = {
+  name: string;
+  slug: string;
+  filename: string;
+  link_embed: string;
+  link_m3u8: string;
 };
 
 export type MovieDetail = {
@@ -79,12 +92,6 @@ export type MovieDetail = {
   }[];
   episodes: {
     server_name: string;
-    server_data: {
-      name: string;
-      slug: string;
-      filename: string;
-      link_embed: string;
-      link_m3u8: string;
-    }[];
+    server_data: Episode[];
   }[];
 };

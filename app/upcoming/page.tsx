@@ -1,3 +1,4 @@
+import { imageCdnUrl } from '@/constants';
 import { useFetch } from '@/hooks';
 import { Movie } from '@/types';
 import Image from 'next/image';
@@ -55,12 +56,9 @@ export default async function Upcoming(context: UpcomingContext) {
               key={movie._id}
               className="border-b border-white/10 hover:bg-white/5 duration-100"
             >
-              <th
-                scope="row"
-                className="py-4 flex items-center gap-2 text-left"
-              >
+              <th scope="row" className="p-4 flex items-center gap-2 text-left">
                 <Image
-                  src={movie.thumb_url}
+                  src={imageCdnUrl + movie.thumb_url}
                   alt={movie.name}
                   width={80}
                   height={112}

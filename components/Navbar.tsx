@@ -1,28 +1,14 @@
 'use client';
-import { movieTypes } from '@/constants';
-import { CategoryContext } from '@/context/category.context';
+import { countries, genres, movieTypes } from '@/constants';
 import { ModalContext } from '@/context/modal.context';
-import { useFetch } from '@/hooks';
 import { Category } from '@/types';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export const Navbar = () => {
   const [displayBgColor, setDisplayBgColor] = useState<boolean>(false);
-  const { state, dispatch } = useContext(CategoryContext);
-  const modalCtx = useContext(ModalContext);
-
-  useEffect(() => {
-    (async () => {
-      const res: any = await Promise.all([
-        useFetch('/genres'),
-        useFetch('/countries'),
-      ]);
-      dispatch({ type: 'GENRES', payload: res[0].data.items });
-      dispatch({ type: 'COUNTRIES', payload: res[1].data.items });
-    })();
-  }, []);
+  const { dispatch } = useContext(ModalContext);
 
   useEffect(() => {
     function checkPositionHandler() {
@@ -55,7 +41,7 @@ export const Navbar = () => {
           <span className="relative group hover:text-primary cursor-pointer">
             Loại phim
             <ul className="dropdown-menu grid-cols-2">
-              {movieTypes.map((t) => (
+              {movieTypes.slice(0, -3).map((t) => (
                 <Link
                   key={t.path}
                   href={`/${t.path}`}
@@ -69,7 +55,7 @@ export const Navbar = () => {
           <span className="relative group hover:text-primary cursor-pointer">
             Thể loại
             <ul className="dropdown-menu">
-              {state.genres.map((g: Category) => (
+              {genres.map((g: Category) => (
                 <Link
                   key={g.slug}
                   href={`/genres/${g.slug}`}
@@ -83,7 +69,7 @@ export const Navbar = () => {
           <span className="relative group hover:text-primary cursor-pointer">
             Quốc gia
             <ul className="dropdown-menu">
-              {state.countries.map((c: Category) => (
+              {countries.map((c: Category) => (
                 <Link
                   key={c.slug}
                   href={`/countries/${c.slug}`}
@@ -101,19 +87,24 @@ export const Navbar = () => {
             Sắp chiếu
           </Link>
         </div>
-        <Icon
-          icon="iconamoon:search-bold"
-          className="text-primary cursor-pointer"
-          height={24}
-          onClick={() =>
-            modalCtx.dispatch({
-              type: 'SEARCH',
-              payload: {
-                type: 'search',
-              },
-            })
-          }
-        />
+        <div className="flex items-center gap-5">
+          <Icon
+            icon="iconamoon:search-bold"
+            className="text-primary cursor-pointer"
+            height={24}
+            onClick={() =>
+              dispatch({
+                type: 'SEARCH',
+                payload: {
+                  modalType: 'search',
+                },
+              })
+            }
+          />
+          <Link href="/list">
+            <Icon icon="tdesign:play-demo" height={24} />{' '}
+          </Link>
+        </div>
       </nav>
     </header>
   );

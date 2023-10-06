@@ -8,19 +8,23 @@ type MovieTypeContext = {
   params: { movieType: string };
   searchParams: {
     page: string;
+    q: string;
   };
 };
 
 export default async function MovieType(context: MovieTypeContext) {
   const {
     params: { movieType },
-    searchParams: { page },
+    searchParams: { page, q },
   } = context;
 
   const type = movieTypes.find((t) => t.path === movieType);
   if (!type) return 'not found';
 
-  const { data } = await useFetch(`/${movieType}?page=${page || 1}`);
+  const { data } = await useFetch(
+    `/${movieType}?${q ? `q=${q}&` : ''}page=${page || 1}`
+  );
+
   if (!data) return 'hehe';
 
   return (
@@ -34,7 +38,7 @@ export default async function MovieType(context: MovieTypeContext) {
       <Pagination
         currentPage={data.currentPage}
         totalPages={data.totalPages}
-        currentRoute={movieType}
+        currentRoute={`${movieType}?${q ? `q=${q}` : ''}`}
       />
     </main>
   );

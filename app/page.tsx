@@ -1,8 +1,28 @@
+// 'use client';
 import { MovieCarousel } from '@/components/movies/MovieCarousel';
 import { MovieCategory } from '@/components/movies/MovieCategory';
+import { domain } from '@/constants';
 import { useFetch } from '@/hooks';
+import { notFound } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export default async function Home() {
+  // const [movies, setMovies] = useState<any>();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await Promise.all([
+  //       useFetch('/new'),
+  //       useFetch('/genres/co-trang'),
+  //       useFetch('/anime'),
+  //       useFetch('/feature?category=kinh-di'),
+  //       useFetch('/countries/thai-lan'),
+  //     ]);
+  //     if (!data.length) return notFound();
+  //     setMovies(data);
+  //   })();
+  // }, []);
+
   const movies = await Promise.all([
     useFetch('/new'),
     useFetch('/genres/co-trang'),

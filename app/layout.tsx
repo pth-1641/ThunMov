@@ -1,11 +1,11 @@
+import { Footer } from '@/components/Footer';
 import { Navbar } from '@/components/Navbar';
+import { ModalContextProvider } from '@/context/modal.context';
+import { AppContextProvider } from '@/context/app.context';
+import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import 'swiper/swiper-bundle.css';
-import '@/styles/globals.css';
-import { Footer } from '@/components/Footer';
-import { CategoryContextProvider } from '@/context/category.context';
-import { ModalContextProvider } from '@/context/modal.context';
 
 const inter = Nunito({ subsets: ['latin'] });
 
@@ -22,13 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-black/95 ${inter.className}`}>
-        <ModalContextProvider>
-          <CategoryContextProvider>
+        <AppContextProvider>
+          <ModalContextProvider>
             <Navbar />
             {children}
             <Footer />
-          </CategoryContextProvider>
-        </ModalContextProvider>
+          </ModalContextProvider>
+        </AppContextProvider>
       </body>
     </html>
   );

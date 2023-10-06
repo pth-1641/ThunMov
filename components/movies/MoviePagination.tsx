@@ -1,9 +1,9 @@
 'use client';
-import { CategoryContext } from '@/context/category.context';
 import { Movie } from '@/types';
 import { useParams, usePathname } from 'next/navigation';
 import { FC, useContext, useEffect, useState } from 'react';
 import { MovieCard } from './MovieCard';
+import { countries, genres } from '@/constants';
 
 type MoviePaginationProps = {
   movies: Movie[];
@@ -14,17 +14,16 @@ export const MoviePagination: FC<MoviePaginationProps> = (props) => {
   const [title, setTitle] = useState<string>();
   const pathname = usePathname();
   const { type } = useParams();
-  const { state } = useContext(CategoryContext);
 
   useEffect(() => {
     if (pathname.includes('genres')) {
-      const genre = state.genres.find((g) => g.slug === type);
+      const genre = genres.find((g) => g.slug === type);
       setTitle(genre?.name);
     } else if (pathname.includes('countries')) {
-      const country = state.countries.find((c) => c.slug === type);
+      const country = countries.find((c) => c.slug === type);
       setTitle(country?.name);
     }
-  }, [state]);
+  }, []);
 
   return (
     <>

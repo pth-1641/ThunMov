@@ -1,4 +1,5 @@
 'use client';
+import { imageCdnUrl } from '@/constants';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
@@ -19,12 +20,12 @@ export const TvShowCard: FC<TvShowCardProps> = ({ show }) => {
   return (
     <Link
       key={show._id}
-      href={`/phim/${show.slug}`}
+      href={`/movies/${show.slug}`}
       className="flex gap-3 group bg-white/5 rounded rounded-l-lg"
     >
       <div className="aspect-video h-36 rounded-lg overflow-hidden relative">
         <Image
-          src={src}
+          src={imageCdnUrl + src}
           alt={show.name}
           className="bg-stone-900 w-full h-full object-cover"
           width={256}
