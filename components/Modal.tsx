@@ -1,9 +1,8 @@
 'use client';
 import { ModalContext } from '@/context/modal.context';
 import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useRef } from 'react';
+import { useRouter } from 'next-nprogress-bar';
+import { SyntheticEvent, useContext, useEffect, useRef } from 'react';
 
 export const Modal = () => {
   const { state, dispatch } = useContext(ModalContext);
@@ -15,6 +14,14 @@ export const Modal = () => {
     if (modalType === 'search') inputRef.current?.focus();
     document.body.style.overflow = modalType ? 'hidden' : 'initial';
   }, [modalType]);
+
+  const handleSearch = (e: SyntheticEvent) => {
+    e.preventDefault();
+    router.push(`/search?q=${searchValue.replace(/\s+/g, '+')}`);
+    dispatch({
+      type: 'CLOSE',
+    });
+  };
 
   return (
     <div
@@ -37,16 +44,7 @@ export const Modal = () => {
         />
       )}
       {modalType === 'search' && (
-        <form
-          className="w-[80vw] max-w-md"
-          onSubmit={(e) => {
-            e.preventDefault();
-            router.push(`/search?q=${searchValue.replace(/\s+/g, '+')}`);
-            dispatch({
-              type: 'CLOSE',
-            });
-          }}
-        >
+        <form className="w-[80vw] max-w-md" onSubmit={handleSearch}>
           <input
             ref={inputRef}
             type="text"
@@ -71,7 +69,7 @@ export const Modal = () => {
         />
       )}
       {modalType === 'warning' && (
-        <div className="max-w-xl bg-white text-black p-5 rounded-lg">
+        <div className="max-w-xl w-[90vw] bg-white text-black p-5 rounded-lg">
           <h2 className="text-center">
             Nội dung có thể không phù hợp với lứa tuổi của bạn. Nếu bỏ qua cảnh
             báo này, chúng tôi sẽ <strong>không chịu trách nhiệm</strong> với

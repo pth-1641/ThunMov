@@ -1,11 +1,13 @@
 'use client';
 import { ContextAction } from '@/types';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 export type StateType = {
   favMovies: {
     slug: string;
     thumb_url: string;
+    name: string;
   }[];
 };
 
@@ -16,7 +18,6 @@ const initialState: StateType = {
 const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
     case 'INIT':
-      console.log({ ...state, favMovies: action.payload });
       return { ...state, favMovies: action.payload };
     case 'ADD':
       const favMovies = [...state.favMovies, action.payload];
@@ -58,6 +59,12 @@ export const AppContextProvider = ({
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
+      <ProgressBar
+        height="3px"
+        color="#e4d804"
+        options={{ showSpinner: false }}
+        shallowRouting
+      />
       {children}
     </AppContext.Provider>
   );

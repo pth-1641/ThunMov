@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "latest",
+    "next-nprogress-bar": "^2.1.2",
     "react": "latest",
     "react-dom": "latest",
     "sharp": "^0.32.6",

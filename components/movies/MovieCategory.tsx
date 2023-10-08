@@ -10,11 +10,11 @@ import Link from 'next/link';
 type MovieCategoryProps = {
   title: string;
   movies: Movie[];
-  path: string;
+  pathAll: string;
 };
 
 export const MovieCategory: FC<MovieCategoryProps> = (props) => {
-  const { title, movies, path } = props;
+  const { title, movies, pathAll } = props;
 
   const swiperRef = useRef<SwiperCore>();
 
@@ -53,7 +53,7 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
         ))}
       </Swiper>
       <Link
-        href={path}
+        href={pathAll}
         className="flex items-center px-5 py-2 border-2 border-primary w-max mx-auto mt-8 hover:bg-primary duration-150 hover:text-black font-bold"
       >
         Xem Tất Cả

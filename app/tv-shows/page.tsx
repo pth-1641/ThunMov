@@ -1,7 +1,6 @@
 import { Pagination } from '@/components/Pagination';
-import { TvShowCard } from '@/components/TvShowCard';
+import { TvShow } from '@/components/TvShow';
 import { useFetch } from '@/hooks';
-import { Movie } from '@/types';
 
 type TvShowContext = {
   searchParams: {
@@ -14,22 +13,14 @@ export default async function TvShows(context: TvShowContext) {
     searchParams: { page = 1 },
   } = context;
 
-  const { data } = await useFetch(`/tv-shows?page=${page}`);
+  const { data } = await useFetch('/type', { movieType: 'tv-shows', page });
   if (!data) return 'hehe';
 
   return (
     <main className="mx-auto max-w-7xl">
       <h2 className="mt-24 text-center text-4xl font-bold mb-6">TV Shows</h2>
-      <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-        {data.items.map((show: Movie) => (
-          <TvShowCard show={show} />
-        ))}
-      </div>
-      <Pagination
-        currentPage={data.currentPage}
-        currentRoute="tv-shows"
-        totalPages={data.totalPages}
-      />
+      <TvShow shows={data.items} />
+      <Pagination currentPage={data.currentPage} totalPages={data.totalPages} />
     </main>
   );
 }

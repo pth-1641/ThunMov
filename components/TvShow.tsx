@@ -6,11 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useState, useEffect } from 'react';
 
-type TvShowCardProps = {
-  show: Movie;
+type TvShowProps = {
+  shows: Movie[];
 };
 
-export const TvShowCard: FC<TvShowCardProps> = ({ show }) => {
+const TvShowCard = ({ show }: { show: Movie }) => {
   const [src, setSrc] = useState<string>(show.poster_url);
 
   useEffect(() => {
@@ -65,5 +65,15 @@ export const TvShowCard: FC<TvShowCardProps> = ({ show }) => {
         </p>
       </div>
     </Link>
+  );
+};
+
+export const TvShow: FC<TvShowProps> = ({ shows }) => {
+  return (
+    <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+      {shows.map((show) => (
+        <TvShowCard key={show._id} show={show} />
+      ))}
+    </div>
   );
 };

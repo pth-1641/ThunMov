@@ -1,34 +1,14 @@
-// 'use client';
 import { MovieCarousel } from '@/components/movies/MovieCarousel';
 import { MovieCategory } from '@/components/movies/MovieCategory';
-import { domain } from '@/constants';
 import { useFetch } from '@/hooks';
-import { notFound } from 'next/navigation';
-import { useState, useEffect } from 'react';
 
 export default async function Home() {
-  // const [movies, setMovies] = useState<any>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await Promise.all([
-  //       useFetch('/new'),
-  //       useFetch('/genres/co-trang'),
-  //       useFetch('/anime'),
-  //       useFetch('/feature?category=kinh-di'),
-  //       useFetch('/countries/thai-lan'),
-  //     ]);
-  //     if (!data.length) return notFound();
-  //     setMovies(data);
-  //   })();
-  // }, []);
-
   const movies = await Promise.all([
     useFetch('/new'),
-    useFetch('/genres/co-trang'),
+    useFetch('/genres', { type: 'co-trang' }),
     useFetch('/anime'),
-    useFetch('/feature?category=kinh-di'),
-    useFetch('/countries/thai-lan'),
+    useFetch('/genres', { type: 'kinh-di' }),
+    useFetch('/countries', { type: 'thai-lan' }),
   ]);
 
   if (!movies) return;
@@ -39,22 +19,22 @@ export default async function Home() {
       <MovieCategory
         movies={movies[1].data.items}
         title="Phim Cổ Trang"
-        path="/genres/co-trang"
+        pathAll="/genres/co-trang"
       />
       <MovieCategory
         movies={movies[2].data.items}
         title="Anime"
-        path="/anime"
+        pathAll="/anime"
       />
       <MovieCategory
         movies={movies[3].data.items}
         title="Phim Kinh Dị"
-        path="/genres/kinh-di"
+        pathAll="/genres/kinh-di"
       />
       <MovieCategory
         movies={movies[4].data.items}
         title="Phim Thái Lan"
-        path="/countries/thai-lan"
+        pathAll="/countries/thai-lan"
       />
     </>
   );

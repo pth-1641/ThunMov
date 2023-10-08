@@ -17,7 +17,7 @@ export default async function Upcoming(context: UpcomingContext) {
 
   page = Number.isNaN(page) ? 1 : +page;
 
-  const { data } = await useFetch(`/upcoming?page=${page}`);
+  const { data } = await useFetch('/type', { movieType: 'upcoming', page });
   if (!data) return 'hehe';
 
   const getMovieType = (type: string) => {
@@ -47,7 +47,7 @@ export default async function Upcoming(context: UpcomingContext) {
             <th scope="col">Loại phim</th>
             <th scope="col">Thể loại</th>
             <th scope="col">Quốc gia</th>
-            <th scope="col">Nhắc tôi</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody className="text-sm">
@@ -106,9 +106,12 @@ export default async function Upcoming(context: UpcomingContext) {
                 </div>
               </td>
               <td>
-                <button className="bg-primary rounded-full text-black px-4 font-semibold py-1.5">
-                  Thêm
-                </button>
+                <Link
+                  href={`/movies/${movie.slug}`}
+                  className="bg-primary rounded-full text-black px-4 font-semibold py-1.5"
+                >
+                  Chi tiết
+                </Link>
               </td>
             </tr>
           ))}

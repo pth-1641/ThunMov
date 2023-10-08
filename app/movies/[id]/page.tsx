@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 import Script from 'next/script';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState<MovieDetail>();
@@ -23,9 +23,8 @@ export default function MovieDetails() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await useFetch(`/movies/${id}`);
+      const { data } = await useFetch('/movies', { id });
       if (!data) return notFound();
-
       setMovie(data);
     })();
   }, []);
@@ -232,8 +231,8 @@ export default function MovieDetails() {
             ))}
           </div>
           {selectedEpisode && (
-            <div className="max-w-5xl mx-auto my-16">
-              <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="max-w-5xl mx-auto mt-16">
+              <div className="flex items-center justify-center gap-2">
                 <button
                   className={`rounded px-4 py-0.5 ${
                     serverType === 'embed' ? 'bg-blue-500' : 'bg-white/5'
@@ -251,6 +250,9 @@ export default function MovieDetails() {
                   Server 2
                 </button>
               </div>
+              <p className="text-red-500 text-center text-sm mt-2 mb-5">
+                Vui lòng đổi server nếu không xem được
+              </p>
               <iframe
                 src={
                   serverType === 'hls'
@@ -265,7 +267,7 @@ export default function MovieDetails() {
           )}
         </div>
       )}
-      <div id="disqus_thread" className="max-w-5xl mx-auto"></div>
+      <div id="disqus_thread" className="max-w-5xl mx-auto mt-16"></div>
       <Script>
         {`(function() {
           var d = document, s = d.createElement('script');

@@ -33,7 +33,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             icon="ph:heart-fill"
             className="absolute top-2.5 right-2.5"
             color="red"
-            height={30}
+            height={28}
           />
         )}
         <Image

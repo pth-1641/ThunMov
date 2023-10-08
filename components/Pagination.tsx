@@ -1,20 +1,26 @@
+'use client';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
-  currentRoute: string;
 };
 
 export const Pagination: FC<PaginationProps> = (props) => {
-  const { currentPage = 1, totalPages = 1, currentRoute } = props;
+  const { currentPage = 1, totalPages = 1 } = props;
+  const [currentRoute, setCurrentRoute] = useState<string>('');
+  const { search, pathname } = location;
+
+  useEffect(() => {
+    setCurrentRoute(pathname + search);
+  }, [location]);
 
   return (
     <ul className="flex mt-20 font-medium justify-center">
       {currentPage !== 1 && (
         <Link
-          href={`/${
+          href={`${
             currentRoute + (currentRoute.includes('?') ? '&' : '?')
           }page=${currentPage - 1}`}
           className="px-4 py-1.5 border border-collapse duration-300 border-r-0 hover:bg-primary hover:text-black hover:border-primary"
@@ -28,7 +34,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
           <div className="flex" key={idx}>
             {page > 0 && page <= totalPages && (
               <Link
-                href={`/${
+                href={`${
                   currentRoute + (currentRoute.includes('?') ? '&' : '?')
                 }page=${page}`}
                 className={`px-4 py-1.5 border border-r-0 border-collapse duration-300 hover:bg-primary hover:text-black hover:border-primary ${
@@ -45,7 +51,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
       })}
       {currentPage !== totalPages && (
         <Link
-          href={`/${
+          href={`${
             currentRoute + (currentRoute.includes('?') ? '&' : '?')
           }page=${currentPage + 1}`}
           className="px-4 py-1.5 border border-collapse duration-300 hover:bg-primary hover:text-black hover:border-primary"

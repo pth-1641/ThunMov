@@ -101,8 +101,8 @@ export const Navbar = () => {
               })
             }
           />
-          <Link href="/list">
-            <Icon icon="tdesign:play-demo" height={24} />{' '}
+          <Link href="/favourite">
+            <Icon icon="solar:folder-favourite-star-bold" height={24} />
           </Link>
         </div>
       </nav>

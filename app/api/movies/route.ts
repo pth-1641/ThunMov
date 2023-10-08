@@ -1,12 +1,9 @@
 import { baseUrl, imageCdnUrl } from '@/constants';
 import { NextResponse } from 'next/server';
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: Request) {
   try {
-    const { id = '' } = params;
+    let { id } = await request.json();
     const response = await fetch(`${baseUrl}/phim/${id}.json`);
     const data = await response.json();
     if (!id || !Object.keys(data.pageProps).length) {

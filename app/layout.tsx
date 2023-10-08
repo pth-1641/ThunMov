@@ -1,13 +1,13 @@
 import { Footer } from '@/components/Footer';
 import { Navbar } from '@/components/Navbar';
-import { ModalContextProvider } from '@/context/modal.context';
 import { AppContextProvider } from '@/context/app.context';
+import { ModalContextProvider } from '@/context/modal.context';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import 'swiper/swiper-bundle.css';
 
-const inter = Nunito({ subsets: ['latin'] });
+const inter = Nunito({ subsets: ['latin'], preload: true });
 
 export const metadata: Metadata = {
   title: 'ThunMov - Online Movies & TV Shows',
