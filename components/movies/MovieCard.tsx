@@ -84,7 +84,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         </div>
         <span className="flex items-center gap-1.5">
           <Icon icon="akar-icons:clock" className="text-primary" height={16} />
-          {item.time}
+          {item.time || 'Đang cập nhật'}
         </span>
       </div>
     </div>

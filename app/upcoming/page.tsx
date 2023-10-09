@@ -1,8 +1,11 @@
-import { imageCdnUrl } from '@/constants';
+import { domain, imageCdnUrl } from '@/constants';
 import { useFetch } from '@/hooks';
+import { useMetadata } from '@/hooks/useMetadata';
 import { Movie } from '@/types';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 type UpcomingContext = {
   searchParams: {
@@ -18,7 +21,7 @@ export default async function Upcoming(context: UpcomingContext) {
   page = Number.isNaN(page) ? 1 : +page;
 
   const { data } = await useFetch('/type', { movieType: 'upcoming', page });
-  if (!data) return 'hehe';
+  if (!data) return notFound();
 
   const getMovieType = (type: string) => {
     const list: Record<string, string> = {
@@ -133,3 +136,10 @@ export default async function Upcoming(context: UpcomingContext) {
     </main>
   );
 }
+
+export const metadata = useMetadata({
+  title: 'Phim Sắp Chiếu',
+  description:
+    'Xem trailer và những bộ phim sắp được công chiếu hay nhất. Cùng hóng những bộ phim mới sắp được chiếu rạp.',
+  urlPath: '/upcoming',
+});

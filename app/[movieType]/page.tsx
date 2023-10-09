@@ -3,6 +3,7 @@ import { MovieCard } from '@/components/movies/MovieCard';
 import { movieTypes } from '@/constants';
 import { useFetch } from '@/hooks';
 import { Movie } from '@/types';
+import { notFound } from 'next/navigation';
 
 type MovieTypeContext = {
   params: { movieType: string };
@@ -19,10 +20,10 @@ export default async function MovieType(context: MovieTypeContext) {
   } = context;
 
   const type = movieTypes.find((t) => t.path === movieType);
-  if (!type) return 'not found';
+  if (!type) return notFound();
 
   const { data } = await useFetch('/type', { movieType, page, q });
-  if (!data) return 'hehe';
+  if (!data) return notFound();
 
   return (
     <main className="mx-auto max-w-7xl">
@@ -46,4 +47,22 @@ export default async function MovieType(context: MovieTypeContext) {
       )}
     </main>
   );
+}
+
+export function generateMetadata(context: MovieTypeContext) {
+  const {
+    params: { movieType },
+  } = context;
+
+  const movie = movieTypes.find((m) => m.path === movieType);
+  if (!movie)
+    return {
+      title: 'Not Found | Thunmov',
+      description: 'The page is not found.',
+    };
+
+  return {
+    title: `${movie.title} | Thunmov`,
+    description: `Tuyển tập ${movie.title} mới nhất, Phim ngắn ít tập hay, Chọn lọc những bô phim bom tấn chiếu rập đình đám trong và ngoài nước.`,
+  };
 }

@@ -11,28 +11,26 @@ export default async function Home() {
     useFetch('/countries', { type: 'thai-lan' }),
   ]);
 
-  if (!movies) return;
-
   return (
     <>
-      <MovieCarousel movies={movies[0].data.items} />
+      <MovieCarousel movies={movies[0].data?.items} />
       <MovieCategory
-        movies={movies[1].data.items}
+        movies={movies[1].data?.items}
         title="Phim Cổ Trang"
         pathAll="/genres/co-trang"
       />
       <MovieCategory
-        movies={movies[2].data.items}
+        movies={movies[2].data?.items}
         title="Anime"
         pathAll="/anime"
       />
       <MovieCategory
-        movies={movies[3].data.items}
+        movies={movies[3].data?.items}
         title="Phim Kinh Dị"
         pathAll="/genres/kinh-di"
       />
       <MovieCategory
-        movies={movies[4].data.items}
+        movies={movies[4].data?.items}
         title="Phim Thái Lan"
         pathAll="/countries/thai-lan"
       />

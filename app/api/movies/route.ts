@@ -10,11 +10,7 @@ export async function POST(request: Request) {
       throw new Error('Invalid movie id');
     }
     const { item } = data.pageProps.data;
-    return NextResponse.json({
-      ...item,
-      thumb_url: imageCdnUrl + item.thumb_url,
-      poster_url: imageCdnUrl + item.poster_url,
-    });
+    return NextResponse.json(item);
   } catch (err) {
     return NextResponse.json({
       status: 'Fail',

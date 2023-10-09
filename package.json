@@ -14,8 +14,7 @@
     "react": "latest",
     "react-dom": "latest",
     "sharp": "^0.32.6",
-    "swiper": "^10.3.1",
-    "swr": "^2.2.4"
+    "swiper": "^10.3.1"
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",

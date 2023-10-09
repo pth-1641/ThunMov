@@ -3,6 +3,7 @@ import { Pagination } from '@/components/Pagination';
 import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { Icon } from '@iconify/react';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

@@ -1,6 +1,10 @@
 import { Pagination } from '@/components/Pagination';
 import { TvShow } from '@/components/TvShow';
+import { domain } from '@/constants';
 import { useFetch } from '@/hooks';
+import { useMetadata } from '@/hooks/useMetadata';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 type TvShowContext = {
   searchParams: {
@@ -14,7 +18,7 @@ export default async function TvShows(context: TvShowContext) {
   } = context;
 
   const { data } = await useFetch('/type', { movieType: 'tv-shows', page });
-  if (!data) return 'hehe';
+  if (!data) return notFound();
 
   return (
     <main className="mx-auto max-w-7xl">
@@ -24,3 +28,9 @@ export default async function TvShows(context: TvShowContext) {
     </main>
   );
 }
+
+export const metadata = useMetadata({
+  title: 'TV Shows',
+  description: `Tv Shows mới nhất tuyển chọn chất lượng cao, Tv Shows mới nhất ${new Date().getFullYear()} vietsub cập nhật nhanh nhất. Tv Shows vietsub nhanh nhất.`,
+  urlPath: '/tv-shows',
+});
