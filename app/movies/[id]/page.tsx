@@ -24,7 +24,7 @@ export default function MovieDetails() {
   useEffect(() => {
     (async () => {
       const { data } = await useFetch('/movies', { id });
-      if (!data) return notFound();
+      if (!data) notFound();
       setMovie(data);
     })();
   }, []);
@@ -179,6 +179,7 @@ export default function MovieDetails() {
                         payload: {
                           slug: movie.slug,
                           thumb_url: movie.thumb_url,
+                          name: movie.name,
                         },
                       });
                     }}

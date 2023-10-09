@@ -102,7 +102,7 @@ export const Navbar = () => {
             }
           />
           <Link href="/favourite">
-            <Icon icon="solar:folder-favourite-star-bold" height={24} />
+            <Icon icon="mdi:heart-box" height={26} />
           </Link>
         </div>
       </nav>

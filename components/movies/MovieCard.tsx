@@ -16,11 +16,13 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
   const isFavourite = state.favMovies.some((m) => m.slug === item.slug);
 
   const handleFavourite = (type: 'ADD' | 'REMOVE') => {
+    const { slug, thumb_url, name } = item;
     dispatch({
       type,
       payload: {
-        slug: item.slug,
-        thumb_url: item.thumb_url,
+        slug,
+        thumb_url,
+        name,
       },
     });
   };
