@@ -1,8 +1,7 @@
-import { domain, imageCdnUrl } from '@/constants';
+import { imageCdnUrl } from '@/constants';
 import { useFetch } from '@/hooks';
 import { useMetadata } from '@/hooks/useMetadata';
 import { Movie } from '@/types';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

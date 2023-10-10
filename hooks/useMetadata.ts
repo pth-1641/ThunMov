@@ -9,6 +9,7 @@ type Params = {
 
 export const useMetadata = (params: Params) => {
   const { title, description, urlPath } = params;
+
   return {
     title: `${title} | Thunmov`,
     description,
@@ -33,5 +34,6 @@ export const useMetadata = (params: Params) => {
       follow: true,
       index: true,
     },
+    metadataBase: new URL(domain),
   } as Metadata;
 };
