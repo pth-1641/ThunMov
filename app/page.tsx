@@ -4,9 +4,9 @@ import { useFetch } from '@/hooks';
 
 export default async function Home() {
   const movies = await Promise.all([
-    useFetch('/new'),
+    useFetch('/type', { movieType: 'new' }),
     useFetch('/genres', { type: 'co-trang' }),
-    useFetch('/anime'),
+    useFetch('/type', { movieType: 'anime' }),
     useFetch('/genres', { type: 'kinh-di' }),
     useFetch('/countries', { type: 'thai-lan' }),
   ]);

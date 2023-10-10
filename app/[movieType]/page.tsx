@@ -2,6 +2,7 @@ import { Pagination } from '@/components/Pagination';
 import { MovieCard } from '@/components/movies/MovieCard';
 import { movieTypes } from '@/constants';
 import { useFetch } from '@/hooks';
+import { useMetadata } from '@/hooks/useMetadata';
 import { Movie } from '@/types';
 import { notFound } from 'next/navigation';
 
@@ -55,14 +56,17 @@ export function generateMetadata(context: MovieTypeContext) {
   } = context;
 
   const movie = movieTypes.find((m) => m.path === movieType);
-  if (!movie)
-    return {
-      title: 'Not Found | Thunmov',
+  if (!movie) {
+    return useMetadata({
+      title: 'Not Found',
       description: 'The page is not found.',
-    };
+      urlPath: `/${movieType}`,
+    });
+  }
 
-  return {
-    title: `${movie.title} | Thunmov`,
+  return useMetadata({
+    title: movie.title,
     description: `Tuyển tập ${movie.title} mới nhất, Phim ngắn ít tập hay, Chọn lọc những bô phim bom tấn chiếu rập đình đám trong và ngoài nước.`,
-  };
+    urlPath: `/${movie.path}`,
+  });
 }
