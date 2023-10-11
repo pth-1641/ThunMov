@@ -212,10 +212,10 @@ export const Navbar = () => {
           <span className="relative group hover:text-primary cursor-pointer">
             Thể loại
             <ul className="dropdown-menu">
-              {countries.map((g: Category) => (
+              {genres.map((g: Category) => (
                 <Link
                   key={g.slug}
-                  href={`/countries/${g.slug}`}
+                  href={`/genres/${g.slug}`}
                   className="hover:text-primary duration-100"
                 >
                   {g.name}
