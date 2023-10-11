@@ -23,7 +23,7 @@ const TvShowCard = ({ show }: { show: Movie }) => {
       href={`/movies/${show.slug}`}
       className="flex gap-3 group bg-white/5 rounded rounded-l-lg"
     >
-      <div className="aspect-video h-36 rounded-lg overflow-hidden relative">
+      <div className="aspect-video max-w-[196px] w-full h-36 rounded-lg overflow-hidden relative md:max-w-[256px]">
         <Image
           src={imageCdnUrl + src}
           alt={show.name}
@@ -41,7 +41,7 @@ const TvShowCard = ({ show }: { show: Movie }) => {
           />
         </span>
       </div>
-      <div className="max-w-xs">
+      <div className="max-w-xs mr-2">
         <h3 className="text-lg font-bold line-clamp-2 my-1 leading-6">
           <abbr className="no-underline" title={show.name}>
             {show.name}
@@ -70,7 +70,7 @@ const TvShowCard = ({ show }: { show: Movie }) => {
 
 export const TvShow: FC<TvShowProps> = ({ shows }) => {
   return (
-    <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+    <div className="grid gap-4 lg:grid-cols-2 lg:gap-6">
       {shows.map((show) => (
         <TvShowCard key={show._id} show={show} />
       ))}

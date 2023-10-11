@@ -9,7 +9,6 @@ export type StateType = {
   modalType: null | 'trailer' | 'search' | 'warning' | 'toast';
   videoTrailerId: string;
   searchValue: string;
-  toastMsg: string;
 };
 
 const initialState: StateType = {
@@ -17,7 +16,6 @@ const initialState: StateType = {
   modalType: null,
   videoTrailerId: '',
   searchValue: '',
-  toastMsg: '',
 };
 
 const reducer = (state: StateType, action: ContextAction) => {

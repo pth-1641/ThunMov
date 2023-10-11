@@ -35,10 +35,10 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
     <>
       <div
         style={{ backgroundImage: `url(${imageCdnUrl + movie.poster_url})` }}
-        className="bg-cover w-full aspect-video max-h-[800px] relative bg-center"
+        className="bg-cover w-full aspect-video relative bg-center lg:max-h-[800px]"
       >
-        <div className="absolute inset-0 bg-black/95 flex items-center">
-          <div className="w-full max-w-7xl mx-auto flex items-center gap-8">
+        <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
+          <div className="w-full max-w-7xl mx-auto flex flex-col items-center gap-8 md:flex-row">
             <Image
               src={imageCdnUrl + movie.thumb_url}
               alt={movie.name}
@@ -48,11 +48,13 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               draggable={false}
             />
             <div>
-              <h2 className="text-5xl font-extrabold">{movie.name}</h2>
+              <h2 className="text-4xl font-extrabold lg:text-5xl">
+                {movie.name}
+              </h2>
               <span className="text-primary font-bold">
                 {movie.origin_name}
               </span>
-              <div className="font-medium flex items-center gap-5 my-4">
+              <div className="font-medium flex flex-col gap-5 my-4 lg:flex-row lg:items-center">
                 <div className="flex items-center gap-2 text-xs font-bold">
                   <span className="bg-white px-2.5 py-1 text-black">
                     {movie.episode_current}
@@ -61,7 +63,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                     {movie.quality}
                   </span>
                 </div>
-                <ul className="flex items-center gap-2">
+                <ul className="flex items-center flex-wrap gap-x-2">
                   {movie.category.map((g, idx) => (
                     <Link
                       href={`/genres/${g.slug}`}
@@ -131,11 +133,11 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 className="text-sm"
               />
               <div className="border border-white/5 bg-white/5 px-7 py-4 flex items-center w-max rounded-lg mt-8 gap-5">
-                <div className="flex flex-col items-center gap-1 text-sm">
+                <div className="flex-col items-center gap-1 text-sm hidden md:flex">
                   <Icon icon="solar:share-bold" height={18} />
                   Share
                 </div>
-                <span className="block h-12 w-0.5 bg-white/10" />
+                <span className="h-12 w-0.5 bg-white/10 hidden md:block" />
                 <div className="flex items-center gap-3 text-sm font-bold">
                   <button
                     className="rounded-full bg-primary text-black px-8 py-3 disabled:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:text-white"
@@ -186,7 +188,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         </div>
       </div>
       {selectedEpisode && (
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl px-5">
           <div className="text-sm">
             {movie.episodes.map((server) => (
               <ul key={server.server_name}>

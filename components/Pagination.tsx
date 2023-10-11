@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Icon } from '@iconify/react';
 
 type PaginationProps = {
   currentPage: number;
@@ -25,9 +26,9 @@ export const Pagination: FC<PaginationProps> = (props) => {
       {currentPage !== 1 && (
         <Link
           href={`${currentRoute}page=${currentPage - 1}`}
-          className="px-4 py-1.5 border border-collapse duration-300 border-r-0 hover:bg-primary hover:text-black hover:border-primary"
+          className="px-2 py-1.5 flex items-center justify-center text-white border border-collapse duration-300 border-r-0 hover:bg-primary hover:text-black hover:border-primary"
         >
-          Trước
+          <Icon icon="icon-park-outline:left" height={24} />
         </Link>
       )}
       {new Array(5).fill('').map((_, idx) => {
@@ -52,9 +53,9 @@ export const Pagination: FC<PaginationProps> = (props) => {
       {currentPage !== totalPages && (
         <Link
           href={`${currentRoute}page=${currentPage + 1}`}
-          className="px-4 py-1.5 border border-collapse duration-300 hover:bg-primary hover:text-black hover:border-primary"
+          className="px-2 py-1.5 items-center justify-center text-white border border-collapse duration-300 hover:bg-primary hover:text-black hover:border-primary"
         >
-          Sau
+          <Icon icon="icon-park-outline:right" height={24} />
         </Link>
       )}
     </ul>

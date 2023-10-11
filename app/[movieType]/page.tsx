@@ -27,11 +27,13 @@ export default async function MovieType(context: MovieTypeContext) {
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <h2 className="mt-24 capitalize text-4xl font-bold mb-6">{type.title}</h2>
+    <main className="mx-auto max-w-7xl px-5">
+      <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
+        {type.title}
+      </h2>
       {data.items.length ? (
         <>
-          <div className="grid grid-cols-4 gap-x-7 gap-y-14">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-14">
             {data.items.map((movie: Movie) => (
               <MovieCard item={movie} key={movie._id} />
             ))}

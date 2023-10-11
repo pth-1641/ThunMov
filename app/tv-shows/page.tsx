@@ -21,8 +21,10 @@ export default async function TvShows(context: TvShowContext) {
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <h2 className="mt-24 text-center text-4xl font-bold mb-6">TV Shows</h2>
+    <main className="mx-auto max-w-7xl px-5">
+      <h2 className="mt-24 text-center text-3xl font-bold mb-6 lg:text-4xl">
+        TV Shows
+      </h2>
       <TvShow shows={data.items} />
       <Pagination currentPage={data.currentPage} totalPages={data.totalPages} />
     </main>

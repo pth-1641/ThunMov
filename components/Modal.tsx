@@ -30,6 +30,11 @@ export const Modal = () => {
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
       }`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget && state.modalType !== 'warning') {
+          dispatch({ type: 'CLOSE' });
+        }
+      }}
     >
       {modalType !== 'warning' && (
         <Icon

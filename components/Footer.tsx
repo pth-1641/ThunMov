@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer className="pt-20">
       <div className="max-w-7xl mx-auto pb-10">
         <Link href="/">
-          <h1 className=" flex items-center text-2xl font-extrabold gap-2 select-none">
+          <h1 className=" flex items-center text-2xl font-extrabold gap-2 select-none px-5">
             <Icon
               icon="ant-design:thunderbolt-filled"
               className="text-primary"
@@ -17,8 +17,8 @@ export const Footer = () => {
           </h1>
         </Link>
         <span className="block h-0.5 bg-white/5 rounded my-8" />
-        <div className="flex items-center justify-between">
-          <ul className="flex items-center gap-14 text-xs font-semibold">
+        <div className="flex items-center justify-between flex-col md:flex-row gap-8 px-5">
+          <ul className="flex items-center flex-wrap gap-2.5 text-xs font-semibold lg:gap-14">
             <li className="hover:text-primary duration-150 cursor-pointer">
               FAQ
             </li>
@@ -32,7 +32,7 @@ export const Footer = () => {
               CHÍNH SÁCH
             </li>
           </ul>
-          <ul className="flex items-center gap-2.5 text-xs font-semibold">
+          <ul className="flex items-center gap-x-2.5 text-xs font-semibold">
             <Link
               href="https://github.com/pth-1641"
               target="_blank"
@@ -60,7 +60,7 @@ export const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="bg-black pt-6 pb-8">
+      <div className="bg-black pt-6 pb-8 px-5">
         <p className="max-w-7xl mx-auto text-sm font-medium">
           Copyright © {new Date().getFullYear()}. All Rights Reserved By{' '}
           <span className="text-primary">ThunMov</span>

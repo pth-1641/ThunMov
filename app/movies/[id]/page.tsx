@@ -21,7 +21,7 @@ export default async function Movie(context: MovieContext) {
   return (
     <>
       <MovieDetails movie={data} />
-      <div id="disqus_thread" className="max-w-5xl mx-auto mt-16"></div>
+      <div id="disqus_thread" className="max-w-5xl mx-auto mt-16 px-5"></div>
       <Script>
         {`(function() {
           var d = document, s = d.createElement('script');

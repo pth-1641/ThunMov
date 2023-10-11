@@ -2,14 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    @apply text-white;
-  }
-}
-
 @layer components {
   .dropdown-menu {
     @apply grid grid-cols-4 w-max gap-y-4 gap-x-6 absolute right-1/2 top-0 translate-x-1/2 bg-black/95 p-4 rounded text-xs opacity-0 pointer-events-none duration-150 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:top-8 before:absolute before:h-3 before:w-16 before:right-1/2 before:translate-x-1/2 before:-top-3 group-hover:text-white;
   }
+}
+
+html {
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #18181b;
+  border-radius: 3px;
 }

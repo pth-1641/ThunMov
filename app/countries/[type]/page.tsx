@@ -22,7 +22,7 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl">
+    <main className="mx-auto max-w-7xl px-5">
       <MoviePagination movies={data.items} />
       <Pagination currentPage={data.currentPage} totalPages={data.totalPages} />
     </main>

@@ -27,19 +27,19 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
       {movies.map((item: Movie) => (
         <SwiperSlide key={item._id}>
           <div
-            className="bg-cover w-full aspect-video max-h-[800px] relative bg-center"
+            className="bg-cover min-h-screen relative bg-center max-h-[800px] lg:min-h-0 lg:aspect-video"
             style={{ backgroundImage: `url(${imageCdnUrl + item.poster_url})` }}
           >
-            <div className="absolute inset-0 bg-black/90 flex items-center">
-              <div className="w-full max-w-7xl mx-auto flex items-center justify-between gap-8">
+            <div className="absolute inset-0 bg-black/80 md:bg-black/90 flex items-center">
+              <div className="w-full max-w-7xl px-4 mx-auto flex items-center justify-between gap-8">
                 <div>
-                  <h2 className="text-5xl font-extrabold leading-snug">
+                  <h2 className="text-4xl lg:text-5xl font-extrabold leading-snug">
                     {item.name}
                   </h2>
-                  <h3 className="text-primary font-bold text-lg">
+                  <h3 className="text-primary font-bold md:text-lg">
                     {item.origin_name}
                   </h3>
-                  <div className="font-medium flex items-center gap-5 my-10">
+                  <div className="font-medium flex flex-col gap-2.5 my-5 lg:my-10 lg:gap-5 lg:items-center lg:flex-row">
                     <div className="flex items-center gap-2 text-xs font-bold">
                       <span className="bg-white px-2.5 py-1 text-black">
                         {item.episode_current}
@@ -49,41 +49,43 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                       </span>
                     </div>
                     <ul className="flex items-center gap-2">
-                      {item.category.map((g, idx) => (
+                      {item.category.slice(0, 2).map((g, idx, arr) => (
                         <Link
                           href={`/genres/${g.slug}`}
                           key={g.id}
                           className="hover:text-primary"
                         >
                           {g.name}
-                          {idx + 1 !== item.category.length ? ',' : ''}
+                          {idx + 1 !== arr.length ? ',' : ''}
                         </Link>
                       ))}
                     </ul>
-                    <span className="flex items-center gap-2">
-                      <Icon
-                        icon="bx:calendar"
-                        className="text-primary"
-                        height={16}
-                      />
-                      {item.year}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Icon
-                        icon="akar-icons:clock"
-                        className="text-primary"
-                        height={16}
-                      />
-                      {item.time}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Icon
-                        icon="tdesign:subtitle"
-                        className="text-primary"
-                        height={16}
-                      />
-                      {item.lang}
-                    </span>
+                    <div className="flex items-center gap-5">
+                      <span className="flex items-center gap-2">
+                        <Icon
+                          icon="bx:calendar"
+                          className="text-primary"
+                          height={16}
+                        />
+                        {item.year}
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <Icon
+                          icon="akar-icons:clock"
+                          className="text-primary"
+                          height={16}
+                        />
+                        {item.time}
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <Icon
+                          icon="tdesign:subtitle"
+                          className="text-primary"
+                          height={16}
+                        />
+                        {item.lang}
+                      </span>
+                    </div>
                   </div>
                   <Link
                     href={`/movies/${item.slug}`}
@@ -96,7 +98,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                 <Image
                   src={imageCdnUrl + item.thumb_url}
                   alt={item.origin_name}
-                  className="aspect-[2/3] object-cover rounded-lg border-[14px] border-primary"
+                  className="hidden aspect-[2/3] w-[320px] h-[480px] object-cover rounded-lg border-[14px] border-primary md:block"
                   width={320}
                   height={480}
                 />

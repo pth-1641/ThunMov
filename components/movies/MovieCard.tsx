@@ -62,7 +62,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           </Link>
         </div>
       </div>
-      <h3 className="flex items-center justify-between my-3 gap-5">
+      <h3 className="flex items-center justify-between my-1.5 gap-5 md:my-3">
         <Link
           href={`/movies/${item.slug}`}
           className="hover:text-primary duration-150 text-lg font-bold truncate"
@@ -71,9 +71,11 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             {item.name}
           </abbr>
         </Link>
-        <span className="text-primary text-sm font-medium">{item.year}</span>
+        <span className="text-primary text-sm font-medium hidden md:block">
+          {item.year}
+        </span>
       </h3>
-      <div className="flex items-center gap-1 justify-between text-xs">
+      <div className="flex flex-col gap-1.5 justify-between text-xs md:items-center md:flex-row">
         <div className="flex items-center gap-2">
           <span className="border-2 border-white px-2 py-0.5">
             <strong className="text-primary">{item.quality}</strong>
@@ -82,7 +84,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             <strong className="text-black">{item.lang}</strong>
           </span>
         </div>
-        <span className="flex items-center gap-1.5">
+        <span className="flex items-center gap-2 truncate">
           <Icon icon="akar-icons:clock" className="text-primary" height={16} />
           {item.time || 'Đang cập nhật'}
         </span>

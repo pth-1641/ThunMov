@@ -19,9 +19,9 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
   const swiperRef = useRef<SwiperCore>();
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-5">
       <div className="flex items-center justify-between mb-6 mt-12">
-        <h3 className="text-3xl font-extrabold">{title}</h3>
+        <h3 className="text-2xl md:text-3xl font-extrabold">{title}</h3>
         <div className="flex items-center rounded-full border-2 border-white/10 text-white">
           <button
             className="px-3 py-1.5"
@@ -40,10 +40,25 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
       </div>
       <Swiper
         loop={true}
-        spaceBetween={30}
-        slidesPerView={4}
         onBeforeInit={(swiper) => {
           swiperRef.current = swiper;
+        }}
+        breakpoints={{
+          0: {
+            spaceBetween: 15,
+            slidesPerView: 2,
+            slidesPerGroup: 2,
+          },
+          640: {
+            spaceBetween: 20,
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+          },
+          1024: {
+            spaceBetween: 25,
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+          },
         }}
       >
         {movies.map((item) => (
