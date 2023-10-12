@@ -1,19 +1,30 @@
 'use client';
+import { socialsShare } from '@/constants';
 import { ModalContext } from '@/context/modal.context';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next-nprogress-bar';
-import { SyntheticEvent, useContext, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { SyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 export const Modal = () => {
   const { state, dispatch } = useContext(ModalContext);
+  const [isCopy, setIsCopy] = useState<boolean>(false);
   const { searchValue, videoTrailerId, modalType } = state;
   const inputRef = useRef<any>();
   const router = useRouter();
+  const { href } = location;
 
   useEffect(() => {
     if (modalType === 'search') inputRef.current?.focus();
     document.body.style.overflow = modalType ? 'hidden' : 'initial';
   }, [modalType]);
+
+  useEffect(() => {
+    if (!isCopy) return;
+    setTimeout(() => {
+      setIsCopy(false);
+    }, 3000);
+  }, [isCopy]);
 
   const handleSearch = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -69,9 +80,53 @@ export const Modal = () => {
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoTrailerId}?autoplay=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          className="aspect-video w-[80vw] max-w-4xl"
+          className="aspect-video w-[95vw] max-w-4xl"
           allowFullScreen
         />
+      )}
+      {modalType === 'share' && (
+        <div className="bg-zinc-900 rounded-lg p-6 w-[90vw] max-w-max">
+          <h3 className="text-center text-3xl font-bold">Chia sẻ</h3>
+          <ul className="flex items-center gap-3 my-6 overflow-auto pb-2">
+            {socialsShare.map((social) => (
+              <button
+                key={social.platform}
+                onClick={() =>
+                  window.open(social.baseHref + encodeURIComponent(href))
+                }
+                rel="noopener noreferrer"
+              >
+                <Icon
+                  icon={social.icon}
+                  height={56}
+                  color={social.platform === 'KakaoTalk' ? '#000' : '#fff'}
+                  style={{ backgroundColor: social.color }}
+                  className="p-3 rounded-full"
+                />
+              </button>
+            ))}
+          </ul>
+          <div className="relative bg-black p-4 rounded-lg border border-white/20">
+            <input
+              type="text"
+              value={href}
+              className="bg-transparent outline-none w-full"
+              readOnly={true}
+            />
+            <button
+              className={`rounded-full absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1.5 text-black text-sm font-bold flex items-center gap-1.5 ${
+                isCopy ? 'bg-green-500' : 'bg-primary'
+              }`}
+              onClick={() => {
+                navigator.clipboard.writeText(href);
+                setIsCopy(true);
+              }}
+            >
+              {isCopy && <Icon icon="ep:success-filled" height={18} />}
+              {isCopy ? 'Đã sao chép' : 'Sao chép'}
+            </button>
+          </div>
+        </div>
       )}
       {modalType === 'warning' && (
         <div className="max-w-xl w-[90vw] bg-white text-black p-5 rounded-lg">

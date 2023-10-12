@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 export type StateType = {
   hasShown: boolean;
-  modalType: null | 'trailer' | 'search' | 'warning' | 'toast';
+  modalType: null | 'trailer' | 'search' | 'warning' | 'share';
   videoTrailerId: string;
   searchValue: string;
 };
@@ -22,7 +22,7 @@ const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
     case 'TRAILER':
     case 'SEARCH':
-    case 'TOAST':
+    case 'SHARE':
     case 'WARNING':
       return { ...state, ...action.payload };
     case 'UPDATE_SESSION':

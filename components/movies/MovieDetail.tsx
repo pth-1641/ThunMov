@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useContext, useState, useEffect } from 'react';
 
 export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
+  const [src, setSrc] = useState<string>(movie.thumb_url);
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
   const [serverType, setServerType] = useState<'hls' | 'embed'>('embed');
   const { dispatch, state } = useContext(ModalContext);
@@ -40,12 +41,14 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
           <div className="w-full max-w-7xl mx-auto flex flex-col items-center gap-8 md:flex-row">
             <Image
-              src={imageCdnUrl + movie.thumb_url}
+              src={imageCdnUrl + src}
               alt={movie.name}
               height={450}
               width={300}
               className="object-cover w-[300px] h-[450px] bg-stone-900 aspect-[2/3] rounded"
               draggable={false}
+              loading="lazy"
+              onError={() => setSrc(movie.poster_url)}
             />
             <div>
               <h2 className="text-4xl font-extrabold lg:text-5xl">
@@ -132,12 +135,22 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 dangerouslySetInnerHTML={{ __html: movie.content }}
                 className="text-sm"
               />
-              <div className="border border-white/5 bg-white/5 px-7 py-4 flex items-center w-max rounded-lg mt-8 gap-5">
-                <div className="flex-col items-center gap-1 text-sm hidden md:flex">
+              <div className="border border-white/5 bg-white/5 px-4 md:px-7 py-4 flex items-center w-max rounded-lg mt-8 gap-2.5 md:gap-5">
+                <button
+                  className="flex-col justify-center items-center gap-1 text-sm flex hover:text-primary"
+                  onClick={() =>
+                    dispatch({
+                      type: 'SHARE',
+                      payload: {
+                        modalType: 'share',
+                      },
+                    })
+                  }
+                >
                   <Icon icon="solar:share-bold" height={18} />
                   Share
-                </div>
-                <span className="h-12 w-0.5 bg-white/10 hidden md:block" />
+                </button>
+                <span className="h-12 w-0.5 bg-white/10 md:block" />
                 <div className="flex items-center gap-3 text-sm font-bold">
                   <button
                     className="rounded-full bg-primary text-black px-8 py-3 disabled:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:text-white"
@@ -165,7 +178,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                         type: isFavourite ? 'REMOVE' : 'ADD',
                         payload: {
                           slug: movie.slug,
-                          thumb_url: movie.thumb_url,
+                          thumb_url: src,
                           name: movie.name,
                         },
                       });
@@ -188,8 +201,8 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         </div>
       </div>
       {selectedEpisode && (
-        <div className="mx-auto max-w-7xl px-5">
-          <div className="text-sm">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-sm px-5">
             {movie.episodes.map((server) => (
               <ul key={server.server_name}>
                 <p className="text-base font-bold mb-4 mt-8">

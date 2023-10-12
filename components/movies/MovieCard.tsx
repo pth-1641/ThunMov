@@ -5,7 +5,7 @@ import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 
 type MovieCardProps = {
   item: Movie;
@@ -13,16 +13,17 @@ type MovieCardProps = {
 
 export const MovieCard: FC<MovieCardProps> = ({ item }) => {
   const { state, dispatch } = useContext(AppContext);
+  const [src, setSrc] = useState<string>(item.thumb_url);
   const isFavourite = state.favMovies.some((m) => m.slug === item.slug);
 
   const handleFavourite = (type: 'ADD' | 'REMOVE') => {
-    const { slug, thumb_url, name } = item;
+    const { slug, name } = item;
     dispatch({
       type,
       payload: {
         slug,
-        thumb_url,
         name,
+        thumb_url: src,
       },
     });
   };
@@ -39,13 +40,19 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           />
         )}
         <Image
-          src={imageCdnUrl + item.thumb_url}
+          src={imageCdnUrl + src}
           alt={item.origin_name}
           className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
           width={300}
           height={450}
+          loading="lazy"
+          onError={() => setSrc(item.poster_url)}
         />
-        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center">
+        <Link
+          href={`/movies/${item.slug}`}
+          className="absolute inset-0 z-10 md:hidden"
+        />
+        <div className="absolute inset-0 bg-black/60 none flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center hidden md:flex">
           <button
             className={`rounded-full w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300 ${
               isFavourite ? 'bg-[#f00]' : 'bg-primary text-black'

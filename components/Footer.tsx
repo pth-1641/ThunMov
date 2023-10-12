@@ -18,7 +18,7 @@ export const Footer = () => {
         </Link>
         <span className="block h-0.5 bg-white/5 rounded my-8" />
         <div className="flex items-center justify-between flex-col md:flex-row gap-8 px-5">
-          <ul className="flex items-center flex-wrap gap-2.5 text-xs font-semibold lg:gap-14">
+          <ul className="flex items-center flex-wrap gap-x-8 gap-y-2 text-xs font-semibold lg:gap-14">
             <li className="hover:text-primary duration-150 cursor-pointer">
               FAQ
             </li>

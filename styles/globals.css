@@ -14,7 +14,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-  height: 6px;
+  height: 4px;
   width: 8px;
 }
 
@@ -23,6 +23,6 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #18181b;
+  background: #52525b;
   border-radius: 3px;
 }

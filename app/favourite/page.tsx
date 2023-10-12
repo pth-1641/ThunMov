@@ -59,6 +59,7 @@ export default function Favourite() {
                 height={450}
                 width={300}
                 className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center">
                 <button
