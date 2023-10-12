@@ -1,9 +1,9 @@
 'use client';
-import { socialsShare } from '@/constants';
+import { domain, socialsShare } from '@/constants';
 import { ModalContext } from '@/context/modal.context';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next-nprogress-bar';
-import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { SyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 export const Modal = () => {
@@ -12,7 +12,7 @@ export const Modal = () => {
   const { searchValue, videoTrailerId, modalType } = state;
   const inputRef = useRef<any>();
   const router = useRouter();
-  const { href } = location;
+  const pathname = usePathname();
 
   useEffect(() => {
     if (modalType === 'search') inputRef.current?.focus();
@@ -86,13 +86,17 @@ export const Modal = () => {
       )}
       {modalType === 'share' && (
         <div className="bg-zinc-900 rounded-lg p-6 w-[90vw] max-w-max">
-          <h3 className="text-center text-3xl font-bold">Chia sẻ</h3>
+          <h3 className="text-center text-2xl font-bold sm:text-3xl">
+            Chia sẻ
+          </h3>
           <ul className="flex items-center gap-3 my-6 overflow-auto pb-2">
             {socialsShare.map((social) => (
               <button
                 key={social.platform}
                 onClick={() =>
-                  window.open(social.baseHref + encodeURIComponent(href))
+                  window.open(
+                    social.baseHref + encodeURIComponent(domain + pathname)
+                  )
                 }
                 rel="noopener noreferrer"
               >
@@ -106,19 +110,19 @@ export const Modal = () => {
               </button>
             ))}
           </ul>
-          <div className="relative bg-black p-4 rounded-lg border border-white/20">
+          <div className="bg-black p-4 rounded-lg border border-white/20 flex items-center gap-1">
             <input
               type="text"
-              value={href}
+              value={domain + pathname}
               className="bg-transparent outline-none w-full"
               readOnly={true}
             />
             <button
-              className={`rounded-full absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1.5 text-black text-sm font-bold flex items-center gap-1.5 ${
+              className={`rounded-full min-w-max px-2.5 py-1.5 text-black text-sm font-bold flex items-center gap-1.5 ${
                 isCopy ? 'bg-green-500' : 'bg-primary'
               }`}
               onClick={() => {
-                navigator.clipboard.writeText(href);
+                navigator.clipboard.writeText(domain + pathname);
                 setIsCopy(true);
               }}
             >

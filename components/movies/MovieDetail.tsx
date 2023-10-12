@@ -192,7 +192,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                       }
                       height={20}
                     />
-                    {isFavourite ? 'Bỏ yêu thích' : 'Yêu thích'}
+                    {isFavourite ? 'Bỏ thích' : 'Yêu thích'}
                   </button>
                 </div>
               </div>

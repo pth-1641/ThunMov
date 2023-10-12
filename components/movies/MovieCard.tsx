@@ -59,7 +59,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             }`}
             onClick={() => handleFavourite(isFavourite ? 'REMOVE' : 'ADD')}
           >
-            {isFavourite ? 'Bỏ Yêu Thích' : 'Yêu Thích'}
+            {isFavourite ? 'Bỏ Thích' : 'Yêu Thích'}
           </button>
           <Link
             href={`/movies/${item.slug}`}

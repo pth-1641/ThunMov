@@ -41,7 +41,7 @@ export default function Favourite() {
   return (
     <div className="max-w-7xl mx-auto px-5">
       <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
-        Yêu thích
+        Yêu Thích
       </h2>
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-14">
         {movies.map((movie) => (
@@ -73,7 +73,7 @@ export default function Favourite() {
                     })
                   }
                 >
-                  Bỏ Yêu Thích
+                  Bỏ Thích
                 </button>
                 <Link
                   href={`/movies/${movie.slug}`}
