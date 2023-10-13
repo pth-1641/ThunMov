@@ -83,7 +83,7 @@ export default function Favourite() {
               href={`/movies/${movie.slug}`}
               className="hover:text-primary duration-150 text-lg font-bold mt-1.5 block"
             >
-              <abbr title={movie.name} className="no-underline">
+              <abbr title={movie.name} className="no-underline line-clamp-2">
                 {movie.name}
               </abbr>
             </Link>

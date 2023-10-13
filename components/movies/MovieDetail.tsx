@@ -46,7 +46,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               className="aspect-[2/3] rounded w-full max-w-[300px]"
               onError={() => setSrc(movie.poster_url)}
             />
-            <div>
+            <div className="w-full">
               <h2 className="text-4xl font-extrabold lg:text-5xl">
                 {movie.name}
               </h2>
