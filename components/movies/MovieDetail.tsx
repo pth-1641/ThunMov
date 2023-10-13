@@ -27,7 +27,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         },
       });
     }
-    if (movie.status !== 'trailer') {
+    if (movie.status !== 'trailer' && movie.episode_current !== 'Tập 0') {
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
   }, []);
@@ -43,9 +43,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
             <Image
               src={imageCdnUrl + src}
               alt={movie.name}
-              height={450}
-              width={300}
-              className="object-cover w-[300px] h-[450px] aspect-[2/3] rounded"
+              className="aspect-[2/3] rounded w-full max-w-[300px]"
               onError={() => setSrc(movie.poster_url)}
             />
             <div>

@@ -42,9 +42,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         <Image
           src={imageCdnUrl + src}
           alt={item.origin_name}
-          className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
-          width={300}
-          height={450}
+          className="aspect-[2/3]"
           onError={() => setSrc(item.poster_url)}
         />
         <Link

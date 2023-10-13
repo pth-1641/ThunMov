@@ -23,7 +23,6 @@ const TvShowCard = ({ show }: { show: Movie }) => {
         <Image
           src={imageCdnUrl + src}
           alt={show.name}
-          className="w-full h-full object-cover"
           width={256}
           height={144}
           onError={() => setSrc(show.thumb_url)}

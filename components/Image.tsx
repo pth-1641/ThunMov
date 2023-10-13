@@ -11,18 +11,25 @@ type ImageProps = {
 };
 
 export const Image: FC<ImageProps> = (props) => {
-  const { src, alt = '', className = '', height, width, onError } = props;
+  const {
+    src,
+    alt = '',
+    className = '',
+    height = 450,
+    width = 300,
+    onError,
+  } = props;
 
   const [isComplete, setIsComplete] = useState<boolean>(false);
 
   return (
-    <div className="bg-stone-900 rounded overflow-hidden">
+    <div className={`bg-stone-900 overflow-hidden ${className}`}>
       <img
         src={src}
         alt={alt}
-        className={`duration-300 ${
+        className={`duration-300 object-cover h-full w-full ${
           isComplete ? 'opacity-100' : 'opacity-0'
-        } ${className}`}
+        } `}
         width={width}
         height={height}
         onLoad={() => setIsComplete(true)}
