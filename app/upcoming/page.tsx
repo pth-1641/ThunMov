@@ -1,8 +1,8 @@
+import { Image } from '@/components/Image';
 import { imageCdnUrl } from '@/constants';
 import { useFetch } from '@/hooks';
 import { useMetadata } from '@/hooks/useMetadata';
 import { Movie } from '@/types';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -68,7 +68,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     alt={movie.name}
                     width={80}
                     height={112}
-                    className="bg-stone-900 w-20 h-28 object-cover rounded"
+                    className="w-20 h-28 object-cover rounded"
                   />
                   <div>
                     <h3 className="font-semibold text-base text-primary">

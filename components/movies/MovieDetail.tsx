@@ -4,9 +4,9 @@ import { AppContext } from '@/context/app.context';
 import { ModalContext } from '@/context/modal.context';
 import { Episode, MovieDetail } from '@/types';
 import { Icon } from '@iconify/react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Image } from '../Image';
 
 export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
   const [src, setSrc] = useState<string>(movie.thumb_url);
@@ -45,9 +45,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               alt={movie.name}
               height={450}
               width={300}
-              className="object-cover w-[300px] h-[450px] bg-stone-900 aspect-[2/3] rounded"
-              draggable={false}
-              loading="lazy"
+              className="object-cover w-[300px] h-[450px] aspect-[2/3] rounded"
               onError={() => setSrc(movie.poster_url)}
             />
             <div>

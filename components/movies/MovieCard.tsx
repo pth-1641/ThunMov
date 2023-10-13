@@ -3,7 +3,7 @@ import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
-import Image from 'next/image';
+import { Image } from '../Image';
 import Link from 'next/link';
 import { FC, useContext, useState } from 'react';
 
@@ -45,7 +45,6 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
           width={300}
           height={450}
-          loading="lazy"
           onError={() => setSrc(item.poster_url)}
         />
         <Link

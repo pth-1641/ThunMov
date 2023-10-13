@@ -1,10 +1,9 @@
 'use client';
+import { Image } from '@/components/Image';
 import { Pagination } from '@/components/Pagination';
 import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { Icon } from '@iconify/react';
-import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
@@ -58,8 +57,7 @@ export default function Favourite() {
                 alt={movie.name}
                 height={450}
                 width={300}
-                className="bg-stone-900 object-cover w-full h-full aspect-[2/3]"
-                loading="lazy"
+                className="object-cover w-full h-full aspect-[2/3]"
               />
               <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center">
                 <button

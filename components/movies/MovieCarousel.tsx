@@ -2,7 +2,7 @@
 import { imageCdnUrl } from '@/constants';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import Image from 'next/image';
+import { Image } from '../Image';
 import Link from 'next/link';
 import { FC } from 'react';
 import { EffectFade, Autoplay } from 'swiper/modules';

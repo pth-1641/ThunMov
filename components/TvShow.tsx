@@ -2,9 +2,9 @@
 import { imageCdnUrl } from '@/constants';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useState, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { Image } from './Image';
 
 type TvShowProps = {
   shows: Movie[];
@@ -27,11 +27,10 @@ const TvShowCard = ({ show }: { show: Movie }) => {
         <Image
           src={imageCdnUrl + src}
           alt={show.name}
-          className="bg-stone-900 w-full h-full object-cover"
+          className="w-full h-full object-cover"
           width={256}
           height={144}
           onError={() => setSrc(show.thumb_url)}
-          onLoad={() => setSrc(show.poster_url)}
         />
         <span className="absolute inset-0 opacity-0 bg-black/70 flex items-center justify-center duration-300 group-hover:opacity-100">
           <Icon
