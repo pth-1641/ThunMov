@@ -13,10 +13,6 @@ type TvShowProps = {
 const TvShowCard = ({ show }: { show: Movie }) => {
   const [src, setSrc] = useState<string>(show.poster_url);
 
-  useEffect(() => {
-    setSrc('');
-  }, [show]);
-
   return (
     <Link
       key={show._id}
