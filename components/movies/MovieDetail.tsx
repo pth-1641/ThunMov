@@ -8,10 +8,12 @@ import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Image } from '../Image';
 
+type ServerType = 'art-player' | 'plyr' | 'videojs';
+
 export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
   const [src, setSrc] = useState<string>('');
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
-  const [serverType, setServerType] = useState<'hls' | 'embed'>('embed');
+  const [serverType, setServerType] = useState<ServerType>('art-player');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const { dispatch, state } = useContext(ModalContext);
@@ -243,19 +245,27 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               <div className="flex items-center justify-center gap-2">
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'embed' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === 'art-player' ? 'bg-blue-500' : 'bg-white/5'
                   }`}
-                  onClick={() => setServerType('embed')}
+                  onClick={() => setServerType('art-player')}
                 >
                   Server 1
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'hls' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === 'plyr' ? 'bg-blue-500' : 'bg-white/5'
                   }`}
-                  onClick={() => setServerType('hls')}
+                  onClick={() => setServerType('plyr')}
                 >
                   Server 2
+                </button>
+                <button
+                  className={`rounded px-4 py-0.5 ${
+                    serverType === 'videojs' ? 'bg-blue-500' : 'bg-white/5'
+                  }`}
+                  onClick={() => setServerType('videojs')}
+                >
+                  Server 3
                 </button>
               </div>
               <p className="text-red-500 text-center text-sm mt-2 mb-5">
@@ -264,11 +274,14 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               <iframe
                 ref={iframeRef}
                 src={
-                  serverType === 'hls'
-                    ? `https://www.hlsplayer.org/play?url=${selectedEpisode.link_m3u8}`
-                    : selectedEpisode.link_embed
+                  serverType === 'art-player'
+                    ? selectedEpisode.link_embed
+                    : `https://www.hls-player.net/search?q=player${
+                        serverType === 'plyr' ? '1' : '3'
+                      }&video_links=${selectedEpisode.link_m3u8}`
                 }
                 className="w-full aspect-video"
+                scrolling="no"
                 allowFullScreen
                 referrerPolicy="no-referrer"
               />
