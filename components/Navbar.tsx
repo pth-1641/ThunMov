@@ -34,7 +34,7 @@ const MobileMenu = () => {
       <div
         className={`fixed inset-0 z-40 duration-300 ${
           openMenu
-            ? 'pointer-events-auto bg-black/90 overflow-auto'
+            ? 'pointer-events-auto bg-black/90 overflow-y-auto overflow-x-hidden'
             : 'pointer-events-none'
         }`}
         onClick={(e) => {
