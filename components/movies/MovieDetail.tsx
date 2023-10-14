@@ -5,13 +5,15 @@ import { ModalContext } from '@/context/modal.context';
 import { Episode, MovieDetail } from '@/types';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Image } from '../Image';
 
 export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
-  const [src, setSrc] = useState<string>(movie.thumb_url);
+  const [src, setSrc] = useState<string>('');
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
   const [serverType, setServerType] = useState<'hls' | 'embed'>('embed');
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
   const { dispatch, state } = useContext(ModalContext);
   const appContext = useContext(AppContext);
   const isFavourite = appContext.state.favMovies.some(
@@ -19,6 +21,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
   );
 
   useEffect(() => {
+    setSrc(movie.thumb_url);
     if (!state.hasShown && movie.category.some((c) => c.slug === 'phim-18')) {
       dispatch({
         type: 'WARNING',
@@ -104,8 +107,10 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
               <div className="flex items-center gap-5">
                 <span className="flex items-center gap-2">
                   <Icon icon="jam:movie" className="text-primary" height={16} />
-                  {movie.episode_current} /{' '}
-                  {movie.episode_total === '1' ? 'Full' : movie.episode_total}
+                  {movie.episode_current === 'Full'
+                    ? '1'
+                    : movie.episode_current.match(/\d+/)}{' '}
+                  / {movie.episode_total}
                 </span>
                 <div className="flex items-center gap-2 my-2">
                   <Icon
@@ -131,7 +136,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 dangerouslySetInnerHTML={{ __html: movie.content }}
                 className="text-sm"
               />
-              <div className="border border-white/5 bg-white/5 px-4 md:px-7 py-4 flex items-center w-max rounded-lg mt-8 gap-2.5 md:gap-5">
+              <div className="border border-white/5 bg-white/5 px-4 py-4 flex items-center w-max rounded-lg mt-8 gap-1.5 md:gap-5 md:px-7">
                 <button
                   className="flex-col justify-center items-center gap-1 text-sm flex hover:text-primary"
                   onClick={() =>
@@ -170,6 +175,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                         : 'bg-black/70 border-primary hover:bg-primary hover:text-black'
                     } flex items-center gap-2 rounded-full border-2 px-5 py-2.5 duration-300`}
                     onClick={() => {
+                      console.log(src);
                       appContext.dispatch({
                         type: isFavourite ? 'REMOVE' : 'ADD',
                         payload: {
@@ -210,7 +216,12 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 >
                   {server.server_data.map((ep) => (
                     <button
-                      onClick={() => setSelectedEpisode(ep)}
+                      onClick={() => {
+                        setSelectedEpisode(ep);
+                        iframeRef.current?.scrollIntoView({
+                          behavior: 'smooth',
+                        });
+                      }}
                       key={ep.slug}
                       className={`
                     ${
@@ -251,6 +262,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 Vui lòng đổi server nếu không xem được
               </p>
               <iframe
+                ref={iframeRef}
                 src={
                   serverType === 'hls'
                     ? `https://www.hlsplayer.org/play?url=${selectedEpisode.link_m3u8}`
