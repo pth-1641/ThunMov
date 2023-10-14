@@ -1,10 +1,11 @@
 import { MovieDetails } from '@/components/movies/MovieDetail';
-import { domain } from '@/constants';
 import { useFetch } from '@/hooks';
 import { useMetadata } from '@/hooks/useMetadata';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
+
+export const revalidate = 3600;
 
 type MovieContext = {
   params: { id: string };
@@ -47,7 +48,7 @@ export async function generateMetadata({
     });
   }
 
-  const { name, origin_name, year, quality, lang, content } = data;
+  const { name, origin_name, year, quality, lang, content, thumb_url } = data;
 
   return useMetadata({
     title: `${name} - ${origin_name} (${year}) [${quality} - ${lang}]`,
