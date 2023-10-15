@@ -68,7 +68,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     alt={movie.name}
                     width={80}
                     height={112}
-                    className="w-20 h-28 object-cover rounded"
+                    className="w-full max-w-[80px] h-28 object-cover rounded"
                   />
                   <div>
                     <h3 className="font-semibold text-base text-primary">

@@ -1,7 +1,7 @@
 'use client';
 import { Movie } from '@/types';
 import { useParams, usePathname } from 'next/navigation';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { MovieCard } from './MovieCard';
 import { countries, genres } from '@/constants';
 

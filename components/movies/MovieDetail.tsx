@@ -32,10 +32,16 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         },
       });
     }
-    if (movie.status !== 'trailer' && movie.episode_current !== 'Tập 0') {
+    console.log(movie);
+    if (!['Tập 0', 'Trailer'].includes(movie.episode_current)) {
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
   }, []);
+
+  useEffect(() => {
+    if (!iframeRef.current) return;
+    iframeRef.current.src += '';
+  }, [serverType]);
 
   return (
     <>
@@ -111,8 +117,8 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                   <Icon icon="jam:movie" className="text-primary" height={16} />
                   {movie.episode_current === 'Full'
                     ? '1'
-                    : movie.episode_current.match(/\d+/)}{' '}
-                  / {movie.episode_total}
+                    : movie.episode_current.match(/\d+/) ?? 0}{' '}
+                  / {movie.episode_total === 'Full' ? '1' : movie.episode_total}
                 </span>
                 <div className="flex items-center gap-2 my-2">
                   <Icon
@@ -280,8 +286,11 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                         serverType === 'plyr' ? '1' : '3'
                       }&video_links=${selectedEpisode.link_m3u8}`
                 }
-                className="w-full aspect-video"
+                className="w-full aspect-video overflow-hidden bg-stone-900"
                 scrolling="no"
+                sandbox={
+                  serverType === 'art-player' ? undefined : 'allow-scripts'
+                }
                 allowFullScreen
                 referrerPolicy="no-referrer"
               />
