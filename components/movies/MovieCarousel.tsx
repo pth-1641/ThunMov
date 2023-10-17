@@ -27,7 +27,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
       {movies.map((item: Movie) => (
         <SwiperSlide key={item._id}>
           <div
-            className="bg-cover min-h-screen relative bg-center max-h-[800px] lg:min-h-0 lg:aspect-video"
+            className="bg-cover min-h-screen relative bg-center max-h-[800px] lg:min-h-0 lg:aspect-video bg-black"
             style={{ backgroundImage: `url(${imageCdnUrl + item.poster_url})` }}
           >
             <div className="absolute inset-0 bg-black/80 md:bg-black/90 flex items-center">
