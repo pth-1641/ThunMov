@@ -21,11 +21,16 @@ export const Image: FC<ImageProps> = (props) => {
   } = props;
 
   const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [imgSrc, setImgSrc] = useState<string>('');
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, []);
 
   return (
     <div className={`bg-stone-900 overflow-hidden ${className}`}>
       <img
-        src={src}
+        src={imgSrc}
         alt={alt}
         className={`duration-300 object-cover h-full w-full ${
           isComplete ? 'opacity-100' : 'opacity-0'

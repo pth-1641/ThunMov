@@ -32,7 +32,6 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         },
       });
     }
-    console.log(movie);
     if (!['Tập 0', 'Trailer'].includes(movie.episode_current)) {
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
@@ -183,7 +182,6 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                         : 'bg-black/70 border-primary hover:bg-primary hover:text-black'
                     } flex items-center gap-2 rounded-full border-2 px-5 py-2.5 duration-300`}
                     onClick={() => {
-                      console.log(src);
                       appContext.dispatch({
                         type: isFavourite ? 'REMOVE' : 'ADD',
                         payload: {
