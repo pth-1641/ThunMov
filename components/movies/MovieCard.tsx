@@ -1,11 +1,10 @@
 'use client';
-import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
-import { Image } from '../Image';
 import Link from 'next/link';
 import { FC, useContext, useState } from 'react';
+import { Image } from '../Image';
 
 type MovieCardProps = {
   item: Movie;
@@ -40,7 +39,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           />
         )}
         <Image
-          src={imageCdnUrl + src}
+          src={src}
           alt={item.origin_name}
           className="aspect-[2/3]"
           onError={() => setSrc(item.poster_url)}

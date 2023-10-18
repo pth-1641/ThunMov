@@ -1,9 +1,6 @@
 import { Pagination } from '@/components/Pagination';
 import { TvShow } from '@/components/TvShow';
-import { domain } from '@/constants';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
-import { Metadata } from 'next';
+import { useFetch, useMetadata } from '@/hooks';
 import { notFound } from 'next/navigation';
 
 type TvShowContext = {

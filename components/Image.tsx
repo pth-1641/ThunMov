@@ -1,4 +1,5 @@
 'use client';
+import { imageCdnUrl } from '@/constants';
 import { FC, useEffect, useState } from 'react';
 
 type ImageProps = {
@@ -25,12 +26,12 @@ export const Image: FC<ImageProps> = (props) => {
 
   useEffect(() => {
     setImgSrc(src);
-  }, []);
+  }, [src]);
 
   return (
     <div className={`bg-stone-900 overflow-hidden ${className}`}>
       <img
-        src={imgSrc}
+        src={imageCdnUrl + imgSrc}
         alt={alt}
         className={`duration-300 object-cover h-full w-full ${
           isComplete ? 'opacity-100' : 'opacity-0'

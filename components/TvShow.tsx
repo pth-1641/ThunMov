@@ -1,9 +1,8 @@
 'use client';
-import { imageCdnUrl } from '@/constants';
 import { Movie } from '@/types';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Image } from './Image';
 
 type TvShowProps = {
@@ -19,12 +18,13 @@ const TvShowCard = ({ show }: { show: Movie }) => {
       href={`/movies/${show.slug}`}
       className="flex gap-3 group bg-white/5 rounded rounded-l-lg"
     >
-      <div className="aspect-video max-w-[196px] w-full h-36 rounded-lg overflow-hidden relative md:max-w-[256px]">
+      <div className="max-w-[196px] w-full h-36 rounded-lg overflow-hidden relative md:max-w-[256px]">
         <Image
-          src={imageCdnUrl + src}
+          src={src}
           alt={show.name}
           width={256}
           height={144}
+          className="h-full aspect-video"
           onError={() => setSrc(show.thumb_url)}
         />
         <span className="absolute inset-0 opacity-0 bg-black/70 flex items-center justify-center duration-300 group-hover:opacity-100">

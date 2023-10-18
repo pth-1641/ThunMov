@@ -1,5 +1,4 @@
 import { Image } from '@/components/Image';
-import { imageCdnUrl } from '@/constants';
 import { useFetch } from '@/hooks';
 import { useMetadata } from '@/hooks/useMetadata';
 import { Movie } from '@/types';
@@ -64,7 +63,7 @@ export default async function Upcoming(context: UpcomingContext) {
                   className="p-4 flex items-center gap-2 text-left"
                 >
                   <Image
-                    src={imageCdnUrl + movie.thumb_url}
+                    src={movie.thumb_url}
                     alt={movie.name}
                     width={80}
                     height={112}

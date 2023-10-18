@@ -96,7 +96,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                   </Link>
                 </div>
                 <Image
-                  src={imageCdnUrl + item.thumb_url}
+                  src={item.thumb_url}
                   alt={item.origin_name}
                   className="hidden aspect-[2/3] w-full max-w-[320px] rounded-lg border-[14px] border-primary md:block"
                   width={320}

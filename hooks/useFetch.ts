@@ -1,6 +1,6 @@
 import { domain } from '@/constants';
 
-export default async function useFetch(path: string, body?: any) {
+export const useFetch = async (path: string, body?: any) => {
   try {
     const res = await fetch(`${domain}/api${path}`, {
       method: 'POST',
@@ -24,4 +24,4 @@ export default async function useFetch(path: string, body?: any) {
       data: null,
     };
   }
-}
+};

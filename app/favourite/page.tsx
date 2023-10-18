@@ -1,7 +1,6 @@
 'use client';
 import { Image } from '@/components/Image';
 import { Pagination } from '@/components/Pagination';
-import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
@@ -53,7 +52,7 @@ export default function Favourite() {
                 height={28}
               />
               <Image
-                src={imageCdnUrl + movie.thumb_url}
+                src={movie.thumb_url}
                 alt={movie.name}
                 className="aspect-[2/3]"
               />

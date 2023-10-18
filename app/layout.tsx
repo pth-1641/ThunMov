@@ -2,9 +2,8 @@ import { Footer } from '@/components/Footer';
 import { Navbar } from '@/components/Navbar';
 import { AppContextProvider } from '@/context/app.context';
 import { ModalContextProvider } from '@/context/modal.context';
-import { useMetadata } from '@/hooks/useMetadata';
+import { useMetadata } from '@/hooks';
 import '@/styles/globals.css';
-import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import 'swiper/swiper-bundle.css';
 

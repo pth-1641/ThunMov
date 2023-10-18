@@ -1,6 +1,5 @@
 import { MovieDetails } from '@/components/movies/MovieDetail';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
+import { useFetch, useMetadata } from '@/hooks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';

@@ -1,8 +1,7 @@
 import { Pagination } from '@/components/Pagination';
 import { MovieCard } from '@/components/movies/MovieCard';
 import { movieTypes } from '@/constants';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
+import { useFetch, useMetadata } from '@/hooks';
 import { Movie } from '@/types';
 import { notFound } from 'next/navigation';
 

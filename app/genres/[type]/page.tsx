@@ -1,8 +1,7 @@
 import { MoviePagination } from '@/components/movies/MoviePagination';
 import { Pagination } from '@/components/Pagination';
-import { domain, genres } from '@/constants';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
+import { genres } from '@/constants';
+import { useFetch, useMetadata } from '@/hooks';
 import { notFound } from 'next/navigation';
 
 type MoviesGenreContext = {

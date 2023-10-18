@@ -51,7 +51,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
         <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
           <div className="w-full max-w-7xl mx-auto flex flex-col items-center gap-8 md:flex-row">
             <Image
-              src={imageCdnUrl + src}
+              src={src}
               alt={movie.name}
               className="aspect-[2/3] rounded w-full max-w-[300px]"
               onError={() => setSrc(movie.poster_url)}
