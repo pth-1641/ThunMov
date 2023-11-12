@@ -80,7 +80,7 @@ export const Modal = () => {
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoTrailerId}?autoplay=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          className="aspect-video w-[95vw] max-w-4xl"
+          className="aspect-video w-full max-w-4xl"
           allowFullScreen
         />
       )}

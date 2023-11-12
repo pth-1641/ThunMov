@@ -50,6 +50,10 @@ export const countries: Category[] = [
     slug: 'hong-kong',
   },
   {
+    name: 'Việt Nam',
+    slug: 'viet-nam',
+  },
+  {
     name: 'Ấn Độ',
     slug: 'an-do',
   },

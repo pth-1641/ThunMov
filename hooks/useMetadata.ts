@@ -5,10 +5,11 @@ type Params = {
   title: string;
   description: string;
   urlPath: string;
+  image?: string;
 };
 
 export const useMetadata = (params: Params) => {
-  const { title, description, urlPath } = params;
+  const { title, description, urlPath, image = '/icon.svg' } = params;
 
   return {
     title: `${title} | Thunmov`,
@@ -23,11 +24,13 @@ export const useMetadata = (params: Params) => {
       type: 'website',
       siteName: 'Thunmov',
       locale: 'vi-VN',
+      images: image,
     },
     twitter: {
       title: `${title} | Thunmov`,
       description,
       card: 'summary',
+      images: image,
     },
     referrer: 'origin',
     robots: {

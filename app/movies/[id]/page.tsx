@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 type MovieContext = {
   params: { id: string };
@@ -20,7 +20,7 @@ export default async function Movie(context: MovieContext) {
 
   return (
     <>
-      <MovieDetails movie={data} />
+      <MovieDetails movie={data} id={id} />
       <div id="disqus_thread" className="max-w-5xl mx-auto mt-16 px-5"></div>
       <Script>
         {`(function() {
@@ -47,11 +47,12 @@ export async function generateMetadata({
     });
   }
 
-  const { name, origin_name, year, quality, lang, content } = data;
+  const { name, origin_name, year, quality, lang, content, thumb_url } = data;
 
   return useMetadata({
     title: `${name} - ${origin_name} (${year}) [${quality} - ${lang}]`,
     description: content,
     urlPath: `/movies/${id}`,
+    image: thumb_url,
   });
 }

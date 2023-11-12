@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         primary: '#e4d804',
       },
+      screens: {
+        'hover-hover': { raw: '(hover: hover)' },
+      },
     },
   },
   plugins: [],

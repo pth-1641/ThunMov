@@ -59,6 +59,7 @@ const MobileMenu = () => {
             }`}
             onClick={() => handleOpenSubMenu('movie')}
           >
+            <Icon icon="icon-park-outline:movie" height={18} className="mr-2" />
             Loại Phim
             <Icon
               icon="icon-park-outline:right"
@@ -89,6 +90,11 @@ const MobileMenu = () => {
             }`}
             onClick={() => handleOpenSubMenu('genre')}
           >
+            <Icon
+              icon="ic:baseline-local-movies"
+              height={18}
+              className="mr-2"
+            />
             Thể Loại
             <Icon
               icon="icon-park-outline:right"
@@ -119,6 +125,7 @@ const MobileMenu = () => {
             }`}
             onClick={() => handleOpenSubMenu('country')}
           >
+            <Icon icon="jam:world" height={18} className="mr-2" />
             Quốc Gia
             <Icon
               icon="icon-park-outline:right"
@@ -145,16 +152,21 @@ const MobileMenu = () => {
           </ul>
           <Link
             href="/tv-shows"
-            className="block p-2.5 border-t border-white/10"
+            className="flex items-center gap-2 p-2.5 border-t border-white/10"
             onClick={() => setOpenMenu(false)}
           >
+            <Icon icon="eva:tv-fill" height={20} />
             TV Shows
           </Link>
           <Link
             href="/upcoming"
-            className="block p-2.5 border-t border-white/10"
+            className="flex items-center gap-2 p-2.5 border-t border-white/10"
             onClick={() => setOpenMenu(false)}
           >
+            <Icon
+              icon="material-symbols-light:event-upcoming-sharp"
+              height={20}
+            />
             Sắp Chiếu
           </Link>
         </div>

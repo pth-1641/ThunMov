@@ -4,13 +4,16 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     let { id } = await request.json();
-    const response = await fetch(`${baseUrl}/phim/${id}.json`);
+    const response = await fetch(`https://ophim1.com/phim/${id}`);
     const data = await response.json();
-    if (!id || !Object.keys(data.pageProps).length) {
+    if (!id || !data.status) {
       throw new Error('Invalid movie id');
     }
-    const { item } = data.pageProps.data;
-    return NextResponse.json(item);
+    const { movie, episodes } = data;
+    return NextResponse.json({
+      ...movie,
+      episodes,
+    });
   } catch (err) {
     return NextResponse.json({
       status: 'Fail',

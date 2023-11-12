@@ -1,16 +1,16 @@
 'use client';
-import { imageCdnUrl } from '@/constants';
 import { AppContext } from '@/context/app.context';
 import { ModalContext } from '@/context/modal.context';
 import { Episode, MovieDetail } from '@/types';
 import { Icon } from '@iconify/react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Image } from '../Image';
 
 type ServerType = 'art-player' | 'plyr' | 'videojs';
+type MovieDetailProps = { movie: MovieDetail; id: string };
 
-export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
+export const MovieDetails = ({ movie, id }: MovieDetailProps) => {
   const [src, setSrc] = useState<string>('');
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
   const [serverType, setServerType] = useState<ServerType>('art-player');
@@ -45,7 +45,7 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
   return (
     <>
       <div
-        style={{ backgroundImage: `url(${imageCdnUrl + movie.poster_url})` }}
+        style={{ backgroundImage: `url(${movie.poster_url})` }}
         className="bg-cover w-full aspect-video relative bg-center lg:max-h-[800px]"
       >
         <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
@@ -74,14 +74,14 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                 </div>
                 <ul className="flex items-center flex-wrap gap-x-2">
                   {movie.category.map((g, idx) => (
-                    <Link
+                    <NextLink
                       href={`/genres/${g.slug}`}
                       key={g.id}
                       className="hover:text-primary"
                     >
                       {g.name}
                       {idx + 1 !== movie.category.length ? ',' : ''}
-                    </Link>
+                    </NextLink>
                   ))}
                 </ul>
               </div>
@@ -127,14 +127,14 @@ export const MovieDetails = ({ movie }: { movie: MovieDetail }) => {
                   />
                   <ul className="flex items-center gap-2">
                     {movie.country.map((c, idx) => (
-                      <Link
-                        href={`/genres/${c.slug}`}
+                      <NextLink
+                        href={`/countries/${c.slug}`}
                         key={c.id}
                         className="hover:text-primary"
                       >
                         {c.name}
                         {idx + 1 !== movie.country.length ? ',' : ''}
-                      </Link>
+                      </NextLink>
                     ))}
                   </ul>
                 </div>

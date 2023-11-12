@@ -25,16 +25,24 @@ export const Image: FC<ImageProps> = (props) => {
   const [imgSrc, setImgSrc] = useState<string>('');
 
   useEffect(() => {
-    setImgSrc(src);
+    if (src.includes('https')) {
+      setImgSrc(src);
+    } else {
+      setImgSrc(imageCdnUrl + src);
+    }
   }, [src]);
 
   return (
-    <div className={`bg-stone-900 overflow-hidden ${className}`}>
+    <div
+      className={`bg-stone-900 overflow-hidden ${
+        isComplete ? 'animate-none' : 'animate-pulse'
+      } ${className}`}
+    >
       <img
-        src={imageCdnUrl + imgSrc}
+        src={imgSrc}
         alt={alt}
         className={`duration-300 object-cover h-full w-full ${
-          isComplete ? 'opacity-100' : 'opacity-0'
+          isComplete ? 'opacity-100 blur-none' : 'opacity-0 blur-lg'
         } `}
         width={width}
         height={height}
