@@ -25,11 +25,8 @@ export const Image: FC<ImageProps> = (props) => {
   const [imgSrc, setImgSrc] = useState<string>('');
 
   useEffect(() => {
-    if (src.includes('https')) {
-      setImgSrc(src);
-    } else {
-      setImgSrc(imageCdnUrl + src);
-    }
+    const pathname = src.replace(imageCdnUrl, '');
+    setImgSrc(pathname);
   }, [src]);
 
   return (
@@ -39,7 +36,7 @@ export const Image: FC<ImageProps> = (props) => {
       } ${className}`}
     >
       <img
-        src={imgSrc}
+        src={imageCdnUrl + imgSrc}
         alt={alt}
         className={`duration-300 object-cover h-full w-full ${
           isComplete ? 'opacity-100 blur-none' : 'opacity-0 blur-lg'

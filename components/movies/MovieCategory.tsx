@@ -8,9 +8,9 @@ import SwiperCore from 'swiper';
 import Link from 'next/link';
 
 type MovieCategoryProps = {
-  title: string;
   movies: Movie[];
-  pathAll: string;
+  title?: string;
+  pathAll?: string;
 };
 
 export const MovieCategory: FC<MovieCategoryProps> = (props) => {
@@ -67,13 +67,15 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <Link
-        href={pathAll}
-        className="flex items-center px-5 py-2 border-2 border-primary w-max mx-auto mt-8 hover:bg-primary duration-150 hover:text-black font-bold"
-      >
-        Xem Tất Cả
-        <Icon icon="icon-park-outline:right" height={20} />
-      </Link>
+      {pathAll && (
+        <Link
+          href={pathAll}
+          className="flex items-center px-5 py-2 border-2 border-primary w-max mx-auto mt-8 hover:bg-primary duration-150 hover:text-black font-bold"
+        >
+          Xem Tất Cả
+          <Icon icon="icon-park-outline:right" height={20} />
+        </Link>
+      )}
     </div>
   );
 };

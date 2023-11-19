@@ -32,7 +32,10 @@ export const MovieDetails = ({ movie, id }: MovieDetailProps) => {
         },
       });
     }
-    if (!['Tập 0', 'Trailer'].includes(movie.episode_current)) {
+    if (
+      !['Tập 0', 'Trailer'].includes(movie.episode_current) &&
+      movie.episodes[0].server_data[0].name
+    ) {
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
   }, []);

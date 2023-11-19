@@ -78,20 +78,26 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           {item.year}
         </span>
       </h3>
-      <div className="flex flex-col gap-1.5 justify-between text-xs md:items-center md:flex-row">
-        <div className="flex items-center gap-2">
-          <span className="border-2 border-white px-2 py-0.5">
-            <strong className="text-primary">{item.quality}</strong>
-          </span>
-          <span className="bg-white px-2 py-1">
-            <strong className="text-black">{item.lang}</strong>
+      {item.quality && (
+        <div className="flex flex-col gap-1.5 justify-between text-xs md:items-center md:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="border-2 border-white px-2 py-0.5">
+              <strong className="text-primary">{item.quality}</strong>
+            </span>
+            <span className="bg-white px-2 py-1">
+              <strong className="text-black">{item.lang}</strong>
+            </span>
+          </div>
+          <span className="flex items-center gap-2 truncate">
+            <Icon
+              icon="akar-icons:clock"
+              className="text-primary"
+              height={16}
+            />
+            {item.time || 'Đang cập nhật'}
           </span>
         </div>
-        <span className="flex items-center gap-2 truncate">
-          <Icon icon="akar-icons:clock" className="text-primary" height={16} />
-          {item.time || 'Đang cập nhật'}
-        </span>
-      </div>
+      )}
     </div>
   );
 };

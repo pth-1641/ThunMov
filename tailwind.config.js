@@ -11,9 +11,12 @@ module.exports = {
         primary: '#e4d804',
       },
       screens: {
-        'hover-hover': { raw: '(hover: hover)' },
+        touch: { raw: 'hover: none' },
       },
     },
   },
   plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 };

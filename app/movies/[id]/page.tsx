@@ -1,3 +1,4 @@
+import { MovieCategory } from '@/components/movies/MovieCategory';
 import { MovieDetails } from '@/components/movies/MovieDetail';
 import { useFetch, useMetadata } from '@/hooks';
 import { Metadata } from 'next';
@@ -15,13 +16,18 @@ export default async function Movie(context: MovieContext) {
     params: { id },
   } = context;
 
-  const { data } = await useFetch('/movies', { id });
-  if (!data) return notFound();
+  const [movie, recentUpdateMovies] = await Promise.all([
+    useFetch('/movies', { id }),
+    fetch('https://ophim1.com/danh-sach/phim-moi-cap-nhat')
+      .then((res) => res.json())
+      .then((data) => data.items),
+  ]);
+  if (!movie.data) return notFound();
 
   return (
     <>
-      <MovieDetails movie={data} id={id} />
-      <div id="disqus_thread" className="max-w-5xl mx-auto mt-16 px-5"></div>
+      <MovieDetails movie={movie.data} id={id} />
+      <div id="disqus_thread" className="max-w-5xl mx-auto my-16 px-5"></div>
       <Script>
         {`(function() {
           var d = document, s = d.createElement('script');
@@ -30,6 +36,7 @@ export default async function Movie(context: MovieContext) {
           (d.head || d.body).appendChild(s);
         })();`}
       </Script>
+      <MovieCategory movies={recentUpdateMovies} title="Phim mới cập nhật" />
     </>
   );
 }
