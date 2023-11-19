@@ -8,9 +8,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Image } from '../Image';
 
 type ServerType = 'art-player' | 'plyr' | 'videojs';
-type MovieDetailProps = { movie: MovieDetail; id: string };
+type MovieDetailProps = { movie: MovieDetail };
 
-export const MovieDetails = ({ movie, id }: MovieDetailProps) => {
+export const MovieDetails = ({ movie }: MovieDetailProps) => {
   const [src, setSrc] = useState<string>('');
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
   const [serverType, setServerType] = useState<ServerType>('art-player');

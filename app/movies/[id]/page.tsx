@@ -20,13 +20,13 @@ export default async function Movie(context: MovieContext) {
     useFetch('/movies', { id }),
     fetch('https://ophim1.com/danh-sach/phim-moi-cap-nhat')
       .then((res) => res.json())
-      .then((data) => data.items),
+      .then((data) => data.items.filter((item: any) => item.slug !== id)),
   ]);
   if (!movie.data) return notFound();
 
   return (
     <>
-      <MovieDetails movie={movie.data} id={id} />
+      <MovieDetails movie={movie.data} />
       <div id="disqus_thread" className="max-w-5xl mx-auto my-16 px-5"></div>
       <Script>
         {`(function() {
