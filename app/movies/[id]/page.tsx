@@ -36,7 +36,7 @@ export default async function Movie(context: MovieContext) {
           (d.head || d.body).appendChild(s);
         })();`}
       </Script>
-      <MovieCategory movies={recentUpdateMovies} title="Phim mới cập nhật" />
+      <MovieCategory movies={recentUpdateMovies} title="Phim mới cập nhật" slidesPerView={5} />
     </>
   );
 }

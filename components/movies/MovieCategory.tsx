@@ -11,10 +11,11 @@ type MovieCategoryProps = {
   movies: Movie[];
   title?: string;
   pathAll?: string;
+  slidesPerView?: number;
 };
 
 export const MovieCategory: FC<MovieCategoryProps> = (props) => {
-  const { title, movies, pathAll } = props;
+  const { title, movies, pathAll, slidesPerView = 4 } = props;
 
   const swiperRef = useRef<SwiperCore>();
 
@@ -56,8 +57,8 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
           },
           1024: {
             spaceBetween: 25,
-            slidesPerView: 4,
-            slidesPerGroup: 4,
+            slidesPerView,
+            slidesPerGroup: slidesPerView,
           },
         }}
       >
