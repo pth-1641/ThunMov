@@ -5,6 +5,7 @@ export const useFetch = async (path: string, body?: any) => {
     const res = await fetch(`${domain}/api${path}`, {
       method: 'POST',
       body: JSON.stringify(body),
+      cache: 'force-cache',
     });
     const data = await res.json();
     if (data.status === 'Fail') {

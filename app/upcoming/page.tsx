@@ -62,13 +62,15 @@ export default async function Upcoming(context: UpcomingContext) {
                   scope="row"
                   className="p-4 flex items-center gap-2 text-left"
                 >
-                  <Image
-                    src={movie.thumb_url}
-                    alt={movie.name}
-                    width={80}
-                    height={112}
-                    className="w-full max-w-[80px] h-28 object-cover rounded"
-                  />
+                  <Link href={`/movies/${movie.slug}`}>
+                    <Image
+                      src={movie.thumb_url}
+                      alt={movie.name}
+                      width={80}
+                      height={112}
+                      className="w-full max-w-[80px] h-28 object-cover rounded"
+                    />
+                  </Link>
                   <div>
                     <h3 className="font-semibold text-base text-primary">
                       {movie.name}

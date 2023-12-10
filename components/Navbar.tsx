@@ -14,7 +14,7 @@ const MobileMenu = () => {
 
   useEffect(() => {
     document.body.style.overflow = openMenu ? 'hidden' : 'auto';
-    if (openMenu) setMenuType(null);
+    if (!openMenu) setMenuType(null);
   }, [openMenu]);
 
   const handleOpenSubMenu = (type: MobileSubMenu) => {
@@ -70,9 +70,10 @@ const MobileMenu = () => {
             />
           </button>
           <ul
-            className={`grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2 ${
-              menuType === 'movie' ? 'h-max pb-2.5' : 'h-0'
-            }`}
+            className={
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2 duration-300'
+            }
+            style={{ maxHeight: menuType === 'movie' ? '50rem' : 0 }}
           >
             {movieTypes.slice(0, -3).map((type) => (
               <Link
@@ -83,6 +84,7 @@ const MobileMenu = () => {
                 {type.title}
               </Link>
             ))}
+            <span className="pb-2.5" />
           </ul>
           <button
             className={`flex items-center border-t w-full border-white/10 gap-0.5 p-2.5 ${
@@ -105,9 +107,10 @@ const MobileMenu = () => {
             />
           </button>
           <ul
-            className={`grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 ease ${
-              menuType === 'genre' ? 'h-max pb-2.5' : 'h-0'
-            }`}
+            className={
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300'
+            }
+            style={{ maxHeight: menuType === 'genre' ? '50rem' : 0 }}
           >
             {genres.map((genre) => (
               <Link
@@ -118,6 +121,7 @@ const MobileMenu = () => {
                 {genre.name}
               </Link>
             ))}
+            <span className="pb-2.5" />
           </ul>
           <button
             className={`flex items-center border-t w-full border-white/10 gap-0.5 p-2.5 ${
@@ -136,9 +140,10 @@ const MobileMenu = () => {
             />
           </button>
           <ul
-            className={`grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 ${
-              menuType === 'country' ? 'h-max pb-2.5' : 'h-0'
-            }`}
+            className={
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300'
+            }
+            style={{ maxHeight: menuType === 'country' ? '50rem' : 0 }}
           >
             {countries.map((country) => (
               <Link
@@ -149,6 +154,7 @@ const MobileMenu = () => {
                 {country.name}
               </Link>
             ))}
+            <span className="pb-2.5" />
           </ul>
           <Link
             href="/tv-shows"
