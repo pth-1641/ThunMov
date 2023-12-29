@@ -1,9 +1,9 @@
-import { Image } from "@/components/Image";
-import { useFetch } from "@/hooks";
-import { useMetadata } from "@/hooks/useMetadata";
-import { Movie } from "@/types";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { Image } from '@/components/Image';
+import { useFetch } from '@/hooks';
+import { useMetadata } from '@/hooks/useMetadata';
+import { Movie } from '@/types';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 type UpcomingContext = {
   searchParams: {
@@ -20,13 +20,14 @@ export default async function Upcoming(context: UpcomingContext) {
 
   const { data } = await useFetch(`/danh-sach/phim-sap-chieu?page=${page}`);
   if (!data) return notFound();
+  const totalPages = Math.ceil(data.params.pagination.totalItems / 24);
 
   const getMovieType = (type: string) => {
     const list: Record<string, string> = {
-      series: "Phim Bộ",
-      single: "Phim Lẻ",
-      tvshows: "TV Shows",
-      hoathinh: "Hoạt Hình",
+      series: 'Phim Bộ',
+      single: 'Phim Lẻ',
+      tvshows: 'TV Shows',
+      hoathinh: 'Hoạt Hình',
     };
     return list[type];
   };
@@ -66,9 +67,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     <Image
                       src={movie.thumb_url}
                       alt={movie.name}
-                      width={80}
-                      height={112}
-                      className="w-full max-w-[80px] h-28 object-cover rounded"
+                      className="w-[80px] h-28 object-cover rounded"
                     />
                   </Link>
                   <div>
@@ -83,7 +82,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     {movie.episode_current}
                   </span>
                 </td>
-                <td>{movie.time.replace("undefined", "???")}</td>
+                <td>{movie.time.replace('undefined', '???')}</td>
                 <td>{movie.year}</td>
                 <td>{getMovieType(movie.type)}</td>
                 <td>
@@ -127,13 +126,13 @@ export default async function Upcoming(context: UpcomingContext) {
       </div>
       <div className="flex items-center justify-between bg-white/5 text-sm py-2.5 px-4">
         <span>
-          Trang {page} / {Math.ceil(data.params.pagination.totalItems / 24)}
+          Trang {page} / {totalPages}
         </span>
         <div className="flex gap-5">
           {page > 1 && (
             <Link href={`/upcoming?page=${+page - 1}`}>Trang trước</Link>
           )}
-          {page < data.totalPages && (
+          {page < totalPages && (
             <Link href={`/upcoming?page=${+page + 1}`}>Trang sau</Link>
           )}
         </div>
@@ -142,9 +141,26 @@ export default async function Upcoming(context: UpcomingContext) {
   );
 }
 
-export const metadata = useMetadata({
-  title: "Phim Sắp Chiếu",
-  description:
-    "Xem trailer và những bộ phim sắp được công chiếu hay nhất. Cùng hóng những bộ phim mới sắp được chiếu rạp.",
-  urlPath: "/upcoming",
-});
+export async function generateMetadata(context: UpcomingContext) {
+  const {
+    searchParams: { page },
+  } = context;
+
+  const { data } = await useFetch(`/danh-sach/phim-sap-chieu?page=${page}`);
+  if (!data) {
+    return useMetadata({
+      title: 'Not Found',
+      description: 'The page is not found.',
+      urlPath: `/upcoming`,
+    });
+  }
+
+  return useMetadata({
+    title: `TV Shows`,
+    description: data.seoOnPage.descriptionHead.replace(
+      '2022',
+      new Date().getFullYear()
+    ),
+    urlPath: `/upcoming`,
+  });
+}

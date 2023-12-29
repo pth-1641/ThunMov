@@ -1,9 +1,8 @@
-import { MoviePagination } from "@/components/movies/MoviePagination";
-import { Pagination } from "@/components/Pagination";
-import { countries } from "@/constants";
-import { useFetch } from "@/hooks";
-import { useMetadata } from "@/hooks/";
-import { notFound } from "next/navigation";
+import { MoviePagination } from '@/components/movies/MoviePagination';
+import { Pagination } from '@/components/Pagination';
+import { useFetch } from '@/hooks';
+import { useMetadata } from '@/hooks/';
+import { notFound } from 'next/navigation';
 
 type MoviesCountryContext = {
   params: { type: string };
@@ -29,23 +28,24 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
   );
 }
 
-export function generateMetadata(context: MoviesCountryContext) {
+export async function generateMetadata(context: MoviesCountryContext) {
   const {
     params: { type },
+    searchParams: { page },
   } = context;
 
-  const country = countries.find((c) => c.slug === type);
-  if (!country) {
+  const { data } = await useFetch(`/quoc-gia/${type}?page=${page}`);
+  if (!data) {
     return useMetadata({
-      title: "Not Found",
-      description: "The page is not found.",
+      title: 'Not Found',
+      description: 'The page is not found.',
       urlPath: `/countries/${type}`,
     });
   }
 
   return useMetadata({
-    title: `Phim ${country.name}`,
-    description: `Phim ${country.name} - Tuyển tập danh sách phim ${country.name} hay nhất mọi thời đại vietsub và thuyết minh nhanh nhất.`,
+    title: `Phim ${data.titlePage}`,
+    description: `Phim ${data.titlePage} - Tuyển tập danh sách phim ${data.titlePage} hay nhất mọi thời đại vietsub và thuyết minh nhanh nhất.`,
     urlPath: `/countries/${type}`,
   });
 }

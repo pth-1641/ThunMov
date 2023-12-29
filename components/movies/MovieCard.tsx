@@ -33,17 +33,15 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         {isFavourite && (
           <Icon
             icon="ph:heart-fill"
-            className="absolute top-2.5 right-2.5"
+            className="absolute top-2.5 right-2.5 z-20"
             color="red"
             height={28}
           />
         )}
-        <Image
-          src={src}
-          alt={item.origin_name}
-          className="aspect-[2/3]"
-          onError={() => setSrc(item.poster_url)}
-        />
+        <span className="absolute top-2.5 left-2.5 rounded z-20 px-2.5 py-0.5 text-xs text-black bg-primary font-bold">
+          {item.episode_current.replace(/Hoàn Tất/i, '') || `(0/1)`}
+        </span>
+        <Image src={src} alt={item.origin_name} className="aspect-[2/3]" />
         <Link
           href={`/movies/${item.slug}`}
           className="absolute inset-0 z-10 md:hidden"
@@ -94,7 +92,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
               className="text-primary"
               height={16}
             />
-            {item.time || 'Đang cập nhật'}
+            {item.time.replace('undefined', '???') || 'Đang cập nhật'}
           </span>
         </div>
       )}

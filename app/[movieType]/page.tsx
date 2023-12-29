@@ -1,9 +1,9 @@
-import { Pagination } from "@/components/Pagination";
-import { MovieCard } from "@/components/movies/MovieCard";
-import { movieTypes } from "@/constants";
-import { useFetch, useMetadata } from "@/hooks";
-import { Movie } from "@/types";
-import { notFound } from "next/navigation";
+import { Pagination } from '@/components/Pagination';
+import { MovieCard } from '@/components/movies/MovieCard';
+import { movieTypes } from '@/constants';
+import { useFetch, useMetadata } from '@/hooks';
+import { Movie } from '@/types';
+import { notFound } from 'next/navigation';
 
 type MovieTypeContext = {
   params: { movieType: string };
@@ -16,16 +16,16 @@ type MovieTypeContext = {
 export default async function MovieType(context: MovieTypeContext) {
   const {
     params: { movieType },
-    searchParams: { page = 1, q = "" },
+    searchParams: { page = 1, q = '' },
   } = context;
 
   const type = movieTypes.find((t) => t.path === movieType);
   if (!type) return notFound();
 
   const { data } = await useFetch(
-    type.path === "tim-kiem"
-      ? `/tim-kiem?keyword=${q} &page=${page}`
-      : `/danh-sach/${type.path}&page=${page}`
+    type.path === 'tim-kiem'
+      ? `/tim-kiem?keyword=${q}&page=${page}`
+      : `/danh-sach/${type.path}?page=${page}`
   );
   if (!data) return notFound();
 
@@ -52,23 +52,28 @@ export default async function MovieType(context: MovieTypeContext) {
   );
 }
 
-export function generateMetadata(context: MovieTypeContext) {
+export async function generateMetadata(context: MovieTypeContext) {
   const {
     params: { movieType },
+    searchParams: { page },
   } = context;
 
   const movie = movieTypes.find((m) => m.path === movieType);
   if (!movie) {
     return useMetadata({
-      title: "Not Found",
-      description: "The page is not found.",
+      title: 'Not Found',
+      description: 'The page is not found.',
       urlPath: `/${movieType}`,
     });
   }
 
+  const { data } = await useFetch(`/danh-sach/${movie.path}?page=${page}`);
   return useMetadata({
     title: movie.title,
-    description: `Tuyển tập ${movie.title} mới nhất, Phim ngắn ít tập hay, Chọn lọc những bô phim bom tấn chiếu rập đình đám trong và ngoài nước.`,
+    description: data.seoOnPage.descriptionHead.replace(
+      '2022',
+      new Date().getFullYear()
+    ),
     urlPath: `/${movie.path}`,
   });
 }

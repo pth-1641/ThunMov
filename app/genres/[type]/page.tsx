@@ -1,8 +1,7 @@
-import { MoviePagination } from "@/components/movies/MoviePagination";
-import { Pagination } from "@/components/Pagination";
-import { genres } from "@/constants";
-import { useFetch, useMetadata } from "@/hooks";
-import { notFound } from "next/navigation";
+import { MoviePagination } from '@/components/movies/MoviePagination';
+import { Pagination } from '@/components/Pagination';
+import { useFetch, useMetadata } from '@/hooks';
+import { notFound } from 'next/navigation';
 
 type MoviesGenreContext = {
   params: { type: string };
@@ -28,23 +27,25 @@ export default async function MoviesGenre(context: MoviesGenreContext) {
   );
 }
 
-export function generateMetadata(context: MoviesGenreContext) {
+export async function generateMetadata(context: MoviesGenreContext) {
   const {
     params: { type },
+    searchParams: { page },
   } = context;
 
-  const genre = genres.find((g) => g.slug === type);
-  if (!genre) {
+  const { data } = await useFetch(`/the-loai/${type}?page=${page}`);
+  if (!data) {
     return useMetadata({
-      title: "Not Found",
-      description: "The page is not found.",
+      title: 'Not Found',
+      description: 'The page is not found.',
       urlPath: `/genres/${type}`,
     });
   }
 
+  const genre = data.titlePage.replace('Phim', '');
   return useMetadata({
-    title: `Phim ${genre.name}`,
-    description: `Kho phim ${genre.name} chọn lọc chất lượng cao hay nhất. Được cập nhật liên tục để phục vụ các mọt phim.`,
-    urlPath: `/movies/${type}`,
+    title: `Phim ${genre}`,
+    description: `Kho phim ${genre} chọn lọc chất lượng cao hay nhất. Được cập nhật liên tục để phục vụ các mọt phim.`,
+    urlPath: `/genres/${type}`,
   });
 }

@@ -1,7 +1,13 @@
-"use client";
-import { Category, ContextAction } from "@/types";
-import { Dispatch, createContext, useEffect, useReducer } from "react";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+'use client';
+import { ContextAction } from '@/types';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import {
+  Dispatch,
+  createContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 
 export type StateType = {
   favMovies: {
@@ -17,17 +23,17 @@ const initialState: StateType = {
 
 const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
-    case "INIT":
+    case 'INIT':
       return { ...state, favMovies: action.payload };
-    case "ADD":
+    case 'ADD':
       const favMovies = [...state.favMovies, action.payload];
-      localStorage.setItem("fav-movies", JSON.stringify(favMovies));
+      localStorage.setItem('fav-movies', JSON.stringify(favMovies));
       return { ...state, favMovies };
-    case "REMOVE":
+    case 'REMOVE':
       const filterMovies = state.favMovies.filter(
         (m) => m.slug !== action.payload.slug
       );
-      localStorage.setItem("fav-movies", JSON.stringify(filterMovies));
+      localStorage.setItem('fav-movies', JSON.stringify(filterMovies));
       return {
         ...state,
         favMovies: filterMovies,
@@ -48,11 +54,12 @@ export const AppContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [initApp, setInitApp] = useState<boolean>(true);
 
   useEffect(() => {
-    const favMovies = JSON.parse(localStorage.getItem("fav-movies") || "[]");
+    const favMovies = JSON.parse(localStorage.getItem('fav-movies') || '[]');
     dispatch({
-      type: "INIT",
+      type: 'INIT',
       payload: favMovies,
     });
   }, []);

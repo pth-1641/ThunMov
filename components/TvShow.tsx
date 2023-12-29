@@ -10,8 +10,6 @@ type TvShowProps = {
 };
 
 const TvShowCard = ({ show }: { show: Movie }) => {
-  const [src, setSrc] = useState<string>(show.poster_url);
-
   return (
     <Link
       key={show._id}
@@ -20,12 +18,11 @@ const TvShowCard = ({ show }: { show: Movie }) => {
     >
       <div className="w-full h-36 rounded-lg overflow-hidden relative max-w-[96px] md:max-w-[256px]">
         <Image
-          src={src}
+          src={show.poster_url}
           alt={show.name}
           width={256}
           height={144}
           className="h-full aspect-[2/3] sm:aspect-video"
-          onError={() => setSrc(show.thumb_url)}
         />
         <span className="absolute inset-0 opacity-0 bg-black/70 flex items-center justify-center duration-300 group-hover:opacity-100">
           <Icon

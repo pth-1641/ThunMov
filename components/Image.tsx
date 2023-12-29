@@ -8,18 +8,10 @@ type ImageProps = {
   width?: number;
   height?: number;
   className?: string;
-  onError?: () => any;
 };
 
 export const Image: FC<ImageProps> = (props) => {
-  const {
-    src,
-    alt = '',
-    className = '',
-    height = 450,
-    width = 300,
-    onError,
-  } = props;
+  const { src, alt = '', className = '', height = 450, width = 300 } = props;
 
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [imgSrc, setImgSrc] = useState<string>('');
@@ -44,7 +36,13 @@ export const Image: FC<ImageProps> = (props) => {
         width={width}
         height={height}
         onLoad={() => setIsComplete(true)}
-        onError={onError}
+        onError={() =>
+          setImgSrc(
+            imgSrc.includes('thumb')
+              ? imgSrc.replace('thumb', 'poster')
+              : imgSrc.replace('poster', 'thumb')
+          )
+        }
         loading="lazy"
         draggable={false}
       />

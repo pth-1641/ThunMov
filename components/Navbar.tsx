@@ -1,20 +1,26 @@
-"use client";
-import { movieTypes, genres, countries } from "@/constants";
-import { ModalContext } from "@/context/modal.context";
-import { useFetch } from "@/hooks";
-import { Category } from "@/types";
-import { Icon } from "@iconify/react";
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+'use client';
+import { movieTypes } from '@/constants';
+import { ModalContext } from '@/context/modal.context';
+import { useFetch } from '@/hooks';
+import { Category } from '@/types';
+import { Icon } from '@iconify/react';
+import Link from 'next/link';
+import { useContext, useEffect, useState } from 'react';
 
-type MobileSubMenu = "movie" | "genre" | "country" | null;
+type MobileSubMenu = 'movie' | 'genre' | 'country' | null;
 
-const MobileMenu = () => {
+const MobileMenu = ({
+  genres,
+  countries,
+}: {
+  genres: Category[];
+  countries: Category[];
+}) => {
   const [menuType, setMenuType] = useState<MobileSubMenu>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   useEffect(() => {
-    document.body.style.overflow = openMenu ? "hidden" : "auto";
+    document.body.style.overflow = openMenu ? 'hidden' : 'auto';
     if (!openMenu) setMenuType(null);
   }, [openMenu]);
 
@@ -35,8 +41,8 @@ const MobileMenu = () => {
       <div
         className={`fixed inset-0 z-40 duration-300 ${
           openMenu
-            ? "pointer-events-auto bg-black/90 overflow-y-auto overflow-x-hidden"
-            : "pointer-events-none"
+            ? 'pointer-events-auto bg-black/90 overflow-y-auto overflow-x-hidden'
+            : 'pointer-events-none'
         }`}
         onClick={(e) => {
           if (e.target !== e.currentTarget) return;
@@ -45,7 +51,7 @@ const MobileMenu = () => {
       >
         <div
           className={`absolute min-h-screen right-0 w-full max-w-xs bg-zinc-950 font-bold text-xl duration-300 overflow-auto ${
-            openMenu ? "translate-x-0" : "translate-x-full"
+            openMenu ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <Icon
@@ -56,9 +62,9 @@ const MobileMenu = () => {
           />
           <button
             className={`flex items-center w-full gap-0.5 p-2.5 ${
-              menuType === "movie" ? "text-primary" : ""
+              menuType === 'movie' ? 'text-primary' : ''
             }`}
-            onClick={() => handleOpenSubMenu("movie")}
+            onClick={() => handleOpenSubMenu('movie')}
           >
             <Icon icon="icon-park-outline:movie" height={18} className="mr-2" />
             Loại Phim
@@ -66,15 +72,15 @@ const MobileMenu = () => {
               icon="icon-park-outline:right"
               height={24}
               className={`duration-300 ${
-                menuType === "movie" ? "rotate-90" : ""
+                menuType === 'movie' ? 'rotate-90' : ''
               }`}
             />
           </button>
           <ul
             className={
-              "grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2 duration-300"
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2 duration-300'
             }
-            style={{ maxHeight: menuType === "movie" ? "50rem" : 0 }}
+            style={{ maxHeight: menuType === 'movie' ? '50rem' : 0 }}
           >
             {movieTypes.slice(0, -3).map((type) => (
               <Link
@@ -89,9 +95,9 @@ const MobileMenu = () => {
           </ul>
           <button
             className={`flex items-center border-t w-full border-white/10 gap-0.5 p-2.5 ${
-              menuType === "genre" ? "text-primary" : ""
+              menuType === 'genre' ? 'text-primary' : ''
             }`}
-            onClick={() => handleOpenSubMenu("genre")}
+            onClick={() => handleOpenSubMenu('genre')}
           >
             <Icon
               icon="ic:baseline-local-movies"
@@ -103,15 +109,15 @@ const MobileMenu = () => {
               icon="icon-park-outline:right"
               height={24}
               className={`duration-300 ${
-                menuType === "genre" ? "rotate-90" : ""
+                menuType === 'genre' ? 'rotate-90' : ''
               }`}
             />
           </button>
           <ul
             className={
-              "grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300"
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300'
             }
-            style={{ maxHeight: menuType === "genre" ? "50rem" : 0 }}
+            style={{ maxHeight: menuType === 'genre' ? '50rem' : 0 }}
           >
             {genres.map((genre) => (
               <Link
@@ -126,9 +132,9 @@ const MobileMenu = () => {
           </ul>
           <button
             className={`flex items-center border-t w-full border-white/10 gap-0.5 p-2.5 ${
-              menuType === "country" ? "text-primary" : ""
+              menuType === 'country' ? 'text-primary' : ''
             }`}
-            onClick={() => handleOpenSubMenu("country")}
+            onClick={() => handleOpenSubMenu('country')}
           >
             <Icon icon="jam:world" height={18} className="mr-2" />
             Quốc Gia
@@ -136,15 +142,15 @@ const MobileMenu = () => {
               icon="icon-park-outline:right"
               height={24}
               className={`duration-300 ${
-                menuType === "country" ? "rotate-90" : ""
+                menuType === 'country' ? 'rotate-90' : ''
               }`}
             />
           </button>
           <ul
             className={
-              "grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300"
+              'grid grid-cols-2 gap-x-2.5 gap-y-1 font-normal text-base overflow-hidden px-2.5 duration-300'
             }
-            style={{ maxHeight: menuType === "country" ? "50rem" : 0 }}
+            style={{ maxHeight: menuType === 'country' ? '50rem' : 0 }}
           >
             {countries.map((country) => (
               <Link
@@ -185,6 +191,8 @@ const MobileMenu = () => {
 export const Navbar = () => {
   const [displayBgColor, setDisplayBgColor] = useState<boolean>(false);
   const { dispatch } = useContext(ModalContext);
+  const [genres, setGenres] = useState<Category[]>([]);
+  const [countries, setCountries] = useState<Category[]>([]);
 
   useEffect(() => {
     function checkPositionHandler() {
@@ -192,14 +200,24 @@ export const Navbar = () => {
       else setDisplayBgColor(true);
     }
     checkPositionHandler();
-    window.addEventListener("scroll", checkPositionHandler);
-    return () => window.removeEventListener("scroll", checkPositionHandler);
+    window.addEventListener('scroll', checkPositionHandler);
+    return () => window.removeEventListener('scroll', checkPositionHandler);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const [{ data: genresData }, { data: countriesData }] = await Promise.all(
+        [useFetch('/the-loai'), useFetch('/quoc-gia')]
+      );
+      setGenres(genresData.items);
+      setCountries(countriesData.items);
+    })();
   }, []);
 
   return (
     <header
       className={`${
-        displayBgColor ? "bg-black" : "bg-transparent"
+        displayBgColor ? 'bg-black' : 'bg-transparent'
       }  py-3 fixed top-0 inset-x-0 z-40 duration-300`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4">
@@ -264,24 +282,28 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center gap-5">
-          <Icon
-            icon="iconamoon:search-bold"
-            className="text-primary cursor-pointer"
-            height={24}
-            onClick={() =>
-              dispatch({
-                type: "SEARCH",
-                payload: {
-                  modalType: "search",
-                },
-              })
-            }
-          />
+          <abbr title="Tìm kiếm">
+            <Icon
+              icon="iconamoon:search-bold"
+              className="text-primary cursor-pointer"
+              height={24}
+              onClick={() =>
+                dispatch({
+                  type: 'SEARCH',
+                  payload: {
+                    modalType: 'search',
+                  },
+                })
+              }
+            />
+          </abbr>
           <Link href="/favourite">
-            <Icon icon="mdi:heart-box" height={26} />
+            <abbr title="Yêu thích">
+              <Icon icon="mdi:heart-box" height={26} />
+            </abbr>
           </Link>
           {/* Mobile */}
-          <MobileMenu />
+          <MobileMenu {...{ countries, genres }} />
         </div>
       </nav>
     </header>

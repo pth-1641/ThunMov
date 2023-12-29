@@ -75,7 +75,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                           className="text-primary"
                           height={16}
                         />
-                        {item.time}
+                        {item.time.replace('undefined', '???')}
                       </span>
                       <span className="flex items-center gap-2">
                         <Icon

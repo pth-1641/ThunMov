@@ -1,4 +1,4 @@
-import { domain, baseUrl } from "@/constants";
+import { baseUrl } from '@/constants';
 
 export const useFetch = async (path: string) => {
   try {
