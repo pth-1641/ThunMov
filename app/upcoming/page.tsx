@@ -1,9 +1,9 @@
-import { Image } from '@/components/Image';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
-import { Movie } from '@/types';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { Image } from "@/components/Image";
+import { useFetch } from "@/hooks";
+import { useMetadata } from "@/hooks/useMetadata";
+import { Movie } from "@/types";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type UpcomingContext = {
   searchParams: {
@@ -18,15 +18,15 @@ export default async function Upcoming(context: UpcomingContext) {
 
   page = Number.isNaN(page) ? 1 : +page;
 
-  const { data } = await useFetch('/type', { movieType: 'upcoming', page });
+  const { data } = await useFetch(`/danh-sach/phim-sap-chieu?page=${page}`);
   if (!data) return notFound();
 
   const getMovieType = (type: string) => {
     const list: Record<string, string> = {
-      series: 'Phim Bộ',
-      single: 'Phim Lẻ',
-      tvshows: 'TV Shows',
-      hoathinh: 'Hoạt Hình',
+      series: "Phim Bộ",
+      single: "Phim Lẻ",
+      tvshows: "TV Shows",
+      hoathinh: "Hoạt Hình",
     };
     return list[type];
   };
@@ -83,7 +83,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     {movie.episode_current}
                   </span>
                 </td>
-                <td>{movie.time}</td>
+                <td>{movie.time.replace("undefined", "???")}</td>
                 <td>{movie.year}</td>
                 <td>{getMovieType(movie.type)}</td>
                 <td>
@@ -127,7 +127,7 @@ export default async function Upcoming(context: UpcomingContext) {
       </div>
       <div className="flex items-center justify-between bg-white/5 text-sm py-2.5 px-4">
         <span>
-          Trang {page} / {data.totalPages}
+          Trang {page} / {Math.ceil(data.params.pagination.totalItems / 24)}
         </span>
         <div className="flex gap-5">
           {page > 1 && (
@@ -143,8 +143,8 @@ export default async function Upcoming(context: UpcomingContext) {
 }
 
 export const metadata = useMetadata({
-  title: 'Phim Sắp Chiếu',
+  title: "Phim Sắp Chiếu",
   description:
-    'Xem trailer và những bộ phim sắp được công chiếu hay nhất. Cùng hóng những bộ phim mới sắp được chiếu rạp.',
-  urlPath: '/upcoming',
+    "Xem trailer và những bộ phim sắp được công chiếu hay nhất. Cùng hóng những bộ phim mới sắp được chiếu rạp.",
+  urlPath: "/upcoming",
 });

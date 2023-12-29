@@ -1,11 +1,11 @@
-'use client';
-import { Image } from '@/components/Image';
-import { Pagination } from '@/components/Pagination';
-import { AppContext } from '@/context/app.context';
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+"use client";
+import { Image } from "@/components/Image";
+import { Pagination } from "@/components/Pagination";
+import { AppContext } from "@/context/app.context";
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 
 type Movie = {
   slug: string;
@@ -20,7 +20,7 @@ export default function Favourite() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const searchParams = useSearchParams();
 
-  let page = searchParams.get('page') || 1;
+  let page = searchParams.get("page") || 1;
   page = Number.isNaN(+page) ? 1 : +page;
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Favourite() {
                   className="rounded-full w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300 bg-[#f00]"
                   onClick={() =>
                     dispatch({
-                      type: 'REMOVE',
+                      type: "REMOVE",
                       payload: {
                         slug: movie.slug,
                       },
@@ -95,7 +95,8 @@ export default function Favourite() {
       </div>
       <Pagination
         currentPage={page}
-        totalPages={Math.ceil(state.favMovies.length / ITEMS_PER_PAGE)}
+        totalItems={state.favMovies.length}
+        totalItemsPerPage={ITEMS_PER_PAGE}
       />
     </div>
   );

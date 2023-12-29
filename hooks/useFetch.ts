@@ -1,24 +1,13 @@
-import { domain } from '@/constants';
+import { domain, baseUrl } from "@/constants";
 
-export const useFetch = async (path: string, body?: any) => {
+export const useFetch = async (path: string) => {
   try {
-    const res = await fetch(`${domain}/api${path}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      cache: 'force-cache',
-    });
-    const data = await res.json();
-    if (data.status === 'Fail') {
-      return {
-        error: data,
-        data: null,
-      };
-    } else {
-      return {
-        error: null,
-        data,
-      };
-    }
+    const res = await fetch(baseUrl + path);
+    const { data } = await res.json();
+    return {
+      data,
+      error: null,
+    };
   } catch (error) {
     return {
       error,

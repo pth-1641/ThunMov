@@ -1,19 +1,20 @@
-'use client';
-import { AppContext } from '@/context/app.context';
-import { ModalContext } from '@/context/modal.context';
-import { Episode, MovieDetail } from '@/types';
-import { Icon } from '@iconify/react';
-import NextLink from 'next/link';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { Image } from '../Image';
+"use client";
+import { AppContext } from "@/context/app.context";
+import { ModalContext } from "@/context/modal.context";
+import { Episode, MovieDetail } from "@/types";
+import { Icon } from "@iconify/react";
+import NextLink from "next/link";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Image } from "../Image";
+import { imageCdnUrl } from "@/constants";
 
-type ServerType = 'art-player' | 'plyr' | 'videojs';
+type ServerType = "art-player" | "plyr" | "videojs";
 type MovieDetailProps = { movie: MovieDetail };
 
 export const MovieDetails = ({ movie }: MovieDetailProps) => {
-  const [src, setSrc] = useState<string>('');
+  const [src, setSrc] = useState<string>("");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
-  const [serverType, setServerType] = useState<ServerType>('art-player');
+  const [serverType, setServerType] = useState<ServerType>("art-player");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const { dispatch, state } = useContext(ModalContext);
@@ -24,16 +25,16 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
 
   useEffect(() => {
     setSrc(movie.thumb_url);
-    if (!state.hasShown && movie.category.some((c) => c.slug === 'phim-18')) {
+    if (!state.hasShown && movie.category.some((c) => c.slug === "phim-18")) {
       dispatch({
-        type: 'WARNING',
+        type: "WARNING",
         payload: {
-          modalType: 'warning',
+          modalType: "warning",
         },
       });
     }
     if (
-      !['Tập 0', 'Trailer'].includes(movie.episode_current) &&
+      !["Tập 0", "Trailer"].includes(movie.episode_current) &&
       movie.episodes[0].server_data[0].name
     ) {
       setSelectedEpisode(movie.episodes[0].server_data[0]);
@@ -42,13 +43,13 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
 
   useEffect(() => {
     if (!iframeRef.current) return;
-    iframeRef.current.src += '';
+    iframeRef.current.src += "";
   }, [serverType]);
 
   return (
     <>
       <div
-        style={{ backgroundImage: `url(${movie.poster_url})` }}
+        style={{ backgroundImage: `url(${imageCdnUrl + movie.poster_url})` }}
         className="bg-cover w-full aspect-video relative bg-center lg:max-h-[800px]"
       >
         <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
@@ -83,7 +84,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                       className="hover:text-primary"
                     >
                       {g.name}
-                      {idx + 1 !== movie.category.length ? ',' : ''}
+                      {idx + 1 !== movie.category.length ? "," : ""}
                     </NextLink>
                   ))}
                 </ul>
@@ -117,10 +118,10 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
               <div className="flex items-center gap-5">
                 <span className="flex items-center gap-2">
                   <Icon icon="jam:movie" className="text-primary" height={16} />
-                  {movie.episode_current === 'Full'
-                    ? '1'
-                    : movie.episode_current.match(/\d+/) ?? 0}{' '}
-                  / {movie.episode_total === 'Full' ? '1' : movie.episode_total}
+                  {movie.episode_current === "Full"
+                    ? "1"
+                    : movie.episode_current.match(/\d+/) ?? 0}{" "}
+                  / {movie.episode_total === "Full" ? "1" : movie.episode_total}
                 </span>
                 <div className="flex items-center gap-2 my-2">
                   <Icon
@@ -136,7 +137,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                         className="hover:text-primary"
                       >
                         {c.name}
-                        {idx + 1 !== movie.country.length ? ',' : ''}
+                        {idx + 1 !== movie.country.length ? "," : ""}
                       </NextLink>
                     ))}
                   </ul>
@@ -151,9 +152,9 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   className="flex-col justify-center items-center gap-1 text-sm flex hover:text-primary"
                   onClick={() =>
                     dispatch({
-                      type: 'SHARE',
+                      type: "SHARE",
                       payload: {
-                        modalType: 'share',
+                        modalType: "share",
                       },
                     })
                   }
@@ -168,10 +169,10 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                     disabled={!movie.trailer_url}
                     onClick={() => {
                       dispatch({
-                        type: 'TRAILER',
+                        type: "TRAILER",
                         payload: {
-                          videoTrailerId: movie.trailer_url.split('v=')[1],
-                          modalType: 'trailer',
+                          videoTrailerId: movie.trailer_url.split("v=")[1],
+                          modalType: "trailer",
                         },
                       });
                     }}
@@ -181,12 +182,12 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   <button
                     className={`${
                       isFavourite
-                        ? 'bg-[#f00] border-[#f00]'
-                        : 'bg-black/70 border-primary hover:bg-primary hover:text-black'
+                        ? "bg-[#f00] border-[#f00]"
+                        : "bg-black/70 border-primary hover:bg-primary hover:text-black"
                     } flex items-center gap-2 rounded-full border-2 px-5 py-2.5 duration-300`}
                     onClick={() => {
                       appContext.dispatch({
-                        type: isFavourite ? 'REMOVE' : 'ADD',
+                        type: isFavourite ? "REMOVE" : "ADD",
                         payload: {
                           slug: movie.slug,
                           thumb_url: src,
@@ -198,12 +199,12 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                     <Icon
                       icon={
                         isFavourite
-                          ? 'ph:heart-break-fill'
-                          : 'solar:heart-linear'
+                          ? "ph:heart-break-fill"
+                          : "solar:heart-linear"
                       }
                       height={20}
                     />
-                    {isFavourite ? 'Bỏ thích' : 'Yêu thích'}
+                    {isFavourite ? "Bỏ thích" : "Yêu thích"}
                   </button>
                 </div>
               </div>
@@ -228,15 +229,15 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                       onClick={() => {
                         setSelectedEpisode(ep);
                         iframeRef.current?.scrollIntoView({
-                          behavior: 'smooth',
+                          behavior: "smooth",
                         });
                       }}
                       key={ep.slug}
                       className={`
                     ${
                       selectedEpisode?.link_embed === ep.link_embed
-                        ? 'bg-primary text-black'
-                        : 'bg-white/5'
+                        ? "bg-primary text-black"
+                        : "bg-white/5"
                     }
                      rounded hover:bg-primary duration-200 py-1 hover:text-black`}
                     >
@@ -252,25 +253,25 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
               <div className="flex items-center justify-center gap-2">
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'art-player' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === "art-player" ? "bg-blue-500" : "bg-white/5"
                   }`}
-                  onClick={() => setServerType('art-player')}
+                  onClick={() => setServerType("art-player")}
                 >
                   Server 1
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'plyr' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === "plyr" ? "bg-blue-500" : "bg-white/5"
                   }`}
-                  onClick={() => setServerType('plyr')}
+                  onClick={() => setServerType("plyr")}
                 >
                   Server 2
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'videojs' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === "videojs" ? "bg-blue-500" : "bg-white/5"
                   }`}
-                  onClick={() => setServerType('videojs')}
+                  onClick={() => setServerType("videojs")}
                 >
                   Server 3
                 </button>
@@ -281,16 +282,16 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
               <iframe
                 ref={iframeRef}
                 src={
-                  serverType === 'art-player'
+                  serverType === "art-player"
                     ? selectedEpisode.link_embed
                     : `https://www.hls-player.net/search?q=player${
-                        serverType === 'plyr' ? '1' : '3'
+                        serverType === "plyr" ? "1" : "3"
                       }&video_links=${selectedEpisode.link_m3u8}`
                 }
                 className="w-full aspect-video overflow-hidden bg-stone-900"
                 scrolling="no"
                 sandbox={
-                  serverType === 'art-player' ? undefined : 'allow-scripts'
+                  serverType === "art-player" ? undefined : "allow-scripts"
                 }
                 allowFullScreen
                 referrerPolicy="no-referrer"

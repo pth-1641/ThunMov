@@ -1,9 +1,9 @@
-import { Pagination } from '@/components/Pagination';
-import { MovieCard } from '@/components/movies/MovieCard';
-import { movieTypes } from '@/constants';
-import { useFetch, useMetadata } from '@/hooks';
-import { Movie } from '@/types';
-import { notFound } from 'next/navigation';
+import { Pagination } from "@/components/Pagination";
+import { MovieCard } from "@/components/movies/MovieCard";
+import { movieTypes } from "@/constants";
+import { useFetch, useMetadata } from "@/hooks";
+import { Movie } from "@/types";
+import { notFound } from "next/navigation";
 
 type MovieTypeContext = {
   params: { movieType: string };
@@ -16,13 +16,17 @@ type MovieTypeContext = {
 export default async function MovieType(context: MovieTypeContext) {
   const {
     params: { movieType },
-    searchParams: { page, q },
+    searchParams: { page = 1, q = "" },
   } = context;
 
   const type = movieTypes.find((t) => t.path === movieType);
   if (!type) return notFound();
 
-  const { data } = await useFetch('/type', { movieType, page, q });
+  const { data } = await useFetch(
+    type.path === "tim-kiem"
+      ? `/tim-kiem?keyword=${q} &page=${page}`
+      : `/danh-sach/${type.path}&page=${page}`
+  );
   if (!data) return notFound();
 
   return (
@@ -37,10 +41,7 @@ export default async function MovieType(context: MovieTypeContext) {
               <MovieCard item={movie} key={movie._id} />
             ))}
           </div>
-          <Pagination
-            currentPage={data.currentPage}
-            totalPages={data.totalPages}
-          />
+          <Pagination {...data.params.pagination} />
         </>
       ) : (
         <h5 className="font-bold text-2xl text-center min-h-screen">
@@ -59,8 +60,8 @@ export function generateMetadata(context: MovieTypeContext) {
   const movie = movieTypes.find((m) => m.path === movieType);
   if (!movie) {
     return useMetadata({
-      title: 'Not Found',
-      description: 'The page is not found.',
+      title: "Not Found",
+      description: "The page is not found.",
       urlPath: `/${movieType}`,
     });
   }

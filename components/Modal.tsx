@@ -1,10 +1,10 @@
-'use client';
-import { domain, socialsShare } from '@/constants';
-import { ModalContext } from '@/context/modal.context';
-import { Icon } from '@iconify/react';
-import { useRouter } from 'next-nprogress-bar';
-import { usePathname } from 'next/navigation';
-import { SyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
+"use client";
+import { domain, socialsShare } from "@/constants";
+import { ModalContext } from "@/context/modal.context";
+import { Icon } from "@iconify/react";
+import { useRouter } from "next-nprogress-bar";
+import { usePathname } from "next/navigation";
+import { SyntheticEvent, useContext, useEffect, useRef, useState } from "react";
 
 export const Modal = () => {
   const { state, dispatch } = useContext(ModalContext);
@@ -15,8 +15,8 @@ export const Modal = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (modalType === 'search') inputRef.current?.focus();
-    document.body.style.overflow = modalType ? 'hidden' : 'initial';
+    if (modalType === "search") inputRef.current?.focus();
+    document.body.style.overflow = modalType ? "hidden" : "initial";
   }, [modalType]);
 
   useEffect(() => {
@@ -28,9 +28,9 @@ export const Modal = () => {
 
   const handleSearch = (e: SyntheticEvent) => {
     e.preventDefault();
-    router.push(`/search?q=${searchValue.replace(/\s+/g, '+')}`);
+    router.push(`/tim-kiem?q=${searchValue.replace(/\s+/g, "+")}`);
     dispatch({
-      type: 'CLOSE',
+      type: "CLOSE",
     });
   };
 
@@ -38,28 +38,28 @@ export const Modal = () => {
     <div
       className={`fixed z-50 inset-0 bg-black/95 duration-200 flex items-center justify-center ${
         modalType !== null
-          ? 'opacity-100 pointer-events-auto'
-          : 'opacity-0 pointer-events-none'
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
       }`}
       onClick={(e) => {
-        if (e.target === e.currentTarget && state.modalType !== 'warning') {
-          dispatch({ type: 'CLOSE' });
+        if (e.target === e.currentTarget && state.modalType !== "warning") {
+          dispatch({ type: "CLOSE" });
         }
       }}
     >
-      {modalType !== 'warning' && (
+      {modalType !== "warning" && (
         <Icon
           icon="ic:round-close"
           height={36}
           className="absolute top-4 right-4 cursor-pointer"
           onClick={() =>
             dispatch({
-              type: 'CLOSE',
+              type: "CLOSE",
             })
           }
         />
       )}
-      {modalType === 'search' && (
+      {modalType === "search" && (
         <form className="w-[80vw] max-w-md" onSubmit={handleSearch}>
           <input
             ref={inputRef}
@@ -69,14 +69,14 @@ export const Modal = () => {
             value={searchValue}
             onChange={(e) =>
               dispatch({
-                type: 'SEARCH',
+                type: "SEARCH",
                 payload: { searchValue: e.target.value },
               })
             }
           />
         </form>
       )}
-      {modalType === 'trailer' && (
+      {modalType === "trailer" && (
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoTrailerId}?autoplay=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -84,7 +84,7 @@ export const Modal = () => {
           allowFullScreen
         />
       )}
-      {modalType === 'share' && (
+      {modalType === "share" && (
         <div className="bg-zinc-900 rounded-lg p-6 w-[90vw] max-w-max">
           <h3 className="text-center text-2xl font-bold sm:text-3xl">
             Chia sẻ
@@ -103,7 +103,7 @@ export const Modal = () => {
                 <Icon
                   icon={social.icon}
                   height={56}
-                  color={social.platform === 'KakaoTalk' ? '#000' : '#fff'}
+                  color={social.platform === "KakaoTalk" ? "#000" : "#fff"}
                   style={{ backgroundColor: social.color }}
                   className="p-3 rounded-full"
                 />
@@ -119,7 +119,7 @@ export const Modal = () => {
             />
             <button
               className={`rounded-full min-w-max px-2.5 py-1.5 text-black text-sm font-bold flex items-center gap-1.5 ${
-                isCopy ? 'bg-green-500' : 'bg-primary'
+                isCopy ? "bg-green-500" : "bg-primary"
               }`}
               onClick={() => {
                 navigator.clipboard.writeText(domain + pathname);
@@ -127,12 +127,12 @@ export const Modal = () => {
               }}
             >
               {isCopy && <Icon icon="ep:success-filled" height={18} />}
-              {isCopy ? 'Đã sao chép' : 'Sao chép'}
+              {isCopy ? "Đã sao chép" : "Sao chép"}
             </button>
           </div>
         </div>
       )}
-      {modalType === 'warning' && (
+      {modalType === "warning" && (
         <div className="max-w-xl w-[90vw] bg-white text-black p-5 rounded-lg">
           <h2 className="text-center">
             Nội dung có thể không phù hợp với lứa tuổi của bạn. Nếu bỏ qua cảnh
@@ -143,7 +143,7 @@ export const Modal = () => {
             <button
               onClick={() => {
                 router.back();
-                dispatch({ type: 'CLOSE' });
+                dispatch({ type: "CLOSE" });
               }}
               className="px-5 rounded-full border-primary py-2 border-2"
             >
@@ -151,8 +151,8 @@ export const Modal = () => {
             </button>
             <button
               onClick={() => {
-                dispatch({ type: 'CLOSE', payload: { hasShown: true } });
-                sessionStorage.setItem('display-warning', 'true');
+                dispatch({ type: "CLOSE", payload: { hasShown: true } });
+                sessionStorage.setItem("display-warning", "true");
               }}
               className="px-5 rounded-full bg-primary py-2.5"
             >

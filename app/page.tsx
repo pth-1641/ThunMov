@@ -1,14 +1,14 @@
-import { MovieCarousel } from '@/components/movies/MovieCarousel';
-import { MovieCategory } from '@/components/movies/MovieCategory';
-import { useFetch } from '@/hooks';
+import { MovieCarousel } from "@/components/movies/MovieCarousel";
+import { MovieCategory } from "@/components/movies/MovieCategory";
+import { useFetch } from "@/hooks";
 
 export default async function Home() {
   const movies = await Promise.all([
-    useFetch('/type', { movieType: 'new' }),
-    useFetch('/genres', { type: 'hanh-dong' }),
-    useFetch('/type', { movieType: 'anime' }),
-    useFetch('/genres', { type: 'kinh-di' }),
-    useFetch('/countries', { type: 'thai-lan' }),
+    useFetch("/danh-sach/phim-moi"),
+    useFetch("/danh-sach/hoat-hinh"),
+    useFetch("/the-loai/hanh-dong"),
+    useFetch("/the-loai/kinh-di"),
+    useFetch("/quoc-gia/thai-lan"),
   ]);
 
   return (

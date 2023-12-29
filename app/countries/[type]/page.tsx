@@ -1,9 +1,9 @@
-import { MoviePagination } from '@/components/movies/MoviePagination';
-import { Pagination } from '@/components/Pagination';
-import { countries } from '@/constants';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/';
-import { notFound } from 'next/navigation';
+import { MoviePagination } from "@/components/movies/MoviePagination";
+import { Pagination } from "@/components/Pagination";
+import { countries } from "@/constants";
+import { useFetch } from "@/hooks";
+import { useMetadata } from "@/hooks/";
+import { notFound } from "next/navigation";
 
 type MoviesCountryContext = {
   params: { type: string };
@@ -18,13 +18,13 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
     searchParams: { page = 1 },
   } = context;
 
-  const { data } = await useFetch('/countries', { type, page });
+  const { data } = await useFetch(`/quoc-gia/${type}?page=${page}`);
   if (!data) return notFound();
 
   return (
     <main className="mx-auto max-w-7xl px-5">
-      <MoviePagination movies={data.items} />
-      <Pagination currentPage={data.currentPage} totalPages={data.totalPages} />
+      <MoviePagination movies={data.items} title={data.titlePage} />
+      <Pagination {...data.params.pagination} />
     </main>
   );
 }
@@ -37,8 +37,8 @@ export function generateMetadata(context: MoviesCountryContext) {
   const country = countries.find((c) => c.slug === type);
   if (!country) {
     return useMetadata({
-      title: 'Not Found',
-      description: 'The page is not found.',
+      title: "Not Found",
+      description: "The page is not found.",
       urlPath: `/countries/${type}`,
     });
   }
