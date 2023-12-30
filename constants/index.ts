@@ -3,6 +3,8 @@ import { Category, MovieType } from '@/types';
 export const domain = process.env.NEXT_PUBLIC_DOMAIN as string;
 export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 export const imageCdnUrl = process.env.NEXT_PUBLIC_CDN_IMAGE_URL as string;
+export const imageCdnUrlCompress = process.env
+  .NEXT_PUBLIC_CDN_IMAGE_URL_COMPRESS as string;
 
 export const movieTypes: MovieType[] = [
   { title: 'Phim mới', path: 'phim-moi' },
@@ -15,6 +17,7 @@ export const movieTypes: MovieType[] = [
   { title: 'Phim đang chiếu', path: 'phim-bo-dang-chieu' },
   { title: 'Phim độc quyền', path: 'subteam' },
   { title: 'Phim hoạt hình', path: 'hoat-hinh' },
+  { title: 'Tìm kiếm', path: 'tim-kiem' },
 ];
 
 export const socialsShare = [

@@ -1,5 +1,5 @@
 'use client';
-import { imageCdnUrl } from '@/constants';
+import { imageCdnUrl, imageCdnUrlCompress } from '@/constants';
 import { FC, useEffect, useState } from 'react';
 
 type ImageProps = {
@@ -17,8 +17,8 @@ export const Image: FC<ImageProps> = (props) => {
   const [imgSrc, setImgSrc] = useState<string>('');
 
   useEffect(() => {
-    const pathname = src.replace(imageCdnUrl, '');
-    setImgSrc(pathname);
+    const folder = src.replace(/-[^\-]*$/, '').replace(/[^a-zA-Z0-9-]/g, '');
+    setImgSrc(`${imageCdnUrlCompress + folder}/${src}`);
   }, [src]);
 
   return (
@@ -28,7 +28,7 @@ export const Image: FC<ImageProps> = (props) => {
       } ${className}`}
     >
       <img
-        src={imageCdnUrl + imgSrc}
+        src={imgSrc}
         alt={alt}
         className={`duration-300 object-cover h-full w-full ${
           isComplete ? 'opacity-100 blur-none' : 'opacity-0 blur-lg'
@@ -36,13 +36,16 @@ export const Image: FC<ImageProps> = (props) => {
         width={width}
         height={height}
         onLoad={() => setIsComplete(true)}
-        onError={() =>
-          setImgSrc(
-            imgSrc.includes('thumb')
+        onError={() => {
+          if (imgSrc.includes(imageCdnUrl)) {
+            const backupUrl = imgSrc.includes('thumb')
               ? imgSrc.replace('thumb', 'poster')
-              : imgSrc.replace('poster', 'thumb')
-          )
-        }
+              : imgSrc.replace('poster', 'thumb');
+            setImgSrc(backupUrl);
+            return;
+          }
+          setImgSrc(imageCdnUrl + src);
+        }}
         loading="lazy"
         draggable={false}
       />

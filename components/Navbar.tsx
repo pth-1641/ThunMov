@@ -82,7 +82,7 @@ const MobileMenu = ({
             }
             style={{ maxHeight: menuType === 'movie' ? '50rem' : 0 }}
           >
-            {movieTypes.slice(0, -3).map((type) => (
+            {movieTypes.slice(0, -1).map((type) => (
               <Link
                 href={`/${type.path}`}
                 key={type.path}
@@ -235,7 +235,7 @@ export const Navbar = () => {
           <span className="relative group hover:text-primary cursor-pointer">
             Loại phim
             <ul className="dropdown-menu grid-cols-2">
-              {movieTypes.slice(0, -3).map((t) => (
+              {movieTypes.slice(0, -1).map((t) => (
                 <Link
                   key={t.path}
                   href={`/${t.path}`}
