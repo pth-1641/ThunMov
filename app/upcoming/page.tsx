@@ -20,7 +20,9 @@ export default async function Upcoming(context: UpcomingContext) {
 
   const { data } = await useFetch(`/danh-sach/phim-sap-chieu?page=${page}`);
   if (!data) return notFound();
+
   const totalPages = Math.ceil(data.params.pagination.totalItems / 24);
+  if (page > totalPages) notFound();
 
   const getMovieType = (type: string) => {
     const list: Record<string, string> = {
