@@ -8,7 +8,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Image } from '../Image';
 import { imageCdnUrl } from '@/constants';
 
-type ServerType = 'art-player' | 'plyr' | 'videojs';
+type ServerType = 'art-player' | 'plyr' | 'hlsplayer';
 type MovieDetailProps = { movie: MovieDetail };
 
 export const MovieDetails = ({ movie }: MovieDetailProps) => {
@@ -268,9 +268,9 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === 'videojs' ? 'bg-blue-500' : 'bg-white/5'
+                    serverType === 'hlsplayer' ? 'bg-blue-500' : 'bg-white/5'
                   }`}
-                  onClick={() => setServerType('videojs')}
+                  onClick={() => setServerType('hlsplayer')}
                 >
                   Server 3
                 </button>
@@ -283,11 +283,13 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 src={
                   serverType === 'art-player'
                     ? selectedEpisode.link_embed
-                    : `https://www.hls-player.net/search?q=player${
-                        serverType === 'plyr' ? '1' : '3'
-                      }&video_links=${selectedEpisode.link_m3u8}`
+                    : serverType === 'plyr'
+                    ? `https://www.hls-player.net/search?q=player1&video_links=${selectedEpisode.link_m3u8}`
+                    : `https://www.hlsplayer.org/play?url=${encodeURIComponent(
+                        selectedEpisode.link_m3u8
+                      )}`
                 }
-                className="w-full aspect-video overflow-hidden bg-stone-900"
+                className="w-full aspect-video overflow-hidden bg-stone-900 rounded-md"
                 scrolling="no"
                 sandbox={
                   serverType === 'art-player' ? undefined : 'allow-scripts'
