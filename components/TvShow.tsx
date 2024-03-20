@@ -1,9 +1,9 @@
-'use client';
-import { Movie } from '@/types';
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { FC, useState } from 'react';
-import { Image } from './Image';
+"use client";
+import { Movie } from "@/types";
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { FC } from "react";
+import { Image } from "./Image";
 
 type TvShowProps = {
   shows: Movie[];

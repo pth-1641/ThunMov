@@ -21,9 +21,10 @@ export const Modal = () => {
 
   useEffect(() => {
     if (!isCopy) return;
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsCopy(false);
     }, 3000);
+    return () => clearTimeout(timeout);
   }, [isCopy]);
 
   const handleSearch = (e: SyntheticEvent) => {

@@ -1,10 +1,10 @@
-'use client';
-import { AppContext } from '@/context/app.context';
-import { Movie } from '@/types';
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { FC, useContext, useState } from 'react';
-import { Image } from '../Image';
+"use client";
+import { AppContext } from "@/context/app.context";
+import { Movie } from "@/types";
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { FC, useCallback, useContext, useState } from "react";
+import { Image } from "../Image";
 
 type MovieCardProps = {
   item: Movie;
@@ -15,7 +15,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
   const [src, setSrc] = useState<string>(item.thumb_url);
   const isFavourite = state.favMovies.some((m) => m.slug === item.slug);
 
-  const handleFavourite = (type: 'ADD' | 'REMOVE') => {
+  const handleFavourite = useCallback((type: "ADD" | "REMOVE") => {
     const { slug, name } = item;
     dispatch({
       type,
@@ -25,7 +25,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         thumb_url: src,
       },
     });
-  };
+  }, []);
 
   return (
     <div className="select-none group">
@@ -39,7 +39,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
           />
         )}
         <span className="absolute top-2.5 left-2.5 rounded z-20 px-2.5 py-0.5 text-xs text-black bg-primary font-bold">
-          {item.episode_current.replace(/Hoàn Tất/i, '') || `(0/1)`}
+          {item.episode_current.replace(/Hoàn Tất/i, "") || `(0/1)`}
         </span>
         <Image src={src} alt={item.origin_name} className="aspect-[2/3]" />
         <Link
@@ -49,11 +49,11 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         <div className="absolute inset-0 bg-black/60 none flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center hidden md:flex">
           <button
             className={`rounded-full w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300 ${
-              isFavourite ? 'bg-[#f00]' : 'bg-primary text-black'
+              isFavourite ? "bg-[#f00]" : "bg-primary text-black"
             }`}
-            onClick={() => handleFavourite(isFavourite ? 'REMOVE' : 'ADD')}
+            onClick={() => handleFavourite(isFavourite ? "REMOVE" : "ADD")}
           >
-            {isFavourite ? 'Bỏ Thích' : 'Yêu Thích'}
+            {isFavourite ? "Bỏ Thích" : "Yêu Thích"}
           </button>
           <Link
             href={`/movies/${item.slug}`}
@@ -92,7 +92,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
               className="text-primary"
               height={16}
             />
-            {item.time.replace('undefined', '???') || 'Đang cập nhật'}
+            {item.time.replace("undefined", "???") || "Đang cập nhật"}
           </span>
         </div>
       )}

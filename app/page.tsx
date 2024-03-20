@@ -1,14 +1,14 @@
-import { MovieCarousel } from '@/components/movies/MovieCarousel';
-import { MovieCategory } from '@/components/movies/MovieCategory';
-import { useFetch } from '@/hooks';
+import { MovieCarousel } from "@/components/movies/MovieCarousel";
+import { MovieCategory } from "@/components/movies/MovieCategory";
+import { useFetch } from "@/hooks";
 
 export default async function Home() {
   const movies = await Promise.all([
-    useFetch('/danh-sach/phim-moi'),
-    useFetch('/the-loai/hanh-dong'),
-    useFetch('/danh-sach/hoat-hinh'),
-    useFetch('/the-loai/kinh-di'),
-    useFetch('/quoc-gia/thai-lan'),
+    useFetch("/danh-sach/phim-moi"),
+    useFetch("/the-loai/hanh-dong"),
+    useFetch("/danh-sach/hoat-hinh"),
+    useFetch("/the-loai/kinh-di"),
+    useFetch("/quoc-gia/thai-lan"),
   ]);
 
   return (
@@ -22,7 +22,7 @@ export default async function Home() {
       <MovieCategory
         movies={movies[2].data.items}
         title="Anime"
-        pathAll="/phim-hoat-hinh"
+        pathAll="/hoat-hinh"
       />
       <MovieCategory
         movies={movies[3].data.items}

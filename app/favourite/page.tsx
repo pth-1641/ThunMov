@@ -5,7 +5,7 @@ import { AppContext } from "@/context/app.context";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 
 type Movie = {
   slug: string;
@@ -15,7 +15,15 @@ type Movie = {
 
 const ITEMS_PER_PAGE = 24;
 
-export default function Favourite() {
+export default function FavouritePage() {
+  return (
+    <Suspense>
+      <Favourite />
+    </Suspense>
+  );
+}
+
+function Favourite() {
   const { state, dispatch } = useContext(AppContext);
   const [movies, setMovies] = useState<Movie[]>([]);
   const searchParams = useSearchParams();
