@@ -45,7 +45,7 @@ function Favourite() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-5">
+    <div className="max-w-7xl mx-auto px-5 min-h-screen">
       <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
         Yêu Thích
       </h2>

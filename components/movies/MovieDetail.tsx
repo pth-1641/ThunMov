@@ -144,7 +144,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
               </div>
               <div
                 dangerouslySetInnerHTML={{ __html: movie.content }}
-                className="text-sm"
+                className="text-sm max-h-80 overflow-auto movie-content"
               />
               <div className="border border-white/5 bg-white/5 px-4 py-4 flex items-center w-max rounded-lg mt-8 gap-1.5 md:gap-5 md:px-7">
                 <button

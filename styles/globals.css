@@ -26,3 +26,7 @@ html {
   background: #52525b;
   border-radius: 3px;
 }
+
+.movie-content::-webkit-scrollbar {
+  width: 4px;
+}
