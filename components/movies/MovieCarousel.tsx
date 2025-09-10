@@ -1,12 +1,12 @@
-'use client';
-import { imageCdnUrl } from '@/constants';
-import { Movie } from '@/types';
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Image } from '../Image';
-import Link from 'next/link';
-import { FC } from 'react';
-import { EffectFade, Autoplay } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+"use client";
+import { imageCdnUrl } from "@/constants";
+import { Movie } from "@/types";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Image } from "../Image";
+import Link from "next/link";
+import { FC } from "react";
+import { EffectFade, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 type MovieCarouselProps = {
   movies: Movie[];
@@ -17,7 +17,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
   return (
     <Swiper
       modules={[EffectFade, Autoplay]}
-      effect={'fade'}
+      effect={"fade"}
       loop={true}
       autoplay={{
         delay: 5000,
@@ -28,9 +28,13 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
         <SwiperSlide key={item._id}>
           <div
             className="bg-cover min-h-screen w-full relative bg-center max-h-[800px] lg:min-h-0 lg:aspect-video bg-black"
-            style={{ backgroundImage: `url(${imageCdnUrl + item.poster_url})` }}
+            style={{
+              backgroundImage: `url(${
+                imageCdnUrl + item.poster_url
+              }&q=1&output=webp)`,
+            }}
           >
-            <div className="absolute inset-0 bg-black/80 md:bg-black/90 flex items-center">
+            <div className="absolute inset-0 bg-black/80 md:bg-black/85 flex items-center">
               <div className="w-full max-w-7xl px-4 mx-auto flex items-center justify-between gap-8">
                 <div>
                   <h2 className="text-4xl lg:text-5xl font-extrabold leading-snug">
@@ -56,7 +60,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                           className="hover:text-primary"
                         >
                           {g.name}
-                          {idx + 1 !== arr.length ? ',' : ''}
+                          {idx + 1 !== arr.length ? "," : ""}
                         </Link>
                       ))}
                     </ul>
@@ -75,7 +79,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                           className="text-primary"
                           height={16}
                         />
-                        {item.time.replace('undefined', '???')}
+                        {item.time.replace("undefined", "???")}
                       </span>
                       <span className="flex items-center gap-2">
                         <Icon

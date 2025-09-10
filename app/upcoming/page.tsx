@@ -1,9 +1,9 @@
-import { Image } from '@/components/Image';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/useMetadata';
-import { Movie } from '@/types';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { Image } from "@/components/Image";
+import { useFetch } from "@/hooks";
+import { useMetadata } from "@/hooks/useMetadata";
+import { Movie } from "@/types";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type UpcomingContext = {
   searchParams: {
@@ -26,10 +26,10 @@ export default async function Upcoming(context: UpcomingContext) {
 
   const getMovieType = (type: string) => {
     const list: Record<string, string> = {
-      series: 'Phim Bộ',
-      single: 'Phim Lẻ',
-      tvshows: 'TV Shows',
-      hoathinh: 'Hoạt Hình',
+      series: "Phim Bộ",
+      single: "Phim Lẻ",
+      tvshows: "TV Shows",
+      hoathinh: "Hoạt Hình",
     };
     return list[type];
   };
@@ -70,6 +70,7 @@ export default async function Upcoming(context: UpcomingContext) {
                       src={movie.thumb_url}
                       alt={movie.name}
                       className="w-[80px] h-28 object-cover rounded"
+                      width={160}
                     />
                   </Link>
                   <div>
@@ -84,7 +85,7 @@ export default async function Upcoming(context: UpcomingContext) {
                     {movie.episode_current}
                   </span>
                 </td>
-                <td>{movie.time.replace('undefined', '???')}</td>
+                <td>{movie.time.replace("undefined", "???")}</td>
                 <td>{movie.year}</td>
                 <td>{getMovieType(movie.type)}</td>
                 <td>
@@ -151,8 +152,8 @@ export async function generateMetadata(context: UpcomingContext) {
   const { data } = await useFetch(`/danh-sach/phim-sap-chieu?page=${page}`);
   if (!data) {
     return useMetadata({
-      title: 'Not Found',
-      description: 'The page is not found.',
+      title: "Not Found",
+      description: "The page is not found.",
       urlPath: `/upcoming`,
     });
   }
@@ -160,7 +161,7 @@ export async function generateMetadata(context: UpcomingContext) {
   return useMetadata({
     title: `TV Shows`,
     description: data.seoOnPage.descriptionHead.replace(
-      '2022',
+      "2022",
       new Date().getFullYear()
     ),
     urlPath: `/upcoming`,

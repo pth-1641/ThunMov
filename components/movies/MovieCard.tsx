@@ -41,7 +41,12 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
         <span className="absolute top-2.5 left-2.5 rounded z-20 px-2.5 py-0.5 text-xs text-black bg-primary font-bold">
           {item.episode_current.replace(/Hoàn Tất/i, "") || `(0/1)`}
         </span>
-        <Image src={src} alt={item.origin_name} className="aspect-[2/3]" />
+        <Image
+          src={src}
+          width={300}
+          alt={item.origin_name}
+          className="aspect-[2/3]"
+        />
         <Link
           href={`/movies/${item.slug}`}
           className="absolute inset-0 z-10 md:hidden"

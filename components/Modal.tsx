@@ -4,19 +4,45 @@ import { ModalContext } from "@/context/modal.context";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname } from "next/navigation";
-import { SyntheticEvent, useContext, useEffect, useRef, useState } from "react";
+import {
+  SyntheticEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 export const Modal = () => {
   const { state, dispatch } = useContext(ModalContext);
   const [isCopy, setIsCopy] = useState<boolean>(false);
   const { searchValue, videoTrailerId, modalType } = state;
   const inputRef = useRef<any>();
+
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (modalType === "search") inputRef.current?.focus();
+    if (modalType === "search") {
+      inputRef.current?.focus();
+      window.addEventListener("keydown", handleCloseOnEsc);
+    }
     document.body.style.overflow = modalType ? "hidden" : "initial";
+
+    return () => {
+      window.removeEventListener("keydown", handleCloseOnEsc);
+    };
+  }, [modalType]);
+
+  useEffect(() => {
+    if (modalType) return;
+
+    const timeout = setTimeout(() => {
+      handleClose();
+    }, 200);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [modalType]);
 
   useEffect(() => {
@@ -27,21 +53,33 @@ export const Modal = () => {
     return () => clearTimeout(timeout);
   }, [isCopy]);
 
-  const handleSearch = (e: SyntheticEvent) => {
-    e.preventDefault();
-    router.push(`/tim-kiem?q=${searchValue.replace(/\s+/g, "+")}`);
+  const handleSearch = useCallback(
+    (e: SyntheticEvent) => {
+      e.preventDefault();
+      router.push(`/tim-kiem?q=${searchValue.replace(/\s+/g, "+")}`);
+      dispatch({
+        type: "CLOSE",
+      });
+    },
+    [searchValue]
+  );
+
+  const handleCloseOnEsc = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape" || e.keyCode === 27) {
+      handleClose();
+    }
+  }, []);
+
+  const handleClose = useCallback(() => {
     dispatch({
       type: "CLOSE",
     });
-  };
+  }, []);
 
+  if (!modalType) return null;
   return (
     <div
-      className={`fixed z-50 inset-0 bg-black/95 duration-200 flex items-center justify-center ${
-        modalType !== null
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
-      }`}
+      className="fixed z-50 inset-0 bg-black/95 duration-200 flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget && state.modalType !== "warning") {
           dispatch({ type: "CLOSE" });
@@ -53,11 +91,7 @@ export const Modal = () => {
           icon="ic:round-close"
           height={36}
           className="absolute top-4 right-4 cursor-pointer"
-          onClick={() =>
-            dispatch({
-              type: "CLOSE",
-            })
-          }
+          onClick={handleClose}
         />
       )}
       {modalType === "search" && (
@@ -120,7 +154,7 @@ export const Modal = () => {
             />
             <button
               className={`rounded-full min-w-max px-2.5 py-1.5 text-black text-sm font-bold flex items-center gap-1.5 ${
-                isCopy ? "bg-green-500" : "bg-primary"
+                isCopy ? "bg-green-500 text-white" : "bg-primary"
               }`}
               onClick={() => {
                 navigator.clipboard.writeText(domain + pathname);

@@ -18,11 +18,17 @@ const TvShowCard = ({ show }: { show: Movie }) => {
     >
       <div className="w-full h-36 rounded-lg overflow-hidden relative max-w-[96px] md:max-w-[256px]">
         <Image
+          src={show.thumb_url}
+          alt={show.name}
+          width={96}
+          className="h-full aspect-[2/3] sm:hidden"
+        />
+        <Image
           src={show.poster_url}
           alt={show.name}
           width={256}
           height={144}
-          className="h-full aspect-[2/3] sm:aspect-video"
+          className="max-sm:hidden h-full aspect-video"
         />
         <span className="absolute inset-0 opacity-0 bg-black/70 flex items-center justify-center duration-300 group-hover:opacity-100">
           <Icon

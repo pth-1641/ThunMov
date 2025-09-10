@@ -1,4 +1,5 @@
 "use client";
+import { imageCdnUrl } from "@/constants";
 import { AppContext } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
 import { Episode, MovieDetail } from "@/types";
@@ -6,7 +7,6 @@ import { Icon } from "@iconify/react";
 import NextLink from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Image } from "../Image";
-import { imageCdnUrl } from "@/constants";
 
 type ServerType = "art-player" | "anym" | "hlsplayer";
 type MovieDetailProps = { movie: MovieDetail };
@@ -41,23 +41,23 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!iframeRef.current) return;
-    iframeRef.current.src += "";
-  }, [serverType]);
-
   return (
     <>
       <div
-        style={{ backgroundImage: `url(${imageCdnUrl + movie.poster_url})` }}
+        style={{
+          backgroundImage: `url(${
+            imageCdnUrl + movie.poster_url
+          }&q=1&output=webp)`,
+        }}
         className="bg-cover w-full aspect-video relative bg-center lg:max-h-[800px]"
       >
-        <div className="inset-0 bg-black/90 px-4 pb-10 pt-24 flex items-center lg:absolute">
+        <div className="inset-0 bg-black/85 px-4 pb-10 pt-24 flex items-center lg:absolute">
           <div className="w-full max-w-7xl mx-auto flex flex-col items-center gap-8 md:flex-row">
             <Image
               src={src}
               alt={movie.name}
               className="aspect-[2/3] rounded w-full max-w-[300px]"
+              width={300}
             />
             <div className="w-full">
               <h2 className="text-4xl font-extrabold lg:text-5xl">
@@ -279,6 +279,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 Vui lòng đổi server nếu không xem được
               </p>
               <iframe
+                key={serverType}
                 ref={iframeRef}
                 src={
                   serverType === "art-player"
