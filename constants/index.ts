@@ -5,17 +5,18 @@ export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 export const imageCdnUrl = process.env.NEXT_PUBLIC_CDN_IMAGE_URL as string;
 
 export const movieTypes: MovieType[] = [
-  { title: "Phim mới", path: "phim-moi" },
-  { title: "Phim bộ", path: "phim-bo" },
-  { title: "Phim lẻ", path: "phim-le" },
-  { title: "Phim Vietsub", path: "phim-vietsub" },
-  { title: "Phim thuyết minh", path: "phim-thuyet-minh" },
-  { title: "Phim lồng tiếng", path: "phim-long-tieng" },
-  { title: "Phim hoàn thành", path: "phim-bo-hoan-thanh" },
-  { title: "Phim đang chiếu", path: "phim-bo-dang-chieu" },
-  { title: "Phim độc quyền", path: "subteam" },
-  { title: "Phim hoạt hình", path: "hoat-hinh" },
-  { title: "Tìm kiếm", path: "tim-kiem" },
+  { name: "Phim mới", slug: "phim-moi" },
+  { name: "Phim bộ", slug: "phim-bo" },
+  { name: "Phim lẻ", slug: "phim-le" },
+  { name: "Phim Vietsub", slug: "phim-vietsub" },
+  { name: "Phim thuyết minh", slug: "phim-thuyet-minh" },
+  { name: "Phim lồng tiếng", slug: "phim-long-tieng" },
+  { name: "Phim hoàn thành", slug: "phim-bo-hoan-thanh" },
+  { name: "Phim đang chiếu", slug: "phim-bo-dang-chieu" },
+  { name: "Phim độc quyền", slug: "subteam" },
+  { name: "Phim hoạt hình", slug: "hoat-hinh" },
+  { name: "Phim chiếu rạp", slug: "phim-chieu-rap" },
+  { name: "Tìm kiếm", slug: "tim-kiem" },
 ];
 
 export const socialsShare = [

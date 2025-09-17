@@ -32,8 +32,8 @@ export type Category = {
 };
 
 export type MovieType = {
-  title: string;
-  path: string;
+  name: string;
+  slug: string;
 };
 
 export type ContextAction = {
@@ -94,4 +94,17 @@ export type MovieDetail = {
     server_name: string;
     server_data: Episode[];
   }[];
+};
+
+export type NavbarItem = {
+  label: string;
+  dropdown?: {
+    items: {
+      name: string;
+      slug: string;
+    }[];
+    pathPrefix: string;
+  };
+  path?: string;
+  isNew?: boolean;
 };

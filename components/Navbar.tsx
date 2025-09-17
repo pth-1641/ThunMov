@@ -2,10 +2,10 @@
 import { movieTypes } from "@/constants";
 import { ModalContext } from "@/context/modal.context";
 import { useFetch } from "@/hooks";
-import { Category } from "@/types";
+import { Category, NavbarItem } from "@/types";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 type MobileSubMenu = "movie" | "genre" | "country" | null;
 
@@ -50,7 +50,7 @@ const MobileMenu = ({
         }}
       >
         <div
-          className={`absolute min-h-screen right-0 w-full max-w-xs bg-zinc-950 font-bold text-xl duration-300 overflow-auto ${
+          className={`absolute min-h-screen right-0 w-full max-w-xs bg-zinc-950 font-bold text-lg duration-300 overflow-auto ${
             openMenu ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -84,11 +84,11 @@ const MobileMenu = ({
           >
             {movieTypes.slice(0, -1).map((type) => (
               <Link
-                href={`/${type.path}`}
-                key={type.path}
+                href={`/${type.slug}`}
+                key={type.slug}
                 onClick={() => setOpenMenu(false)}
               >
-                {type.title}
+                {type.name}
               </Link>
             ))}
             <span />
@@ -217,6 +217,36 @@ export const Navbar = () => {
     })();
   }, []);
 
+  const navbarItems: NavbarItem[] = useMemo(() => {
+    return [
+      {
+        label: "Loại phim",
+        dropdown: { items: movieTypes.slice(0, -2), pathPrefix: "/" },
+      },
+      {
+        label: "Thể loại",
+        dropdown: { items: genres, pathPrefix: "/the-loai/" },
+      },
+      {
+        label: "Quốc gia",
+        dropdown: { items: countries, pathPrefix: "/quoc-gia/" },
+      },
+      {
+        label: "Phim chiếu rạp",
+        path: "/phim-chieu-rap",
+        isNew: true,
+      },
+      {
+        label: "TV Shows",
+        path: "/tv-shows",
+      },
+      {
+        label: "Sắp chiếu",
+        path: "/sap-chieu",
+      },
+    ];
+  }, [genres, countries]);
+
   return (
     <header
       className={`${
@@ -234,55 +264,51 @@ export const Navbar = () => {
             ThunMov
           </h1>
         </Link>
-        <div className="uppercase font-bold text-sm items-center gap-12 hidden lg:flex">
-          <span className="relative group hover:text-primary cursor-pointer">
-            Loại phim
-            <ul className="dropdown-menu grid-cols-2">
-              {movieTypes.slice(0, -1).map((t) => (
-                <Link
-                  key={t.path}
-                  href={`/${t.path}`}
-                  className="hover:text-primary duration-100"
+        <div className="uppercase font-bold text-sm items-center gap-8 xl:gap-12 hidden lg:flex">
+          {navbarItems.map((item) => {
+            if (item.dropdown) {
+              return (
+                <div
+                  key={item.label}
+                  className="relative group hover:text-primary cursor-pointer flex items-center gap-1"
                 >
-                  {t.title}
-                </Link>
-              ))}
-            </ul>
-          </span>
-          <span className="relative group hover:text-primary cursor-pointer">
-            Thể loại
-            <ul className="dropdown-menu">
-              {genres.map((g: Category) => (
-                <Link
-                  key={g.slug}
-                  href={`/genres/${g.slug}`}
-                  className="hover:text-primary duration-100"
-                >
-                  {g.name}
-                </Link>
-              ))}
-            </ul>
-          </span>
-          <span className="relative group hover:text-primary cursor-pointer">
-            Quốc gia
-            <ul className="dropdown-menu">
-              {countries.map((c: Category) => (
-                <Link
-                  key={c.slug}
-                  href={`/countries/${c.slug}`}
-                  className="hover:text-primary duration-100"
-                >
-                  {c.name}
-                </Link>
-              ))}
-            </ul>
-          </span>
-          <Link href="/tv-shows" className="hover:text-primary">
-            TV Shows
-          </Link>
-          <Link href="/upcoming" className="hover:text-primary">
-            Sắp chiếu
-          </Link>
+                  {item.label}{" "}
+                  <Icon icon="mynaui:chevron-down-solid" height={18} />
+                  <ul
+                    className={`dropdown-menu ${
+                      item.dropdown.pathPrefix === "/"
+                        ? "grid-cols-2"
+                        : "grid-cols-4"
+                    }`}
+                  >
+                    {item.dropdown.items.map((i) => (
+                      <Link
+                        key={i.slug}
+                        href={item.dropdown?.pathPrefix + i.slug}
+                        className="hover:text-primary duration-100"
+                      >
+                        {i.name}
+                      </Link>
+                    ))}
+                  </ul>
+                </div>
+              );
+            }
+            return (
+              <Link
+                key={item.label}
+                href={item.path || "#"}
+                className="relative group"
+              >
+                <span className="group-hover:text-primary">{item.label}</span>
+                {item.isNew ? (
+                  <span className="text-[10px] bg-gradient-to-l from-[#ff416c] to-[#ff4b2b] px-1 py-0.5 absolute -top-3 -right-6 leading-none rounded">
+                    New
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
         </div>
         <div className="flex items-center gap-5">
           <abbr title="Tìm kiếm">

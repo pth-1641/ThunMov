@@ -1,9 +1,9 @@
-import { Pagination } from '@/components/Pagination';
-import { MovieCard } from '@/components/movies/MovieCard';
-import { movieTypes } from '@/constants';
-import { useFetch, useMetadata } from '@/hooks';
-import { Movie } from '@/types';
-import { notFound } from 'next/navigation';
+import { Pagination } from "@/components/Pagination";
+import { MovieCard } from "@/components/movies/MovieCard";
+import { movieTypes } from "@/constants";
+import { useFetch, useMetadata } from "@/hooks";
+import { Movie } from "@/types";
+import { notFound } from "next/navigation";
 
 type MovieTypeContext = {
   params: { movieType: string };
@@ -16,23 +16,23 @@ type MovieTypeContext = {
 export default async function MovieType(context: MovieTypeContext) {
   const {
     params: { movieType },
-    searchParams: { page = 1, q = '' },
+    searchParams: { page = 1, q = "" },
   } = context;
 
-  const type = movieTypes.find((t) => t.path === movieType);
+  const type = movieTypes.find((t) => t.slug === movieType);
   if (!type) return notFound();
 
   const { data } = await useFetch(
-    type.path === 'tim-kiem'
+    type.slug === "tim-kiem"
       ? `/tim-kiem?keyword=${q}&page=${page}`
-      : `/danh-sach/${type.path}?page=${page}`
+      : `/danh-sach/${type.slug}?page=${page}`
   );
   if (!data) return notFound();
 
   return (
     <main className="mx-auto max-w-7xl px-5">
       <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
-        {type.title}
+        {type.name}
       </h2>
       {data.items.length ? (
         <>
@@ -58,22 +58,22 @@ export async function generateMetadata(context: MovieTypeContext) {
     searchParams: { page },
   } = context;
 
-  const movie = movieTypes.find((m) => m.path === movieType);
+  const movie = movieTypes.find((m) => m.slug === movieType);
   if (!movie) {
     return useMetadata({
-      title: 'Not Found',
-      description: 'The page is not found.',
+      title: "Not Found",
+      description: "The page is not found.",
       urlPath: `/${movieType}`,
     });
   }
 
-  const { data } = await useFetch(`/danh-sach/${movie.path}?page=${page}`);
+  const { data } = await useFetch(`/danh-sach/${movie.slug}?page=${page}`);
   return useMetadata({
-    title: movie.title,
+    title: movie.name,
     description: data.seoOnPage.descriptionHead.replace(
-      '2022',
+      "2022",
       new Date().getFullYear()
     ),
-    urlPath: `/${movie.path}`,
+    urlPath: `/${movie.slug}`,
   });
 }
