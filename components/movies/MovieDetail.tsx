@@ -78,7 +78,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 <ul className="flex items-center flex-wrap gap-x-2">
                   {movie.category.map((g, idx) => (
                     <NextLink
-                      href={`/genres/${g.slug}`}
+                      href={`/the-loai/${g.slug}`}
                       key={g.id}
                       className="hover:text-primary"
                     >

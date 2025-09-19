@@ -94,7 +94,7 @@ export default async function Upcoming(context: UpcomingContext) {
                       <Link
                         key={c.id}
                         className="hover:text-primary"
-                        href={`/genres/${c.slug}`}
+                        href={`/the-loai/${c.slug}`}
                       >
                         {c.name}
                       </Link>

@@ -122,7 +122,7 @@ const MobileMenu = ({
           >
             {genres.map((genre) => (
               <Link
-                href={`/genres/${genre.slug}`}
+                href={`/the-loai/${genre.slug}`}
                 key={genre.slug}
                 onClick={() => setOpenMenu(false)}
               >

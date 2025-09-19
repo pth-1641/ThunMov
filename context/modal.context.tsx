@@ -1,12 +1,12 @@
-'use client';
-import { Modal } from '@/components/Modal';
-import { ContextAction } from '@/types';
-import { Dispatch, createContext, useEffect, useReducer } from 'react';
-import { usePathname } from 'next/navigation';
+"use client";
+import { Modal } from "@/components/Modal";
+import { ContextAction } from "@/types";
+import { Dispatch, createContext, useEffect, useReducer } from "react";
+import { usePathname } from "next/navigation";
 
 export type StateType = {
   hasShown: boolean;
-  modalType: null | 'trailer' | 'search' | 'warning' | 'share';
+  modalType: null | "trailer" | "search" | "warning" | "share";
   videoTrailerId: string;
   searchValue: string;
 };
@@ -14,20 +14,20 @@ export type StateType = {
 const initialState: StateType = {
   hasShown: false,
   modalType: null,
-  videoTrailerId: '',
-  searchValue: '',
+  videoTrailerId: "",
+  searchValue: "",
 };
 
 const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
-    case 'TRAILER':
-    case 'SEARCH':
-    case 'SHARE':
-    case 'WARNING':
+    case "TRAILER":
+    case "SEARCH":
+    case "SHARE":
+    case "WARNING":
       return { ...state, ...action.payload };
-    case 'UPDATE_SESSION':
+    case "UPDATE_SESSION":
       return { ...initialState, hasShown: true };
-    case 'CLOSE':
+    case "CLOSE":
       return { ...initialState, ...action.payload };
     default:
       return state;
@@ -48,21 +48,21 @@ export const ModalContextProvider = ({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!state.hasShown && pathname === '/genres/phim-18') {
+    if (!state.hasShown && pathname === "/the-loai/phim-18") {
       dispatch({
-        type: 'WARNING',
+        type: "WARNING",
         payload: {
-          modalType: 'warning',
+          modalType: "warning",
         },
       });
     }
   }, [pathname]);
 
   useEffect(() => {
-    const isDisplay = sessionStorage.getItem('display-warning') === 'true';
+    const isDisplay = sessionStorage.getItem("display-warning") === "true";
     if (isDisplay) {
       dispatch({
-        type: 'UPDATE_SESSION',
+        type: "UPDATE_SESSION",
       });
     }
   }, []);

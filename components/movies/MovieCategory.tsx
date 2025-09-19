@@ -1,21 +1,21 @@
-'use client';
-import { Movie } from '@/types';
-import { Icon } from '@iconify/react';
-import { FC, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { MovieCard } from './MovieCard';
-import SwiperCore from 'swiper';
-import Link from 'next/link';
+"use client";
+import { Movie } from "@/types";
+import { Icon } from "@iconify/react";
+import { FC, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { MovieCard } from "./MovieCard";
+import SwiperCore from "swiper";
+import Link from "next/link";
 
 type MovieCategoryProps = {
   movies: Movie[];
   title?: string;
-  pathAll?: string;
+  explorePath?: string;
   slidesPerView?: number;
 };
 
 export const MovieCategory: FC<MovieCategoryProps> = (props) => {
-  const { title, movies, pathAll, slidesPerView = 4 } = props;
+  const { title, movies, explorePath, slidesPerView = 4 } = props;
 
   const swiperRef = useRef<SwiperCore>();
 
@@ -68,9 +68,9 @@ export const MovieCategory: FC<MovieCategoryProps> = (props) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {pathAll && (
+      {explorePath && (
         <Link
-          href={pathAll}
+          href={explorePath}
           className="flex items-center px-5 py-2 border-2 border-primary w-max mx-auto mt-8 hover:bg-primary duration-150 hover:text-black font-bold"
         >
           Xem Tất Cả

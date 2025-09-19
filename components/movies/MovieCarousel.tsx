@@ -31,11 +31,11 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
             style={{
               backgroundImage: `url(${
                 imageCdnUrl + item.poster_url
-              }&q=1&output=webp)`,
+              }&q=80&output=webp)`,
             }}
           >
-            <div className="absolute inset-0 bg-black/80 md:bg-black/85 flex items-center">
-              <div className="w-full max-w-7xl px-4 mx-auto flex items-center justify-between gap-8">
+            <div className="absolute inset-0 bg-black/50 flex items-center">
+              <div className="relative z-10 w-full max-w-7xl px-4 mx-auto flex items-center justify-between gap-8">
                 <div>
                   <h2 className="text-4xl lg:text-5xl font-extrabold leading-snug">
                     {item.name}
@@ -55,7 +55,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                     <ul className="flex items-center gap-2">
                       {item.category.slice(0, 2).map((g, idx, arr) => (
                         <Link
-                          href={`/genres/${g.slug}`}
+                          href={`/the-loai/${g.slug}`}
                           key={g.id}
                           className="hover:text-primary"
                         >
@@ -107,6 +107,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                   height={480}
                 />
               </div>
+              <span className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-[#0d0d0d]" />
             </div>
           </div>
         </SwiperSlide>
