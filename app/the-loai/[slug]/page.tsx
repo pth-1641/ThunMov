@@ -1,5 +1,6 @@
 import { MoviePagination } from "@/components/movies/MoviePagination";
 import { Pagination } from "@/components/Pagination";
+import { LIMIT_PER_PAGE } from "@/constants";
 import { useFetch, useMetadata } from "@/hooks";
 import { notFound } from "next/navigation";
 
@@ -16,11 +17,13 @@ export default async function MoviesGenre(context: MoviesGenreContext) {
     searchParams: { page = 1 },
   } = context;
 
-  const { data } = await useFetch(`/the-loai/${slug}?page=${page}`);
+  const { data } = await useFetch(
+    `/the-loai/${slug}?page=${page}&limit=${LIMIT_PER_PAGE}`
+  );
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl px-5">
+    <main className="mx-auto max-w-screen-2xl px-5">
       <MoviePagination movies={data.items} title={data.titlePage} />
       <Pagination {...data.params.pagination} />
     </main>

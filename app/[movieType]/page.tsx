@@ -1,6 +1,6 @@
 import { Pagination } from "@/components/Pagination";
 import { MovieCard } from "@/components/movies/MovieCard";
-import { movieTypes } from "@/constants";
+import { MOVIE_TYPES } from "@/constants";
 import { useFetch, useMetadata } from "@/hooks";
 import { Movie } from "@/types";
 import { notFound } from "next/navigation";
@@ -19,7 +19,7 @@ export default async function MovieType(context: MovieTypeContext) {
     searchParams: { page = 1, q = "" },
   } = context;
 
-  const type = movieTypes.find((t) => t.slug === movieType);
+  const type = MOVIE_TYPES.find((t) => t.slug === movieType);
   if (!type) return notFound();
 
   const { data } = await useFetch(
@@ -58,7 +58,7 @@ export async function generateMetadata(context: MovieTypeContext) {
     searchParams: { page },
   } = context;
 
-  const movie = movieTypes.find((m) => m.slug === movieType);
+  const movie = MOVIE_TYPES.find((m) => m.slug === movieType);
   if (!movie) {
     return useMetadata({
       title: "Not Found",

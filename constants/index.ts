@@ -1,10 +1,11 @@
-import { Category, MovieType } from "@/types";
+import { MovieType } from "@/types";
 
-export const domain = process.env.NEXT_PUBLIC_DOMAIN as string;
-export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
-export const imageCdnUrl = process.env.NEXT_PUBLIC_CDN_IMAGE_URL as string;
+export const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN as string;
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
+export const CDN_IMAGE_URL = process.env.NEXT_PUBLIC_CDN_IMAGE_URL as string;
+export const LIMIT_PER_PAGE = 35;
 
-export const movieTypes: MovieType[] = [
+export const MOVIE_TYPES: MovieType[] = [
   { name: "Phim mới", slug: "phim-moi" },
   { name: "Phim bộ", slug: "phim-bo" },
   { name: "Phim lẻ", slug: "phim-le" },
@@ -19,7 +20,7 @@ export const movieTypes: MovieType[] = [
   { name: "Tìm kiếm", slug: "tim-kiem" },
 ];
 
-export const socialsShare = [
+export const SOCIALS_SHARING = [
   {
     platform: "KakaoTalk",
     icon: "ri:kakao-talk-fill",

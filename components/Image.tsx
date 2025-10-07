@@ -1,5 +1,5 @@
 "use client";
-import { imageCdnUrl } from "@/constants";
+import { CDN_IMAGE_URL } from "@/constants";
 import { FC, useEffect, useState } from "react";
 
 type ImageProps = {
@@ -18,7 +18,7 @@ export const Image: FC<ImageProps> = (props) => {
 
   useEffect(() => {
     if (src.trim()) {
-      setImgSrc(imageCdnUrl + src);
+      setImgSrc(CDN_IMAGE_URL + src);
     }
   }, [src]);
 
@@ -38,14 +38,14 @@ export const Image: FC<ImageProps> = (props) => {
         height={height}
         onLoad={() => setIsComplete(true)}
         onError={() => {
-          if (imgSrc.includes(imageCdnUrl)) {
+          if (imgSrc.includes(CDN_IMAGE_URL)) {
             const backupUrl = imgSrc.includes("thumb")
               ? imgSrc.replace("thumb", "poster")
               : imgSrc.replace("poster", "thumb");
             setImgSrc(backupUrl);
             return;
           }
-          setImgSrc(imageCdnUrl + src);
+          setImgSrc(CDN_IMAGE_URL + src);
         }}
         loading="lazy"
         draggable={false}

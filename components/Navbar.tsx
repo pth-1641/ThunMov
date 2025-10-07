@@ -1,5 +1,5 @@
 "use client";
-import { movieTypes } from "@/constants";
+import { MOVIE_TYPES } from "@/constants";
 import { ModalContext } from "@/context/modal.context";
 import { useFetch } from "@/hooks";
 import { Category, NavbarItem } from "@/types";
@@ -82,7 +82,7 @@ const MobileMenu = ({
             }
             style={{ maxHeight: menuType === "movie" ? "50rem" : 0 }}
           >
-            {movieTypes.slice(0, -1).map((type) => (
+            {MOVIE_TYPES.slice(0, -1).map((type) => (
               <Link
                 href={`/${type.slug}`}
                 key={type.slug}
@@ -221,7 +221,7 @@ export const Navbar = () => {
     return [
       {
         label: "Loại phim",
-        dropdown: { items: movieTypes.slice(0, -2), pathPrefix: "/" },
+        dropdown: { items: MOVIE_TYPES.slice(0, -2), pathPrefix: "/" },
       },
       {
         label: "Thể loại",
@@ -253,7 +253,7 @@ export const Navbar = () => {
         displayBgColor ? "bg-black" : "bg-transparent"
       }  py-3 fixed top-0 inset-x-0 z-40 duration-300`}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-4">
         <Link href="/">
           <h1 className=" flex items-center text-2xl font-extrabold gap-2 select-none">
             <Icon

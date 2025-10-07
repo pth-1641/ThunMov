@@ -1,38 +1,52 @@
 import { MovieCarousel } from "@/components/movies/MovieCarousel";
 import { MovieCategory } from "@/components/movies/MovieCategory";
+import { LIMIT_PER_PAGE } from "@/constants";
 import { useFetch } from "@/hooks";
 
 export default async function Home() {
-  const movies = await Promise.all([
-    useFetch("/danh-sach/phim-moi"),
-    useFetch("/the-loai/hanh-dong"),
-    useFetch("/danh-sach/hoat-hinh"),
-    useFetch("/the-loai/kinh-di"),
-    useFetch("/quoc-gia/thai-lan"),
+  const [
+    hotMovies,
+    actionMovies,
+    animeMovies,
+    horrorMovies,
+    thaiMovies,
+    documentaryMovies,
+  ] = await Promise.all([
+    useFetch("/home"),
+    useFetch(`/the-loai/hanh-dong?limit=${LIMIT_PER_PAGE}`),
+    useFetch(`/danh-sach/hoat-hinh?limit=${LIMIT_PER_PAGE}`),
+    useFetch(`/the-loai/kinh-di?limit=${LIMIT_PER_PAGE}`),
+    useFetch(`/quoc-gia/thai-lan?limit=${LIMIT_PER_PAGE}`),
+    useFetch(`/the-loai/tai-lieu?limit=${LIMIT_PER_PAGE}`),
   ]);
 
   return (
     <>
-      <MovieCarousel movies={movies[0].data.items} />
+      <MovieCarousel movies={hotMovies.data.items} />
       <MovieCategory
-        movies={movies[1].data.items}
+        movies={actionMovies.data.items}
         title="Phim Hành Động"
         explorePath="/the-loai/hanh-dong"
       />
       <MovieCategory
-        movies={movies[2].data.items}
+        movies={animeMovies.data.items}
         title="Anime"
         explorePath="/hoat-hinh"
       />
       <MovieCategory
-        movies={movies[3].data.items}
+        movies={horrorMovies.data.items}
         title="Phim Kinh Dị"
         explorePath="/the-loai/kinh-di"
       />
       <MovieCategory
-        movies={movies[4].data.items}
+        movies={thaiMovies.data.items}
         title="Phim Thái Lan"
-        explorePath="/countries/thai-lan"
+        explorePath="/quoc-gia/thai-lan"
+      />
+      <MovieCategory
+        movies={documentaryMovies.data.items}
+        title="Phim Tài Liệu"
+        explorePath="/the-loai/tai-lieu"
       />
     </>
   );

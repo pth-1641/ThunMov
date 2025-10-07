@@ -1,8 +1,9 @@
-import { MoviePagination } from '@/components/movies/MoviePagination';
-import { Pagination } from '@/components/Pagination';
-import { useFetch } from '@/hooks';
-import { useMetadata } from '@/hooks/';
-import { notFound } from 'next/navigation';
+import { MoviePagination } from "@/components/movies/MoviePagination";
+import { Pagination } from "@/components/Pagination";
+import { LIMIT_PER_PAGE } from "@/constants";
+import { useFetch } from "@/hooks";
+import { useMetadata } from "@/hooks/";
+import { notFound } from "next/navigation";
 
 type MoviesCountryContext = {
   params: { type: string };
@@ -17,11 +18,13 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
     searchParams: { page = 1 },
   } = context;
 
-  const { data } = await useFetch(`/quoc-gia/${type}?page=${page}`);
+  const { data } = await useFetch(
+    `/quoc-gia/${type}?page=${page}&limit=${LIMIT_PER_PAGE}`
+  );
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl px-5">
+    <main className="mx-auto max-w-screen-2xl px-5">
       <MoviePagination movies={data.items} title={data.titlePage} />
       <Pagination {...data.params.pagination} />
     </main>
@@ -37,8 +40,8 @@ export async function generateMetadata(context: MoviesCountryContext) {
   const { data } = await useFetch(`/quoc-gia/${type}?page=${page}`);
   if (!data) {
     return useMetadata({
-      title: 'Not Found',
-      description: 'The page is not found.',
+      title: "Not Found",
+      description: "The page is not found.",
       urlPath: `/countries/${type}`,
     });
   }

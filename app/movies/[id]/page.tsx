@@ -23,12 +23,12 @@ export default async function Movie(context: MovieContext) {
       data.items.filter((item: Category) => item.slug !== id)
     ),
   ]);
-  if (!data.item) return notFound();
+  if (!data?.item) return notFound();
 
   return (
     <>
       <MovieDetails movie={data.item} />
-      <div id="disqus_thread" className="max-w-5xl mx-auto my-16 px-5"></div>
+      <div id="disqus_thread" className="max-w-5xl mx-auto my-16 px-5" />
       <Script>
         {`(function() {
           var d = document, s = d.createElement('script');

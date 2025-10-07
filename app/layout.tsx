@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body className={`bg-black/95 ${inter.className}`}>
+      <body className={`bg-secondary ${inter.className}`}>
         <AppContextProvider>
           <ModalContextProvider>
             <Navbar />
@@ -31,6 +31,7 @@ export default function RootLayout({
             <Footer />
           </ModalContextProvider>
         </AppContextProvider>
+        {/* Powered by pth-1641 ❤ - https://github.com/pth-1641 */}
       </body>
     </html>
   );

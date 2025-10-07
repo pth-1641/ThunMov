@@ -1,5 +1,5 @@
 "use client";
-import { domain, socialsShare } from "@/constants";
+import { DOMAIN, SOCIALS_SHARING } from "@/constants";
 import { ModalContext } from "@/context/modal.context";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next-nprogress-bar";
@@ -125,12 +125,12 @@ export const Modal = () => {
             Chia sẻ
           </h3>
           <ul className="flex items-center gap-3 my-6 overflow-auto pb-2">
-            {socialsShare.map((social) => (
+            {SOCIALS_SHARING.map((social) => (
               <button
                 key={social.platform}
                 onClick={() =>
                   window.open(
-                    social.baseHref + encodeURIComponent(domain + pathname)
+                    social.baseHref + encodeURIComponent(DOMAIN + pathname)
                   )
                 }
                 rel="noopener noreferrer"
@@ -148,7 +148,7 @@ export const Modal = () => {
           <div className="bg-black p-4 rounded-lg border border-white/20 flex items-center gap-1">
             <input
               type="text"
-              value={domain + pathname}
+              value={DOMAIN + pathname}
               className="bg-transparent outline-none w-full"
               readOnly={true}
             />
@@ -157,7 +157,7 @@ export const Modal = () => {
                 isCopy ? "bg-green-500 text-white" : "bg-primary"
               }`}
               onClick={() => {
-                navigator.clipboard.writeText(domain + pathname);
+                navigator.clipboard.writeText(DOMAIN + pathname);
                 setIsCopy(true);
               }}
             >

@@ -1,5 +1,5 @@
 "use client";
-import { imageCdnUrl } from "@/constants";
+import { CDN_IMAGE_URL } from "@/constants";
 import { AppContext } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
 import { Episode, MovieDetail } from "@/types";
@@ -46,12 +46,12 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
       <div
         style={{
           backgroundImage: `url(${
-            imageCdnUrl + movie.poster_url
-          }&q=1&output=webp)`,
+            CDN_IMAGE_URL + movie.poster_url
+          }&output=webp)`,
         }}
         className="bg-cover w-full aspect-video relative bg-center lg:max-h-[800px]"
       >
-        <div className="inset-0 bg-black/85 px-4 pb-10 pt-24 flex items-center lg:absolute">
+        <div className="inset-0 px-4 pb-10 pt-24 flex items-center lg:absolute z-10 bg-secondary/60">
           <div className="w-full max-w-7xl mx-auto flex flex-col items-center gap-8 md:flex-row">
             <Image
               src={src}
@@ -146,7 +146,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 dangerouslySetInnerHTML={{ __html: movie.content }}
                 className="text-sm max-h-80 overflow-auto movie-content"
               />
-              <div className="border border-white/5 bg-white/5 px-4 py-4 flex items-center w-max rounded-lg mt-8 gap-1.5 md:gap-5 md:px-7">
+              <div className="border border-white/5 bg-white/5 backdrop-blur px-4 py-4 flex items-center w-max rounded-lg mt-8 gap-1.5 md:gap-5 md:px-7">
                 <button
                   className="flex-col justify-center items-center gap-1 text-sm flex hover:text-primary"
                   onClick={() =>
@@ -210,6 +210,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
             </div>
           </div>
         </div>
+        <span className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-secondary" />
       </div>
       {selectedEpisode && (
         <div className="mx-auto max-w-7xl">

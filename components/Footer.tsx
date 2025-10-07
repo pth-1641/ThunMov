@@ -1,11 +1,11 @@
-'use client';
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
+"use client";
+import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
     <footer className="pt-20">
-      <div className="max-w-7xl mx-auto pb-10">
+      <div className="max-w-screen-2xl mx-auto pb-10">
         <Link href="/">
           <h1 className=" flex items-center text-2xl font-extrabold gap-2 select-none px-5">
             <Icon
@@ -61,8 +61,8 @@ export const Footer = () => {
         </div>
       </div>
       <div className="bg-black pt-6 pb-8 px-5">
-        <p className="max-w-7xl mx-auto text-sm font-medium">
-          Copyright © {new Date().getFullYear()}. All Rights Reserved By{' '}
+        <p className="max-w-screen-2xl mx-auto text-sm font-medium">
+          Copyright © {new Date().getFullYear()}. All Rights Reserved By{" "}
           <span className="text-primary">ThunMov</span>
         </p>
       </div>
