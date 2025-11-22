@@ -1,8 +1,7 @@
 import { Pagination } from "@/components/Pagination";
-import { MovieCard } from "@/components/movies/MovieCard";
+import { MoviePagination } from "@/components/movies/MoviePagination";
 import { MOVIE_TYPES } from "@/constants";
 import { useFetch, useMetadata } from "@/hooks";
-import { Movie } from "@/types";
 import { notFound } from "next/navigation";
 
 type MovieTypeContext = {
@@ -30,17 +29,10 @@ export default async function MovieType(context: MovieTypeContext) {
   if (!data) return notFound();
 
   return (
-    <main className="mx-auto max-w-7xl px-5">
-      <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
-        {type.name}
-      </h2>
+    <main className="mx-auto max-w-screen-2xl px-5">
       {data.items.length ? (
         <>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-14">
-            {data.items.map((movie: Movie) => (
-              <MovieCard item={movie} key={movie._id} />
-            ))}
-          </div>
+          <MoviePagination movies={data.items} title={`Tìm Kiếm: ${q}`} />
           <Pagination {...data.params.pagination} />
         </>
       ) : (

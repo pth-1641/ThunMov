@@ -224,7 +224,8 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-12 text-center gap-2"
                   key={server.server_name}
                 >
-                  {server.server_data.map((ep) => (
+                  <EpisodeGroup episodes={server.server_data} />
+                  {/* {server.server_data.map((ep) => (
                     <button
                       onClick={() => {
                         setSelectedEpisode(ep);
@@ -243,7 +244,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                     >
                       {ep.name}
                     </button>
-                  ))}
+                  ))} */}
                 </li>
               </ul>
             ))}
@@ -305,4 +306,9 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
       )}
     </>
   );
+};
+
+const EpisodeGroup = ({ episodes }: { episodes: Episode[] }) => {
+  console.log(episodes);
+  return <></>;
 };

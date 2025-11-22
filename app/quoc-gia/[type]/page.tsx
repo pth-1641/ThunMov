@@ -25,7 +25,7 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
 
   return (
     <main className="mx-auto max-w-screen-2xl px-5">
-      <MoviePagination movies={data.items} title={data.titlePage} />
+      <MoviePagination movies={data.items} title={`Phim ${data.titlePage}`} />
       <Pagination {...data.params.pagination} />
     </main>
   );

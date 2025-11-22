@@ -1,7 +1,7 @@
 "use client";
 import { ContextAction } from "@/types";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { Dispatch, createContext, useEffect, useReducer } from "react";
+import { Dispatch, createContext, memo, useEffect, useReducer } from "react";
 
 export type StateType = {
   favMovies: {
@@ -63,7 +63,6 @@ export const AppContextProvider = ({
         height="3px"
         color="#e4d804"
         options={{ showSpinner: false }}
-        shallowRouting
       />
       {children}
     </AppContext.Provider>

@@ -30,3 +30,27 @@ html {
 .movie-content::-webkit-scrollbar {
   width: 4px;
 }
+
+.loader {
+  aspect-ratio: 2;
+  background: linear-gradient(90deg, #0b486b 50%, #c02942 0) 50% 100%/52% 8px
+    border-box repeat-x;
+  animation: l8-0 1s linear infinite;
+}
+.loader:before {
+  content: "";
+  margin: 0 25%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(#c02942 0 60deg, #0b486b 0 120deg);
+  animation: l8-1 1s linear infinite;
+}
+@keyframes l8-0 {
+  to {
+    background-position: -58% 100%;
+  }
+}
+@keyframes l8-1 {
+  to {
+    rotate: 120deg;
+  }
+}
