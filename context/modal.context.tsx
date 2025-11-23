@@ -3,6 +3,7 @@ import { Modal } from "@/components/Modal";
 import { ContextAction } from "@/types";
 import { Dispatch, createContext, useEffect, useReducer } from "react";
 import { usePathname } from "next/navigation";
+import { StoreAction } from "./app.context";
 
 export type StateType = {
   hasShown: boolean;
@@ -20,14 +21,14 @@ const initialState: StateType = {
 
 const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
-    case "TRAILER":
-    case "SEARCH":
-    case "SHARE":
-    case "WARNING":
+    case StoreAction.TRAILER:
+    case StoreAction.SEARCH:
+    case StoreAction.SHARE:
+    case StoreAction.WARNING:
       return { ...state, ...action.payload };
-    case "UPDATE_SESSION":
+    case StoreAction.UPDATE_SESSION:
       return { ...initialState, hasShown: true };
-    case "CLOSE":
+    case StoreAction.CLOSE:
       return { ...initialState, ...action.payload };
     default:
       return state;
@@ -50,7 +51,7 @@ export const ModalContextProvider = ({
   useEffect(() => {
     if (!state.hasShown && pathname === "/the-loai/phim-18") {
       dispatch({
-        type: "WARNING",
+        type: StoreAction.WARNING,
         payload: {
           modalType: "warning",
         },
@@ -62,7 +63,7 @@ export const ModalContextProvider = ({
     const isDisplay = sessionStorage.getItem("display-warning") === "true";
     if (isDisplay) {
       dispatch({
-        type: "UPDATE_SESSION",
+        type: StoreAction.UPDATE_SESSION,
       });
     }
   }, []);

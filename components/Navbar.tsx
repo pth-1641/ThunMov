@@ -234,7 +234,7 @@ export const Navbar = () => {
       {
         label: "Phim chiếu rạp",
         path: "/phim-chieu-rap",
-        isNew: true,
+        isHot: true,
       },
       {
         label: "TV Shows",
@@ -301,9 +301,9 @@ export const Navbar = () => {
                 className="relative group"
               >
                 <span className="group-hover:text-primary">{item.label}</span>
-                {item.isNew ? (
-                  <span className="text-[10px] bg-gradient-to-l from-[#ff416c] to-[#ff4b2b] px-1 py-0.5 absolute -top-3 -right-6 leading-none rounded">
-                    New
+                {item.isHot ? (
+                  <span className="text-[10px] bg-gradient-to-l from-[#ff416c] to-[#ff4b2b] font-extrabold px-1 py-0.5 absolute -top-3 -right-6 leading-none rounded-sm">
+                    Hot
                   </span>
                 ) : null}
               </Link>

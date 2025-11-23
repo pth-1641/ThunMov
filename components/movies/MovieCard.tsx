@@ -1,5 +1,5 @@
 "use client";
-import { AppContext } from "@/context/app.context";
+import { AppContext, StoreAction } from "@/context/app.context";
 import { Movie } from "@/types";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -15,7 +15,7 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
   const [src, setSrc] = useState<string>(item.thumb_url);
   const isFavourite = state.favMovies.some((m) => m.slug === item.slug);
 
-  const handleFavourite = useCallback((type: "ADD" | "REMOVE") => {
+  const handleFavourite = useCallback((type: StoreAction) => {
     const { slug, name } = item;
     dispatch({
       type,
@@ -56,7 +56,11 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             className={`rounded-full w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300 ${
               isFavourite ? "bg-[#f00]" : "bg-primary text-black"
             }`}
-            onClick={() => handleFavourite(isFavourite ? "REMOVE" : "ADD")}
+            onClick={() =>
+              handleFavourite(
+                isFavourite ? StoreAction.REMOVE : StoreAction.ADD
+              )
+            }
           >
             {isFavourite ? "Bỏ Thích" : "Yêu Thích"}
           </button>

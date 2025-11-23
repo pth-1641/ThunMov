@@ -1,3 +1,5 @@
+import { StoreAction } from "@/context/app.context";
+
 export type Item = {
   id: string;
   name: string;
@@ -37,7 +39,7 @@ export type MovieType = {
 };
 
 export type ContextAction = {
-  type: string;
+  type: StoreAction;
   payload?: any;
 };
 
@@ -106,5 +108,5 @@ export type NavbarItem = {
     pathPrefix: string;
   };
   path?: string;
-  isNew?: boolean;
+  isHot?: boolean;
 };

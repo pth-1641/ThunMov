@@ -11,19 +11,31 @@ export type StateType = {
   }[];
 };
 
+export enum StoreAction {
+  INIT = "INIT",
+  ADD = "ADD",
+  REMOVE = "REMOVE",
+  TRAILER = "TRAILER",
+  SEARCH = "SEARCH",
+  SHARE = "SHARE",
+  WARNING = "WARNING",
+  UPDATE_SESSION = "UPDATE_SESSION",
+  CLOSE = "CLOSE",
+}
+
 const initialState: StateType = {
   favMovies: [],
 };
 
 const reducer = (state: StateType, action: ContextAction) => {
   switch (action.type) {
-    case "INIT":
+    case StoreAction.INIT:
       return { ...state, favMovies: action.payload };
-    case "ADD":
+    case StoreAction.ADD:
       const favMovies = [...state.favMovies, action.payload];
       localStorage.setItem("fav-movies", JSON.stringify(favMovies));
       return { ...state, favMovies };
-    case "REMOVE":
+    case StoreAction.REMOVE:
       const filterMovies = state.favMovies.filter(
         (m) => m.slug !== action.payload.slug
       );
@@ -52,7 +64,7 @@ export const AppContextProvider = ({
   useEffect(() => {
     const favMovies = JSON.parse(localStorage.getItem("fav-movies") || "[]");
     dispatch({
-      type: "INIT",
+      type: StoreAction.INIT,
       payload: favMovies,
     });
   }, []);

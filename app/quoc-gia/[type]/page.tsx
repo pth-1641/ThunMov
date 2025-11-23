@@ -1,4 +1,4 @@
-import { MoviePagination } from "@/components/movies/MoviePagination";
+import { MovieList } from "@/components/movies/MovieList";
 import { Pagination } from "@/components/Pagination";
 import { LIMIT_PER_PAGE } from "@/constants";
 import { useFetch } from "@/hooks";
@@ -25,7 +25,7 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
 
   return (
     <main className="mx-auto max-w-screen-2xl px-5">
-      <MoviePagination movies={data.items} title={`Phim ${data.titlePage}`} />
+      <MovieList movies={data.items} title={`Phim ${data.titlePage}`} />
       <Pagination {...data.params.pagination} />
     </main>
   );

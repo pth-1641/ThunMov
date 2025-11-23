@@ -1,5 +1,5 @@
 import { Pagination } from "@/components/Pagination";
-import { MoviePagination } from "@/components/movies/MoviePagination";
+import { MovieList } from "@/components/movies/MovieList";
 import { MOVIE_TYPES } from "@/constants";
 import { useFetch, useMetadata } from "@/hooks";
 import { notFound } from "next/navigation";
@@ -21,18 +21,23 @@ export default async function MovieType(context: MovieTypeContext) {
   const type = MOVIE_TYPES.find((t) => t.slug === movieType);
   if (!type) return notFound();
 
+  const isSearching = type.slug === "tim-kiem";
+
   const { data } = await useFetch(
-    type.slug === "tim-kiem"
+    isSearching
       ? `/tim-kiem?keyword=${q}&page=${page}`
       : `/danh-sach/${type.slug}?page=${page}`
   );
-  if (!data) return notFound();
 
+  if (!data) return notFound();
   return (
     <main className="mx-auto max-w-screen-2xl px-5">
       {data.items.length ? (
         <>
-          <MoviePagination movies={data.items} title={`Tìm Kiếm: ${q}`} />
+          <MovieList
+            movies={data.items}
+            title={isSearching ? `Tìm Kiếm: ${q}` : type.name}
+          />
           <Pagination {...data.params.pagination} />
         </>
       ) : (
