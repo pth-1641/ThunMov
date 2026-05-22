@@ -1,6 +1,6 @@
 "use client";
 import { CDN_IMAGE_URL } from "@/constants";
-import { AppContext } from "@/context/app.context";
+import { AppContext, StoreAction } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
 import { Episode, MovieDetail } from "@/types";
 import { Icon } from "@iconify/react";
@@ -20,14 +20,14 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
   const { dispatch, state } = useContext(ModalContext);
   const appContext = useContext(AppContext);
   const isFavourite = appContext.state.favMovies.some(
-    (m) => m.slug === movie?.slug
+    (m) => m.slug === movie?.slug,
   );
 
   useEffect(() => {
     setSrc(movie.thumb_url);
     if (!state.hasShown && movie.category.some((c) => c.slug === "phim-18")) {
       dispatch({
-        type: "WARNING",
+        type: StoreAction.WARNING,
         payload: {
           modalType: "warning",
         },
@@ -119,7 +119,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   <Icon icon="jam:movie" className="text-primary" height={16} />
                   {movie.episode_current === "Full"
                     ? "1"
-                    : movie.episode_current.match(/\d+/) ?? 0}{" "}
+                    : (movie.episode_current.match(/\d+/) ?? 0)}{" "}
                   / {movie.episode_total === "Full" ? "1" : movie.episode_total}
                 </span>
                 <div className="flex items-center gap-2 my-2">
@@ -151,7 +151,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   className="flex-col justify-center items-center gap-1 text-sm flex hover:text-primary"
                   onClick={() =>
                     dispatch({
-                      type: "SHARE",
+                      type: StoreAction.SHARE,
                       payload: {
                         modalType: "share",
                       },
@@ -168,7 +168,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                     disabled={!movie.trailer_url}
                     onClick={() => {
                       dispatch({
-                        type: "TRAILER",
+                        type: StoreAction.TRAILER,
                         payload: {
                           videoTrailerId: movie.trailer_url.split("v=")[1],
                           modalType: "trailer",
@@ -186,7 +186,9 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                     } flex items-center gap-2 rounded-full border-2 px-5 py-2.5 duration-300`}
                     onClick={() => {
                       appContext.dispatch({
-                        type: isFavourite ? "REMOVE" : "ADD",
+                        type: isFavourite
+                          ? StoreAction.REMOVE
+                          : StoreAction.ADD,
                         payload: {
                           slug: movie.slug,
                           thumb_url: src,
@@ -287,10 +289,10 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   serverType === "art-player"
                     ? selectedEpisode.link_embed
                     : serverType === "anym"
-                    ? `https://anym3u8player.com/tv/p.php?url=${selectedEpisode.link_m3u8}`
-                    : `https://www.hlsplayer.org/play?url=${encodeURIComponent(
-                        selectedEpisode.link_m3u8
-                      )}`
+                      ? `https://anym3u8player.com/tv/p.php?url=${selectedEpisode.link_m3u8}`
+                      : `https://www.hlsplayer.org/play?url=${encodeURIComponent(
+                          selectedEpisode.link_m3u8,
+                        )}`
                 }
                 className="w-full aspect-video overflow-hidden bg-stone-900 rounded-md"
                 scrolling="no"

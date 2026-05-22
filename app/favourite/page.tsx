@@ -1,7 +1,7 @@
 "use client";
 import { Image } from "@/components/Image";
 import { Pagination } from "@/components/Pagination";
-import { AppContext } from "@/context/app.context";
+import { AppContext, StoreAction } from "@/context/app.context";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -73,7 +73,7 @@ function Favourite() {
                   className="rounded-full w-36 px-6 py-2.5 -translate-y-3 group-hover:translate-y-0 duration-300 bg-[#f00]"
                   onClick={() =>
                     dispatch({
-                      type: "REMOVE",
+                      type: StoreAction.REMOVE,
                       payload: {
                         slug: movie.slug,
                       },

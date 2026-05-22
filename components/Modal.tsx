@@ -1,5 +1,6 @@
 "use client";
 import { DOMAIN, SOCIALS_SHARING } from "@/constants";
+import { StoreAction } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next-nprogress-bar";
@@ -58,10 +59,10 @@ export const Modal = () => {
       e.preventDefault();
       router.push(`/tim-kiem?q=${searchValue.replace(/\s+/g, "+")}`);
       dispatch({
-        type: "CLOSE",
+        type: StoreAction.CLOSE,
       });
     },
-    [searchValue]
+    [searchValue],
   );
 
   const handleCloseOnEsc = useCallback((e: KeyboardEvent) => {
@@ -72,7 +73,7 @@ export const Modal = () => {
 
   const handleClose = useCallback(() => {
     dispatch({
-      type: "CLOSE",
+      type: StoreAction.CLOSE,
     });
   }, []);
 
@@ -82,7 +83,7 @@ export const Modal = () => {
       className="fixed z-50 inset-0 bg-black/95 duration-200 flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget && state.modalType !== "warning") {
-          dispatch({ type: "CLOSE" });
+          dispatch({ type: StoreAction.CLOSE });
         }
       }}
     >
@@ -104,7 +105,7 @@ export const Modal = () => {
             value={searchValue}
             onChange={(e) =>
               dispatch({
-                type: "SEARCH",
+                type: StoreAction.SEARCH,
                 payload: { searchValue: e.target.value },
               })
             }
@@ -130,7 +131,7 @@ export const Modal = () => {
                 key={social.platform}
                 onClick={() =>
                   window.open(
-                    social.baseHref + encodeURIComponent(DOMAIN + pathname)
+                    social.baseHref + encodeURIComponent(DOMAIN + pathname),
                   )
                 }
                 rel="noopener noreferrer"
@@ -178,7 +179,7 @@ export const Modal = () => {
             <button
               onClick={() => {
                 router.back();
-                dispatch({ type: "CLOSE" });
+                dispatch({ type: StoreAction.CLOSE });
               }}
               className="px-5 rounded-full border-primary py-2 border-2"
             >
@@ -186,7 +187,10 @@ export const Modal = () => {
             </button>
             <button
               onClick={() => {
-                dispatch({ type: "CLOSE", payload: { hasShown: true } });
+                dispatch({
+                  type: StoreAction.CLOSE,
+                  payload: { hasShown: true },
+                });
                 sessionStorage.setItem("display-warning", "true");
               }}
               className="px-5 rounded-full bg-primary py-2.5"

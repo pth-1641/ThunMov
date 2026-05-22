@@ -1,5 +1,6 @@
 "use client";
 import { MOVIE_TYPES } from "@/constants";
+import { StoreAction } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
 import { useFetch } from "@/hooks";
 import { Category, NavbarItem } from "@/types";
@@ -210,7 +211,7 @@ export const Navbar = () => {
   useEffect(() => {
     (async () => {
       const [{ data: genresData }, { data: countriesData }] = await Promise.all(
-        [useFetch("/the-loai"), useFetch("/quoc-gia")]
+        [useFetch("/the-loai"), useFetch("/quoc-gia")],
       );
       setGenres(genresData.items);
       setCountries(countriesData.items);
@@ -318,7 +319,7 @@ export const Navbar = () => {
               height={24}
               onClick={() =>
                 dispatch({
-                  type: "SEARCH",
+                  type: StoreAction.SEARCH,
                   payload: {
                     modalType: "search",
                   },
