@@ -176,7 +176,7 @@ const MobileMenu = ({
             TV Shows
           </Link>
           <Link
-            href="/upcoming"
+            href="/sap-chieu"
             className="flex items-center gap-2 p-2.5 border-t border-white/10"
             onClick={() => setOpenMenu(false)}
           >

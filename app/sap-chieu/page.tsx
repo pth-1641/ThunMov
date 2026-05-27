@@ -133,10 +133,10 @@ export default async function Upcoming(context: UpcomingContext) {
         </span>
         <div className="flex gap-5">
           {page > 1 && (
-            <Link href={`/upcoming?page=${+page - 1}`}>Trang trước</Link>
+            <Link href={`/sap-chieu?page=${+page - 1}`}>Trang trước</Link>
           )}
           {page < totalPages && (
-            <Link href={`/upcoming?page=${+page + 1}`}>Trang sau</Link>
+            <Link href={`/sap-chieu?page=${+page + 1}`}>Trang sau</Link>
           )}
         </div>
       </div>
@@ -154,7 +154,7 @@ export async function generateMetadata(context: UpcomingContext) {
     return useMetadata({
       title: "Not Found",
       description: "The page is not found.",
-      urlPath: `/upcoming`,
+      urlPath: `/sap-chieu`,
     });
   }
 
@@ -162,8 +162,8 @@ export async function generateMetadata(context: UpcomingContext) {
     title: `TV Shows`,
     description: data.seoOnPage.descriptionHead.replace(
       "2022",
-      new Date().getFullYear()
+      new Date().getFullYear(),
     ),
-    urlPath: `/upcoming`,
+    urlPath: `/sap-chieu`,
   });
 }

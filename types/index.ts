@@ -51,6 +51,11 @@ export type Episode = {
   link_m3u8: string;
 };
 
+export type Episodes = {
+  server_name: string;
+  server_data: Episode[];
+};
+
 export type MovieDetail = {
   created: {
     time: Date;
@@ -92,10 +97,7 @@ export type MovieDetail = {
     name: string;
     slug: string;
   }[];
-  episodes: {
-    server_name: string;
-    server_data: Episode[];
-  }[];
+  episodes: Episodes[];
 };
 
 export type NavbarItem = {

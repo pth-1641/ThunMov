@@ -2,11 +2,13 @@
 import { CDN_IMAGE_URL } from "@/constants";
 import { AppContext, StoreAction } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
-import { Episode, MovieDetail } from "@/types";
+import { Episode, Episodes, MovieDetail } from "@/types";
 import { Icon } from "@iconify/react";
 import NextLink from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Image } from "../Image";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type ServerType = "art-player" | "anym" | "hlsplayer";
 type MovieDetailProps = { movie: MovieDetail };
@@ -14,8 +16,15 @@ type MovieDetailProps = { movie: MovieDetail };
 export const MovieDetails = ({ movie }: MovieDetailProps) => {
   const [src, setSrc] = useState<string>("");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>();
-  const [serverType, setServerType] = useState<ServerType>("art-player");
+  const [streamingServer, setStreamingServer] =
+    useState<ServerType>("art-player");
+  const [server, setServer] = useState<Episodes>();
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const searchParams = useSearchParams();
+  const episode = searchParams.get("episode");
+  const serverName = searchParams.get("serverName");
 
   const { dispatch, state } = useContext(ModalContext);
   const appContext = useContext(AppContext);
@@ -35,11 +44,30 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
     }
     if (
       !["Tập 0", "Trailer"].includes(movie.episode_current) &&
-      movie.episodes[0].server_data[0].name
+      movie.episodes[0].server_data[0]
     ) {
+      setServer(movie.episodes[0]);
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
   }, []);
+
+  useEffect(() => {
+    if (!server) return;
+
+    const foundEpisode = server.server_data.find((ep) => ep.slug === episode);
+    if (foundEpisode) {
+      setSelectedEpisode(foundEpisode);
+    }
+  }, [episode, server]);
+
+  useEffect(() => {
+    const foundServerName = movie.episodes.find(
+      (server) => server.server_name === serverName,
+    );
+    if (foundServerName) {
+      setServer(foundServerName);
+    }
+  }, [serverName]);
 
   return (
     <>
@@ -56,7 +84,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
             <Image
               src={src}
               alt={movie.name}
-              className="aspect-[2/3] rounded w-full max-w-[300px]"
+              className="aspect-[2/3] rounded-xl w-full max-w-[300px]"
               width={300}
             />
             <div className="w-full">
@@ -159,7 +187,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   }
                 >
                   <Icon icon="solar:share-bold" height={18} />
-                  Share
+                  Chia sẻ
                 </button>
                 <span className="h-12 w-0.5 bg-white/10 md:block" />
                 <div className="flex items-center gap-3 text-sm font-bold">
@@ -228,13 +256,20 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 >
                   {/* <EpisodeGroup episodes={server.server_data} /> */}
                   {server.server_data.map((ep) => (
-                    <button
-                      onClick={() => {
-                        setSelectedEpisode(ep);
-                        iframeRef.current?.scrollIntoView({
-                          behavior: "smooth",
-                        });
+                    <Link
+                      // href={`?server=${}&episode=${ep.slug}`}
+                      href={{
+                        query: {
+                          serverName: server.server_name,
+                          episode: ep.slug,
+                        },
                       }}
+                      // onClick={() => {
+                      //   setSelectedEpisode(ep);
+                      //   iframeRef.current?.scrollIntoView({
+                      //     behavior: "smooth",
+                      //   });
+                      // }}
                       key={ep.slug}
                       className={`
                     ${
@@ -245,7 +280,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                      rounded hover:bg-primary duration-200 py-1 hover:text-black`}
                     >
                       {ep.name}
-                    </button>
+                    </Link>
                   ))}
                 </li>
               </ul>
@@ -256,25 +291,29 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
               <div className="flex items-center justify-center gap-2">
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === "art-player" ? "bg-blue-500" : "bg-white/5"
+                    streamingServer === "art-player"
+                      ? "bg-blue-500"
+                      : "bg-white/5"
                   }`}
-                  onClick={() => setServerType("art-player")}
+                  onClick={() => setStreamingServer("art-player")}
                 >
                   Server 1
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === "anym" ? "bg-blue-500" : "bg-white/5"
+                    streamingServer === "anym" ? "bg-blue-500" : "bg-white/5"
                   }`}
-                  onClick={() => setServerType("anym")}
+                  onClick={() => setStreamingServer("anym")}
                 >
                   Server 2
                 </button>
                 <button
                   className={`rounded px-4 py-0.5 ${
-                    serverType === "hlsplayer" ? "bg-blue-500" : "bg-white/5"
+                    streamingServer === "hlsplayer"
+                      ? "bg-blue-500"
+                      : "bg-white/5"
                   }`}
-                  onClick={() => setServerType("hlsplayer")}
+                  onClick={() => setStreamingServer("hlsplayer")}
                 >
                   Server 3
                 </button>
@@ -283,12 +322,12 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 Vui lòng đổi server nếu không xem được
               </p>
               <iframe
-                key={serverType}
+                key={streamingServer}
                 ref={iframeRef}
                 src={
-                  serverType === "art-player"
+                  streamingServer === "art-player"
                     ? selectedEpisode.link_embed
-                    : serverType === "anym"
+                    : streamingServer === "anym"
                       ? `https://anym3u8player.com/tv/p.php?url=${selectedEpisode.link_m3u8}`
                       : `https://www.hlsplayer.org/play?url=${encodeURIComponent(
                           selectedEpisode.link_m3u8,
@@ -297,7 +336,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 className="w-full aspect-video overflow-hidden bg-stone-900 rounded-md"
                 scrolling="no"
                 sandbox={
-                  serverType === "art-player" ? undefined : "allow-scripts"
+                  streamingServer === "art-player" ? undefined : "allow-scripts"
                 }
                 allowFullScreen
                 referrerPolicy="no-referrer"
