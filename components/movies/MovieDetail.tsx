@@ -5,13 +5,22 @@ import { ModalContext } from "@/context/modal.context";
 import { Episode, Episodes, MovieDetail } from "@/types";
 import { Icon } from "@iconify/react";
 import NextLink from "next/link";
-import { useContext, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Image } from "../Image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 type ServerType = "art-player" | "anym" | "hlsplayer";
 type MovieDetailProps = { movie: MovieDetail };
+
+const LIMIT_EPISODE_PER_GROUP = 50;
 
 export const MovieDetails = ({ movie }: MovieDetailProps) => {
   const [src, setSrc] = useState<string>("");
@@ -250,39 +259,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                 <p className="text-base font-bold mb-4 mt-8">
                   {server.server_name}
                 </p>
-                <li
-                  className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-12 text-center gap-2"
-                  key={server.server_name}
-                >
-                  {/* <EpisodeGroup episodes={server.server_data} /> */}
-                  {server.server_data.map((ep) => (
-                    <Link
-                      // href={`?server=${}&episode=${ep.slug}`}
-                      href={{
-                        query: {
-                          serverName: server.server_name,
-                          episode: ep.slug,
-                        },
-                      }}
-                      // onClick={() => {
-                      //   setSelectedEpisode(ep);
-                      //   iframeRef.current?.scrollIntoView({
-                      //     behavior: "smooth",
-                      //   });
-                      // }}
-                      key={ep.slug}
-                      className={`
-                    ${
-                      selectedEpisode?.link_embed === ep.link_embed
-                        ? "bg-primary text-black"
-                        : "bg-white/5"
-                    }
-                     rounded hover:bg-primary duration-200 py-1 hover:text-black`}
-                    >
-                      {ep.name}
-                    </Link>
-                  ))}
-                </li>
+                <EpisodeGroup server={server} />
               </ul>
             ))}
           </div>
@@ -349,7 +326,84 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
   );
 };
 
-const EpisodeGroup = ({ episodes }: { episodes: Episode[] }) => {
-  console.log(episodes);
-  return <></>;
+const EpisodeGroup = ({ server }: { server: Episodes }) => {
+  const searchParams = useSearchParams();
+  const episode = searchParams.get("episode");
+
+  const [groupIndex, setGroupIndex] = useState<number>(0);
+
+  useEffect(() => {
+    if (!episode) return;
+    const currentEp = Number(episode.split("-")[0]) || 1;
+
+    const idx = Math.floor((currentEp - 1) / LIMIT_EPISODE_PER_GROUP);
+    setGroupIndex(idx);
+  }, [episode]);
+
+  const currentEpisode = useMemo(() => {
+    const lastName = server.server_data.at(-1)?.name;
+    if (!lastName) return 1;
+
+    const lastPart = lastName.split("-").at(-1);
+    return Number(lastPart) || 1;
+  }, [server.server_data]);
+
+  const totalGroup = useMemo(
+    () => Math.ceil(currentEpisode / LIMIT_EPISODE_PER_GROUP),
+    [currentEpisode],
+  );
+
+  const extractEpisodeGroup = (idx: number) => {
+    const start = idx * LIMIT_EPISODE_PER_GROUP + 1;
+    let end = (idx + 1) * LIMIT_EPISODE_PER_GROUP;
+    if (end > currentEpisode) end = currentEpisode;
+    return { start, end };
+  };
+
+  const groupEpisodes = useMemo(() => {
+    return server.server_data.filter((ep) => {
+      const firstEp = ep.name.split("-")[0];
+
+      const { start, end } = extractEpisodeGroup(groupIndex);
+      if (+firstEp >= start && +firstEp <= end) return ep;
+    });
+  }, [groupIndex]);
+
+  return (
+    <div>
+      <div className="flex items-center flex-wrap gap-2">
+        {Array.from({ length: totalGroup }, (_, idx) => {
+          const { start, end } = extractEpisodeGroup(idx);
+          return (
+            <div
+              className={`px-3 py-1.5 font-medium rounded min-w-max text-xs cursor-pointer ${groupIndex === idx ? "bg-white text-black" : "bg-white/10"}`}
+              onClick={() => setGroupIndex(idx)}
+            >
+              Tập {start}
+              {end === start ? "" : ` - ${end}`}
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-10">
+        {groupEpisodes.map((ep) => (
+          <Link
+            href={{
+              query: {
+                serverName: server.server_name,
+                episode: ep.name,
+              },
+            }}
+            key={ep.slug}
+            className={`rounded-md flex items-center justify-center gap-2 p-3 hover:bg-primary duration-200 hover:text-black ${
+              ep?.name === episode ? "bg-primary text-black" : "bg-white/5"
+            }`}
+          >
+            <Icon icon="boxicons:play-filled" />
+            Tập {ep.name}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 };
