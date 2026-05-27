@@ -329,6 +329,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
 const EpisodeGroup = ({ server }: { server: Episodes }) => {
   const searchParams = useSearchParams();
   const episode = searchParams.get("episode");
+  const serverName = searchParams.get("serverName");
 
   const [groupIndex, setGroupIndex] = useState<number>(0);
 
@@ -396,7 +397,9 @@ const EpisodeGroup = ({ server }: { server: Episodes }) => {
             }}
             key={ep.slug}
             className={`rounded-md flex items-center justify-center gap-2 p-3 hover:bg-primary duration-200 hover:text-black ${
-              ep?.name === episode ? "bg-primary text-black" : "bg-white/5"
+              ep?.name === episode && server.server_name === serverName
+                ? "bg-primary text-black"
+                : "bg-white/5"
             }`}
           >
             <Icon icon="boxicons:play-filled" />
