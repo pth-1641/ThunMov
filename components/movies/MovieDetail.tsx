@@ -61,7 +61,19 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
           localStorage.getItem("histories") || "[]",
         );
         const uniqueMovies = [
-          { ...movie, history_url: location.pathname + location.search },
+          {
+            origin_name: movie.origin_name,
+            poster_url: movie.poster_url,
+            thumb_url: movie.thumb_url,
+            year: movie.year,
+            episode_current: movie.episode_current,
+            slug: movie.slug,
+            name: movie.name,
+            quality: movie.quality,
+            lang: movie.lang,
+            time: movie.time,
+            history_url: location.pathname + location.search,
+          },
           ...savedMovies.filter((m: Movie) => m.slug !== movie.slug),
         ].slice(0, LIMIT_PER_PAGE);
         localStorage.setItem("histories", JSON.stringify(uniqueMovies));
