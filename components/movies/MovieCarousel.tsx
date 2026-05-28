@@ -96,7 +96,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                   </div>
                   <Link
                     href={`/movies/${movie.slug}`}
-                    className="border-2 gap-2 border-primary flex items-center px-8 py-4 rounded-full w-max hover:bg-primary duration-150 hover:text-black mt-5 lg:mt-10"
+                    className="border-2 gap-2 border-primary flex items-center px-8 py-4 rounded-full w-max hover:bg-primary duration-150 hover:text-black mt-5 lg:mt-10 bg-primary/15 backdrop-blur-lg"
                   >
                     <Icon icon="ion:play" height={18} />
                     <span className="text-xs font-extrabold">XEM NGAY</span>
@@ -105,7 +105,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = (props) => {
                 <Image
                   src={movie.thumb_url}
                   alt={movie.origin_name}
-                  className="hidden aspect-[2/3] w-full max-w-[320px] rounded-lg border-[14px] border-primary md:block"
+                  className="hidden aspect-[2/3] w-full max-w-xs xl:max-w-sm rounded-lg border-[14px] border-primary md:block"
                   width={320}
                   height={480}
                 />

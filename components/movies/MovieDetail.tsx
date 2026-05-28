@@ -1,21 +1,13 @@
 "use client";
-import { CDN_IMAGE_URL } from "@/constants";
+import { CDN_IMAGE_URL, LIMIT_PER_PAGE } from "@/constants";
 import { AppContext, StoreAction } from "@/context/app.context";
 import { ModalContext } from "@/context/modal.context";
-import { Episode, Episodes, MovieDetail } from "@/types";
+import { Episode, Episodes, Movie, MovieDetail } from "@/types";
 import { Icon } from "@iconify/react";
-import NextLink from "next/link";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { Image } from "../Image";
+import { default as Link, default as NextLink } from "next/link";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Image } from "../Image";
 
 type ServerType = "art-player" | "anym" | "hlsplayer";
 type MovieDetailProps = { movie: MovieDetail };
@@ -58,6 +50,28 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
       setServer(movie.episodes[0]);
       setSelectedEpisode(movie.episodes[0].server_data[0]);
     }
+  }, []);
+
+  useEffect(() => {
+    const handleBlur = () => {
+      const iframe = iframeRef.current;
+
+      if (document.activeElement === iframe) {
+        const savedMovies = JSON.parse(
+          localStorage.getItem("histories") || "[]",
+        );
+        const uniqueMovies = [
+          { ...movie, history_url: location.pathname + location.search },
+          ...savedMovies.filter((m: Movie) => m.slug !== movie.slug),
+        ].slice(0, LIMIT_PER_PAGE);
+        localStorage.setItem("histories", JSON.stringify(uniqueMovies));
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+    };
   }, []);
 
   useEffect(() => {
@@ -168,7 +182,7 @@ export const MovieDetails = ({ movie }: MovieDetailProps) => {
                   <ul className="flex items-center gap-2">
                     {movie.country.map((c, idx) => (
                       <NextLink
-                        href={`/countries/${c.slug}`}
+                        href={`/quoc-gia/${c.slug}`}
                         key={c.id}
                         className="hover:text-primary"
                       >
@@ -363,7 +377,8 @@ const EpisodeGroup = ({ server }: { server: Episodes }) => {
 
   const groupEpisodes = useMemo(() => {
     return server.server_data.filter((ep) => {
-      const firstEp = ep.name.split("-")[0];
+      let firstEp = ep.name.split("-")[0];
+      if (firstEp.toLowerCase() === "full") firstEp = "1";
 
       const { start, end } = extractEpisodeGroup(groupIndex);
       if (+firstEp >= start && +firstEp <= end) return ep;

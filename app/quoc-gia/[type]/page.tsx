@@ -19,7 +19,7 @@ export default async function MoviesCountry(context: MoviesCountryContext) {
   } = context;
 
   const { data } = await useFetch(
-    `/quoc-gia/${type}?page=${page}&limit=${LIMIT_PER_PAGE}`
+    `/quoc-gia/${type}?page=${page}&limit=${LIMIT_PER_PAGE}`,
   );
   if (!data) return notFound();
 
@@ -42,13 +42,13 @@ export async function generateMetadata(context: MoviesCountryContext) {
     return useMetadata({
       title: "Not Found",
       description: "The page is not found.",
-      urlPath: `/countries/${type}`,
+      urlPath: `/quoc-gia/${type}`,
     });
   }
 
   return useMetadata({
     title: `Phim ${data.titlePage}`,
     description: `Phim ${data.titlePage} - Tuyển tập danh sách phim ${data.titlePage} hay nhất mọi thời đại vietsub và thuyết minh nhanh nhất.`,
-    urlPath: `/countries/${type}`,
+    urlPath: `/quoc-gia/${type}`,
   });
 }

@@ -7,7 +7,7 @@ import { FC, useCallback, useContext, useState } from "react";
 import { Image } from "../Image";
 
 type MovieCardProps = {
-  item: Movie;
+  item: Movie & { history_url?: string };
 };
 
 export const MovieCard: FC<MovieCardProps> = ({ item }) => {
@@ -58,14 +58,14 @@ export const MovieCard: FC<MovieCardProps> = ({ item }) => {
             }`}
             onClick={() =>
               handleFavourite(
-                isFavourite ? StoreAction.REMOVE : StoreAction.ADD
+                isFavourite ? StoreAction.REMOVE : StoreAction.ADD,
               )
             }
           >
             {isFavourite ? "Bỏ Thích" : "Yêu Thích"}
           </button>
           <Link
-            href={`/movies/${item.slug}`}
+            href={item.history_url || `/movies/${item.slug}`}
             className="rounded-full border-2 bg- border-primary w-36 px-6 py-2.5 bg-black/70 translate-y-3 group-hover:translate-y-0 duration-300 hover:bg-primary hover:text-black"
           >
             Chi Tiết

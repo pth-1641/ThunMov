@@ -157,7 +157,7 @@ const MobileMenu = ({
           >
             {countries.map((country) => (
               <Link
-                href={`/countries/${country.slug}`}
+                href={`/quoc-gia/${country.slug}`}
                 key={country.slug}
                 onClick={() => setOpenMenu(false)}
               >
@@ -327,7 +327,7 @@ export const Navbar = () => {
               }
             />
           </abbr>
-          <Link href="/favourite">
+          <Link href="/yeu-thich">
             <abbr title="Yêu thích">
               <Icon icon="mdi:heart-box" height={26} />
             </abbr>

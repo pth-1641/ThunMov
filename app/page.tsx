@@ -1,3 +1,4 @@
+import { ContinueWatching } from "@/components/movies/ContinueWatching";
 import { MovieCarousel } from "@/components/movies/MovieCarousel";
 import { MovieCategory } from "@/components/movies/MovieCategory";
 import { LIMIT_PER_PAGE } from "@/constants";
@@ -23,6 +24,7 @@ export default async function Home() {
   return (
     <>
       <MovieCarousel movies={hotMovies.data.items} />
+      <ContinueWatching />
       <MovieCategory
         movies={actionMovies.data.items}
         title="Phim Hành Động"
